@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <template slot="body">
+    <slot name="body">
       <gov-table-row>
         <gov-table-header scope="row" top>Name</gov-table-header>
         <gov-table-cell>{{ serviceLocation.name || "-" }}</gov-table-cell>
@@ -141,7 +141,7 @@
           </gmap-map>
         </gov-table-cell>
       </gov-table-row>
-    </template>
+    </slot>
   </gov-table>
 </template>
 

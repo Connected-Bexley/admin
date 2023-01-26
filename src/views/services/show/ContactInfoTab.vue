@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Contact info</gov-heading>
     <gov-table>
-      <template slot="body">
+      <slot name="body">
         <gov-table-row>
           <gov-table-header scope="row" top>Contact name</gov-table-header>
           <gov-table-cell>{{ service.contact_name }}</gov-table-cell>
@@ -19,7 +19,7 @@
           >
           <gov-table-cell>{{ service.contact_email }}</gov-table-cell>
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <template slot="body">
+    <slot name="body">
       <gov-table-row>
         <gov-table-header top scope="row">Action</gov-table-header>
         <gov-table-cell>
@@ -45,7 +45,7 @@
           formatDate(autoDeleteDate(audit.updated_at))
         }}</gov-table-cell>
       </gov-table-row>
-    </template>
+    </slot>
   </gov-table>
 </template>
 

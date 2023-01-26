@@ -23,10 +23,12 @@
       type="text"
       :error="errors.get(['organisation.name', 'organisation.slug'])"
     >
-      <gov-hint slot="hint" for="name">
-        The name of your organisation must be unique. The URL of your page will
-        be: <br />
-        hounslowconnect.com/organisations/{{ form.organisation.slug }}
+      <gov-hint for="name">
+        <slot name="hint">
+          The name of your organisation must be unique. The URL of your page
+          will be: <br />
+          hounslowconnect.com/organisations/{{ form.organisation.slug }}
+        </slot>
       </gov-hint>
     </ck-text-input>
 

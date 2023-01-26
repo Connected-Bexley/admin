@@ -18,9 +18,11 @@
       type="text"
       :error="errors.get('slug')"
     >
-      <gov-hint slot="hint" for="slug">
-        This will be used to access the organisation page.<br />
-        e.g. example.com/organisations/{{ slug }}
+      <gov-hint for="slug">
+        <slot name="hint">
+          This will be used to access the organisation page.<br />
+          e.g. example.com/organisations/{{ slug }}
+        </slot>
       </gov-hint>
     </ck-text-input>
 

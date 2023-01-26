@@ -27,9 +27,9 @@
         <template
           v-for="(_, name) in $scopedSlots"
           :slot="name"
-          slot-scope="slotProps"
+          :node="slotProps.node"
         >
-          <slot :name="name" :node="slotProps.node"></slot>
+          <slot :name="name" :node="node"></slot>
         </template>
       </ck-node-checkboxes>
     </gov-checkbox>

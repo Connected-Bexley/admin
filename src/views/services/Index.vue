@@ -22,7 +22,7 @@
                   />
                 </gov-form-group>
 
-                <template slot="extra-filters">
+                <slot name="extra-filters">
                   <gov-form-group>
                     <gov-label for="filter[organisation_name]"
                       >Organisation name</gov-label
@@ -56,7 +56,7 @@
                       :options="referralMethods"
                     />
                   </gov-form-group>
-                </template>
+                </slot>
               </ck-table-filters>
             </gov-grid-column>
             <gov-grid-column

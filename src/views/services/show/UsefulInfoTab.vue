@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Good to know</gov-heading>
     <gov-table>
-      <template slot="body">
+      <slot name="body">
         <gov-table-row
           v-for="usefulInfo in usefulInfos"
           :key="usefulInfo.order"
@@ -18,7 +18,7 @@
             {{ service.type }}</gov-table-cell
           >
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
   </div>
 </template>

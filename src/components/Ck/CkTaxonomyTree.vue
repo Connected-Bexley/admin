@@ -8,14 +8,11 @@
       :filteredNodeIds="filteredTaxonomyIds"
       @update="$emit('update', $event)"
     >
-      <template slot="default" slot-scope="slotProps">
-        <gov-hint
-          :for="slotProps.node.id"
-          v-if="taxonomyCollections[slotProps.node.id]"
-          >Found in
-          {{ taxonomyCollections[slotProps.node.id].join(", ") }}</gov-hint
+      <slot name="default" :node="slotProps.node">
+        <gov-hint :for="node.id" v-if="taxonomyCollections[node.id]"
+          >Found in {{ taxonomyCollections[node.id].join(", ") }}</gov-hint
         >
-      </template>
+      </slot>
     </ck-node-checkboxes>
   </gov-checkboxes>
 </template>

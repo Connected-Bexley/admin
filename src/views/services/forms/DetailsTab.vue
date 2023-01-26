@@ -44,9 +44,11 @@
           :error="errors.get('slug')"
           v-if="auth.isGlobalAdmin"
         >
-          <gov-hint slot="hint" for="slug">
-            This will be used to access the {{ type }} page.<br />
-            e.g. example.com/services/{{ slug }}
+          <gov-hint for="slug">
+            <slot name="hint">
+              This will be used to access the {{ type }} page.<br />
+              e.g. example.com/services/{{ slug }}
+            </slot>
           </gov-hint>
         </ck-text-input>
 
@@ -110,7 +112,7 @@
             id ? apiUrl(`/services/${id}/logo.png?v=${now}`) : undefined
           "
         >
-          <template slot="hint">
+          <slot name="hint">
             <gov-hint for="logo">
               This can be different to the logo of your organisation.
               <gov-link :href="logoHelpHref"
@@ -121,7 +123,7 @@
               If your {{ type }} doesn't have a logo, the site will use the
               organisation logo if there is one uploaded.
             </gov-hint>
-          </template>
+          </slot>
         </ck-image-input>
 
         <ck-radio-input

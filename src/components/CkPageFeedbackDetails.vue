@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <template slot="body">
+    <slot name="body">
       <gov-table-row>
         <gov-table-header top scope="row">URL</gov-table-header>
         <gov-table-cell break>{{ pageFeedback.url }}</gov-table-cell>
@@ -35,7 +35,7 @@
           formatDate(autoDeleteDate(pageFeedback.updated_at))
         }}</gov-table-cell>
       </gov-table-row>
-    </template>
+    </slot>
   </gov-table>
 </template>
 

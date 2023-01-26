@@ -44,14 +44,16 @@
               later in the sheet with further synonyms. Example:
 
               <gov-table>
-                <gov-table-row slot="header">
-                  <gov-table-header />
-                  <gov-table-header center>A</gov-table-header>
-                  <gov-table-header center>B</gov-table-header>
-                  <gov-table-header center>C</gov-table-header>
-                  <gov-table-header center>D</gov-table-header>
+                <gov-table-row>
+                  <slot name="header">
+                    <gov-table-header />
+                    <gov-table-header center>A</gov-table-header>
+                    <gov-table-header center>B</gov-table-header>
+                    <gov-table-header center>C</gov-table-header>
+                    <gov-table-header center>D</gov-table-header>
+                  </slot>
                 </gov-table-row>
-                <template slot="body">
+                <slot name="body">
                   <gov-table-row>
                     <gov-table-header center>1</gov-table-header>
                     <gov-table-cell>old people</gov-table-cell>
@@ -66,7 +68,7 @@
                     <gov-table-cell>elders</gov-table-cell>
                     <gov-table-cell>pensioner</gov-table-cell>
                   </gov-table-row>
-                </template>
+                </slot>
               </gov-table>
             </li>
             <li>

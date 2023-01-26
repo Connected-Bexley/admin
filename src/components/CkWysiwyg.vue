@@ -3,7 +3,8 @@
     <editor-menu-bar class="ck-wysiwyg__toolbar" :editor="editor">
       <div
         class="ck-wysiwyg__toolbar-buttons-wrapper"
-        slot-scope="{ commands, isActive }"
+        :commands="{ commands }"
+        :isActive="{ isActive }"
       >
         <gov-button
           v-if="isActive.bold"

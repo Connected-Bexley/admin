@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <template slot="body">
+    <slot name="body">
       <gov-table-row>
         <gov-table-header top scope="row">First name</gov-table-header>
         <gov-table-cell>{{ user.first_name }}</gov-table-cell>
@@ -86,7 +86,7 @@
           </gov-list>
         </gov-table-cell>
       </gov-table-row>
-    </template>
+    </slot>
   </gov-table>
 </template>
 

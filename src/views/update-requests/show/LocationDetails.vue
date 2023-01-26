@@ -10,7 +10,7 @@
     </gov-body>
 
     <gov-table>
-      <template slot="body">
+      <slot name="body">
         <gov-table-row>
           <gov-table-header scope="column"></gov-table-header>
           <gov-table-header scope="column">From</gov-table-header>
@@ -114,7 +114,7 @@
             />
           </gov-table-cell>
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
   </div>
 </template>

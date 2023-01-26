@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <template slot="body">
+    <slot name="body">
       <gov-table-row>
         <gov-table-header scope="row" top>Address line 1</gov-table-header>
         <gov-table-cell>{{ location.address_line_1 }}</gov-table-cell>
@@ -79,7 +79,7 @@
           </gmap-map>
         </gov-table-cell>
       </gov-table-row>
-    </template>
+    </slot>
   </gov-table>
 </template>
 

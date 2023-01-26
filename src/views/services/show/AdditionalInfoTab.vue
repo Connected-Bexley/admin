@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Additional info</gov-heading>
     <gov-table>
-      <template slot="body">
+      <slot name="body">
         <gov-table-row>
           <gov-table-header scope="row" top>Average wait time</gov-table-header>
           <gov-table-cell>{{ waitTime }}</gov-table-cell>
@@ -27,7 +27,7 @@
             service.video_embed || "-"
           }}</gov-table-cell>
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
   </div>
 </template>

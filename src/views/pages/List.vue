@@ -29,7 +29,7 @@
             </gov-grid-row>
           </gov-form-group>
 
-          <template slot="extra-filters">
+          <slot name="extra-filters">
             <gov-form-group>
               <gov-label for="filter[page_type]">Page type</gov-label>
               <gov-select
@@ -39,7 +39,7 @@
                 :options="pageTypes"
               />
             </gov-form-group>
-          </template>
+          </slot>
         </ck-table-filters>
       </gov-grid-column>
       <gov-grid-column v-if="auth.isGlobalAdmin" width="one-third">
@@ -85,24 +85,23 @@
           @move-up="onMoveUp"
           @move-down="onMoveDown"
         >
-          <template slot="edit" slot-scope="editProps">
+          <slot name="edit" :node="editProps.node">
             <gov-link
               :to="{
                 name: 'pages-edit',
-                params: { page: editProps.node.id }
+                params: { page: node.id }
               }"
             >
               Edit
             </gov-link>
-          </template>
-          <template slot="status" slot-scope="statusProps">
-            <gov-tag v-if="statusProps.node.page_type === 'landing'"
-              >Landing page</gov-tag
+          </slot>
+          <slot name="status" :node="statusProps.node">
+            <gov-tag v-if="node.page_type === 'landing'">Landing page</gov-tag
             >&nbsp;
-            <gov-tag v-if="!statusProps.node.enabled" class="govuk-tag--grey"
+            <gov-tag v-if="!node.enabled" class="govuk-tag--grey"
               >disabled</gov-tag
             >
-          </template>
+          </slot>
         </ck-tree-list>
       </gov-grid-column>
     </gov-grid-row>

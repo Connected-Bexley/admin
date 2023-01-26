@@ -33,13 +33,13 @@
           : undefined
       "
     >
-      <template slot="after-error-message">
+      <slot name="after-error-message">
         <gov-error-message
           v-if="errors.get('image_file_id')"
           v-text="errors.get('image_file_id')"
           for="image"
         />
-      </template>
+      </slot>
     </ck-image-input>
 
     <collection-enabled-input

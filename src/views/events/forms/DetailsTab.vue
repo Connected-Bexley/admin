@@ -82,7 +82,7 @@
       :options="isFreeOptions"
       :error="errors.get('is_free')"
     >
-      <template slot="hint">
+      <slot name="hint">
         <gov-hint for="is_free">
           Indicates whether your event is completely free, or if some elements
           of the event must be paid for. Users can filter their searches based
@@ -92,7 +92,7 @@
           If the cost of your event varies, you may want to split these into
           different event listings.
         </gov-hint>
-      </template>
+      </slot>
     </ck-radio-input>
 
     <gov-inset-text v-if="is_free === false">
@@ -151,7 +151,7 @@
       type="tel"
       :error="errors.get('organiser_phone')"
     >
-      <template slot="hint">
+      <slot name="hint">
         <gov-hint for="organiser_phone">
           Please provide a public facing phone number for attendees to contact
           you on.
@@ -160,7 +160,7 @@
           Please enter your phone number without any spaces, prefixes or special
           characters
         </gov-hint>
-      </template>
+      </slot>
     </ck-text-input>
 
     <ck-text-input
@@ -243,12 +243,12 @@
       :options="isVirtualOptions"
       :error="errors.get('is_virtual')"
     >
-      <template slot="hint">
+      <slot name="hint">
         <gov-hint for="is_virtual">
           Indicates whether your event occurs only online, or occurs at a
           location
         </gov-hint>
-      </template>
+      </slot>
     </ck-radio-input>
 
     <gov-inset-text v-if="is_virtual === false">

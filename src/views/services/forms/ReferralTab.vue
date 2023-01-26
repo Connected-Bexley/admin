@@ -45,7 +45,7 @@
           :error="errors.get('referral_button_text')"
           :disabled="!isGlobalAdmin"
         >
-          <template slot="hint">
+          <slot name="hint">
             <gov-hint for="referral_button_text">
               E.g ‘Sign Up’, ‘Refer To’, or ‘Join In’
             </gov-hint>
@@ -63,7 +63,7 @@
               This button will be added to your {{ type }} page, and link users
               to the URL below.
             </gov-hint>
-          </template>
+          </slot>
         </ck-text-input>
 
         <ck-text-input

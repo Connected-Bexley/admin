@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <template slot="body">
+    <slot name="body">
       <gov-table-row>
         <gov-table-header top scope="row">Reference no.</gov-table-header>
         <gov-table-cell>{{ referral.reference }}</gov-table-cell>
@@ -119,7 +119,7 @@
           formatDate(autoDeleteDate(referral.updated_at))
         }}</gov-table-cell>
       </gov-table-row>
-    </template>
+    </slot>
   </gov-table>
 </template>
 

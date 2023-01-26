@@ -24,7 +24,7 @@
                   />
                 </gov-form-group>
 
-                <template slot="extra-filters">
+                <slot name="extra-filters">
                   <gov-form-group>
                     <gov-label for="filter[city]">City</gov-label>
                     <gov-input
@@ -44,7 +44,7 @@
                       type="search"
                     />
                   </gov-form-group>
-                </template>
+                </slot>
               </ck-table-filters>
             </gov-grid-column>
             <gov-grid-column v-if="auth.isServiceAdmin()" width="one-third">

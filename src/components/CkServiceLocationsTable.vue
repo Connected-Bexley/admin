@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <template slot="header">
+    <slot name="header">
       <gov-table-row>
         <gov-table-header scope="col">Loation Name</gov-table-header>
         <gov-table-header scope="col">Address Line 1</gov-table-header>
@@ -8,8 +8,8 @@
         <gov-table-header scope="col">Postcode</gov-table-header>
         <gov-table-header scope="col" right></gov-table-header>
       </gov-table-row>
-    </template>
-    <template slot="body">
+    </slot>
+    <slot name="body">
       <gov-table-row
         v-for="serviceLocation in serviceLocations"
         :key="serviceLocation.id"
@@ -35,7 +35,7 @@
           >No locations for this service</gov-table-cell
         >
       </gov-table-row>
-    </template>
+    </slot>
   </gov-table>
 </template>
 

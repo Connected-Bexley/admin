@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Details</gov-heading>
     <gov-table>
-      <template slot="body">
+      <slot name="body">
         <gov-table-row>
           <gov-table-header scope="row" top>Organisation</gov-table-header>
           <gov-table-cell>{{ event.organisation.name }}</gov-table-cell>
@@ -112,7 +112,7 @@
             <location-details :location="event.location" />
           </gov-table-cell>
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
   </div>
 </template>

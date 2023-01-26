@@ -21,7 +21,7 @@
                   />
                 </gov-form-group>
 
-                <template slot="extra-filters">
+                <slot name="extra-filters">
                   <gov-form-group>
                     <gov-label for="filter[last_name]">Last name</gov-label>
                     <gov-input
@@ -93,7 +93,7 @@
                       :options="services"
                     />
                   </gov-form-group>
-                </template>
+                </slot>
               </ck-table-filters>
             </gov-grid-column>
             <gov-grid-column v-if="auth.isServiceAdmin()" width="one-third">

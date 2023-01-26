@@ -9,7 +9,7 @@
     </p>
     <div class="responsive-table-wrapper">
       <gov-table>
-        <template slot="header">
+        <slot name="header">
           <gov-table-row>
             <gov-table-header
               v-for="(field, index) in fields"
@@ -21,8 +21,8 @@
               Duplicates
             </gov-table-header>
           </gov-table-row>
-        </template>
-        <template slot="body">
+        </slot>
+        <slot name="body">
           <gov-table-row
             v-for="(error, rowIndex) in combinedRows"
             :key="`OrganisiationImportErrorRow-${rowIndex}`"
@@ -70,7 +70,7 @@
               </gov-list>
             </gov-table-cell>
           </gov-table-row>
-        </template>
+        </slot>
       </gov-table>
     </div>
   </gov-error-summary>

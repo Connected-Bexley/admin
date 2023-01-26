@@ -29,10 +29,12 @@
           type="text"
           :error="errors.get(['service.name', 'service.slug'])"
         >
-          <gov-hint slot="hint" for="name">
-            The name of your {{ service.type }} must be unique. The URL of your
-            page will be: <br />
-            hounslowconnect.com/services/{{ service.slug }}
+          <gov-hint for="name">
+            <slot name="hint">
+              The name of your {{ service.type }} must be unique. The URL of
+              your page will be: <br />
+              hounslowconnect.com/services/{{ service.slug }}
+            </slot>
           </gov-hint>
         </ck-text-input>
 

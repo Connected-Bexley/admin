@@ -17,7 +17,7 @@
             />
           </gov-form-group>
 
-          <template slot="extra-filters">
+          <slot name="extra-filters">
             <gov-form-group>
               <gov-label for="filter[description]">Description</gov-label>
               <gov-input
@@ -51,7 +51,7 @@
                 :options="oauthClients"
               />
             </gov-form-group>
-          </template>
+          </slot>
         </ck-table-filters>
       </gov-grid-column>
     </gov-grid-row>

@@ -32,9 +32,11 @@
       :error="errors.get('slug')"
       v-if="auth.isGlobalAdmin"
     >
-      <gov-hint slot="hint" for="slug">
-        This will be used to access the page.<br />
-        e.g. example.com/pages/{{ slug }}
+      <gov-hint for="slug">
+        <slot name="hint">
+          This will be used to access the page.<br />
+          e.g. example.com/pages/{{ slug }}
+        </slot>
       </gov-hint>
     </ck-text-input>
 

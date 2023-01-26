@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Referral</gov-heading>
     <gov-table>
-      <template slot="body">
+      <slot name="body">
         <gov-table-row>
           <gov-table-header scope="row" top
             >Display disclaimer</gov-table-header
@@ -13,7 +13,7 @@
           <gov-table-header scope="row" top>Referral method</gov-table-header>
           <gov-table-cell>{{ referralMethod }}</gov-table-cell>
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
   </div>
 </template>

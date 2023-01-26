@@ -1,7 +1,7 @@
 <template>
   <div>
     <gov-table>
-      <template slot="body">
+      <slot name="body">
         <gov-table-row>
           <gov-table-header scope="column">User</gov-table-header>
           <gov-table-header scope="column">To</gov-table-header>
@@ -30,13 +30,13 @@
           <gov-table-header top scope="row">Organisation</gov-table-header>
           <gov-table-cell>{{ organisation.name }}</gov-table-cell>
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
 
     <gov-section-break size="m" />
 
     <gov-table v-if="!organisation.id">
-      <template slot="body">
+      <slot name="body">
         <gov-table-row>
           <gov-table-header scope="column">Organisation</gov-table-header>
           <gov-table-header scope="column">To</gov-table-header>
@@ -71,13 +71,13 @@
           <gov-table-header top scope="row">Phone</gov-table-header>
           <gov-table-cell>{{ organisation.phone || "-" }}</gov-table-cell>
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
 
     <gov-section-break size="m" />
 
     <gov-table v-if="service">
-      <template slot="body">
+      <slot name="body">
         <gov-table-row>
           <gov-table-header scope="column">Service</gov-table-header>
           <gov-table-header scope="column">To</gov-table-header>
@@ -251,7 +251,7 @@
             <template v-else>None</template>
           </gov-table-cell>
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
   </div>
 </template>

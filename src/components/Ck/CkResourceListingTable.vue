@@ -2,7 +2,7 @@
   <ck-loader v-if="loading" />
   <div v-else>
     <gov-table>
-      <template slot="header">
+      <slot name="header">
         <gov-table-row>
           <gov-table-header
             v-for="(column, index) in columns"
@@ -17,8 +17,8 @@
           </gov-table-header>
           <gov-table-header> </gov-table-header>
         </gov-table-row>
-      </template>
-      <template slot="body">
+      </slot>
+      <slot name="body">
         <gov-table-row v-for="resource in resources" :key="resource.id">
           <gov-table-cell
             v-for="(column, index) in columns"
@@ -39,7 +39,7 @@
             >None found</gov-table-cell
           >
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
     <ck-pagination
       @previous="onPrevious"

@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Details</gov-heading>
     <gov-table>
-      <template slot="body">
+      <slot name="body">
         <gov-table-row>
           <gov-table-header top scope="row"
             >Name of {{ service.type }}</gov-table-header
@@ -114,7 +114,7 @@
             <template v-else>None</template>
           </gov-table-cell>
         </gov-table-row>
-      </template>
+      </slot>
     </gov-table>
   </div>
 </template>

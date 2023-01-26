@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <template slot="header">
+    <slot name="header">
       <gov-table-row>
         <gov-table-header scope="col">Status</gov-table-header>
         <gov-table-header scope="col">Channel</gov-table-header>
@@ -9,8 +9,8 @@
         <gov-table-header scope="col">Date / Time</gov-table-header>
         <gov-table-header scope="col" right></gov-table-header>
       </gov-table-row>
-    </template>
-    <template slot="body">
+    </slot>
+    <slot name="body">
       <gov-table-row
         v-for="notification in notifications"
         :key="notification.id"
@@ -46,7 +46,7 @@
       <gov-table-row v-if="notifications.length === 0">
         <gov-table-cell center colspan="6">No notifications</gov-table-cell>
       </gov-table-row>
-    </template>
+    </slot>
   </gov-table>
 </template>
 

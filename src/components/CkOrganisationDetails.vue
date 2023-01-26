@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <template slot="body">
+    <slot name="body">
       <gov-table-row>
         <gov-table-header top scope="row">Organisation name</gov-table-header>
         <gov-table-cell>{{ organisation.name }}</gov-table-cell>
@@ -67,7 +67,7 @@
           </gov-grid-row>
         </gov-table-cell>
       </gov-table-row>
-    </template>
+    </slot>
   </gov-table>
 </template>
 

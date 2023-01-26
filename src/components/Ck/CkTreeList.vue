@@ -42,7 +42,7 @@
           <template
             v-for="(_, name) in $scopedSlots"
             :slot="name"
-            slot-scope="statusProps"
+            :statusProps="statusProps"
           >
             <slot :name="name" :node="statusProps.node"></slot>
           </template>

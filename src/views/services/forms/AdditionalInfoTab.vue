@@ -21,7 +21,7 @@
           :options="waitTimeOptions"
           :error="errors.get('wait_time')"
         >
-          <template slot="hint">
+          <slot name="hint">
             <gov-hint for="wait_time">
               Provide an indication of how long someone may have to wait to
               access your {{ type }} after initial contact has been made. You
@@ -31,7 +31,7 @@
               If this is not relevant to your {{ type }}, please skip this
               question.
             </gov-hint>
-          </template>
+          </slot>
         </ck-select-input>
 
         <ck-radio-input
@@ -45,7 +45,7 @@
           :options="isFreeOptions"
           :error="errors.get('is_free')"
         >
-          <template slot="hint">
+          <slot name="hint">
             <gov-hint for="is_free">
               Indicates whether your {{ type }} is completely free, or if some
               elements of the service must be paid for. Users can filter their
@@ -55,7 +55,7 @@
               If the cost of your {{ type }} varies, you may want to split these
               into different {{ type }} listings.
             </gov-hint>
-          </template>
+          </slot>
         </ck-radio-input>
 
         <!-- Extra fee info -->
@@ -102,13 +102,13 @@
           type="text"
           :error="errors.get('cqc_location_id')"
         >
-          <template slot="hint">
+          <slot name="hint">
             <gov-hint for="cqc_location_id">
               Please provide the service's Care Quality Commission Location ID
               number if it has one. This will be used to display information
               about the CQC rating on the service page.
             </gov-hint>
-          </template>
+          </slot>
         </ck-text-input>
 
         <ck-textarea-input
@@ -122,7 +122,7 @@
           :maxlength="150"
           :error="errors.get('testimonial')"
         >
-          <template slot="hint">
+          <slot name="hint">
             <gov-hint for="testimonial">
               Please enter a quote from a service user highlighting a positive
               outcome to help promote your good work. For example:
@@ -130,7 +130,7 @@
             <gov-hint for="testimonial">
               This {{ type }} changed my life!
             </gov-hint>
-          </template>
+          </slot>
         </ck-textarea-input>
 
         <ck-text-input
@@ -144,7 +144,7 @@
           type="url"
           :error="errors.get('video_embed')"
         >
-          <template slot="hint">
+          <slot name="hint">
             <gov-hint for="video_embed">
               If you have a short video (less than 5 minutes) showcasing your
               {{ type }}, please add a link below to the site that hosts it.
@@ -157,7 +157,7 @@
                 Need help editing or creating a {{ type }} video?
               </gov-link>
             </gov-hint>
-          </template>
+          </slot>
         </ck-text-input>
       </gov-grid-column>
     </gov-grid-row>
@@ -201,7 +201,7 @@
           type="tel"
           :error="errors.get('contact_phone')"
         >
-          <template slot="hint">
+          <slot name="hint">
             <gov-hint for="contact_phone">
               Please provide a public facing phone number for people to contact
               you on.
@@ -211,7 +211,7 @@
               <br />
               020 8XXX XXXX for landline or 07XXX XXXXXX for mobile.
             </gov-hint>
-          </template>
+          </slot>
         </ck-text-input>
 
         <ck-text-input

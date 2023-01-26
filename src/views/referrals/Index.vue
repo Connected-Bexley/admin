@@ -21,7 +21,7 @@
                   />
                 </gov-form-group>
 
-                <template slot="extra-filters">
+                <slot name="extra-filters">
                   <gov-form-group>
                     <gov-label for="filter[service_name]"
                       >Service name</gov-label
@@ -61,7 +61,7 @@
                       />
                     </gov-checkboxes>
                   </gov-form-group>
-                </template>
+                </slot>
               </ck-table-filters>
             </gov-grid-column>
           </gov-grid-row>
