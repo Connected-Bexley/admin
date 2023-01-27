@@ -8,11 +8,11 @@
       :filteredNodeIds="filteredTaxonomyIds"
       @update="$emit('update', $event)"
     >
-      <slot name="default" :node="slotProps.node">
+      <template v-slot:default="{ node }">
         <gov-hint :for="node.id" v-if="taxonomyCollections[node.id]"
           >Found in {{ taxonomyCollections[node.id].join(", ") }}</gov-hint
         >
-      </slot>
+      </template>
     </ck-node-checkboxes>
   </gov-checkboxes>
 </template>
@@ -23,38 +23,38 @@ export default {
   name: "TaxonomyTree",
 
   components: {
-    CkNodeCheckboxes
+    CkNodeCheckboxes,
   },
 
   props: {
     taxonomies: {
       required: true,
-      type: Array
+      type: Array,
     },
     checked: {
       required: true,
-      type: Array
+      type: Array,
     },
     error: {
-      required: true
+      required: true,
     },
     filteredTaxonomyIds: {
       type: [Array, Boolean],
       default() {
         return [];
-      }
+      },
     },
     taxonomyCollections: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 };
 </script>
 

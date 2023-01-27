@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Good to know</gov-heading>
     <gov-table>
-      <slot name="body">
+      <template v-slot:body>
         <gov-table-row
           v-for="usefulInfo in usefulInfos"
           :key="usefulInfo.order"
@@ -18,7 +18,7 @@
             {{ service.type }}</gov-table-cell
           >
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
   </div>
 </template>
@@ -29,18 +29,18 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      usefulInfos: []
+      usefulInfos: [],
     };
   },
   created() {
     this.usefulInfos = this.service.useful_infos.sort((a, b) => {
       return a.order - b.order;
     });
-  }
+  },
 };
 </script>

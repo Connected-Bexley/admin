@@ -66,9 +66,7 @@
       @input="onInput('description', $event)"
       id="description"
       label="Event description*"
-      :hint="
-        `Describe the event with any details that attendees will need to decide on, find and attend your event. Use headers, bullets and formatting for the maximum effect.`
-      "
+      :hint="`Describe the event with any details that attendees will need to decide on, find and attend your event. Use headers, bullets and formatting for the maximum effect.`"
       :error="errors.get('description')"
       large
       :maxlength="3000"
@@ -82,7 +80,7 @@
       :options="isFreeOptions"
       :error="errors.get('is_free')"
     >
-      <slot name="hint">
+      <template v-slot:hint>
         <gov-hint for="is_free">
           Indicates whether your event is completely free, or if some elements
           of the event must be paid for. Users can filter their searches based
@@ -92,7 +90,7 @@
           If the cost of your event varies, you may want to split these into
           different event listings.
         </gov-hint>
-      </slot>
+      </template>
     </ck-radio-input>
 
     <gov-inset-text v-if="is_free === false">
@@ -101,9 +99,7 @@
         @input="onInput('fees_text', $event)"
         id="fees_text"
         label="How much does it cost? (if applicable)"
-        :hint="
-          `Please indicate the basic cost of the event. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`
-        "
+        :hint="`Please indicate the basic cost of the event. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`"
         type="text"
         :error="errors.get('fees_text')"
         :maxlength="75"
@@ -136,9 +132,7 @@
       @input="onInput('organiser_name', $event)"
       id="organiser_name"
       label="Organiser name"
-      :hint="
-        `Provide the contact name (First name & Surname) for this event, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`
-      "
+      :hint="`Provide the contact name (First name & Surname) for this event, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`"
       type="text"
       :error="errors.get('organiser_name')"
     />
@@ -151,7 +145,7 @@
       type="tel"
       :error="errors.get('organiser_phone')"
     >
-      <slot name="hint">
+      <template v-slot:hint>
         <gov-hint for="organiser_phone">
           Please provide a public facing phone number for attendees to contact
           you on.
@@ -160,7 +154,7 @@
           Please enter your phone number without any spaces, prefixes or special
           characters
         </gov-hint>
-      </slot>
+      </template>
     </ck-text-input>
 
     <ck-text-input
@@ -243,12 +237,12 @@
       :options="isVirtualOptions"
       :error="errors.get('is_virtual')"
     >
-      <slot name="hint">
+      <template v-slot:hint>
         <gov-hint for="is_virtual">
           Indicates whether your event occurs only online, or occurs at a
           location
         </gov-hint>
-      </slot>
+      </template>
     </ck-radio-input>
 
     <gov-inset-text v-if="is_virtual === false">
@@ -297,112 +291,112 @@ export default {
     CkImageInput,
     CkLocationInput,
     CkTimePeriodInput,
-    EventHomepageInput
+    EventHomepageInput,
   },
 
   props: {
     errors: {
       required: true,
-      type: Object
+      type: Object,
     },
     title: {
       required: true,
-      type: String
+      type: String,
     },
     intro: {
       required: true,
-      type: String
+      type: String,
     },
     description: {
       required: true,
-      type: String
+      type: String,
     },
     start_date: {
       required: true,
-      type: String
+      type: String,
     },
     end_date: {
       required: true,
-      type: String
+      type: String,
     },
     start_time: {
       required: true,
-      type: String
+      type: String,
     },
     end_time: {
       required: true,
-      type: String
+      type: String,
     },
     is_free: {
       required: true,
-      type: Boolean
+      type: Boolean,
     },
     fees_text: {
       required: false,
-      type: String
+      type: String,
     },
     fees_url: {
       required: false,
-      type: String
+      type: String,
     },
     organiser_name: {
       required: false,
-      type: String
+      type: String,
     },
     organiser_phone: {
       required: false,
-      type: String
+      type: String,
     },
     organiser_email: {
       required: false,
-      type: String
+      type: String,
     },
     organiser_url: {
       required: false,
-      type: String
+      type: String,
     },
     booking_title: {
       required: false,
-      type: String
+      type: String,
     },
     booking_summary: {
       required: false,
-      type: String
+      type: String,
     },
     booking_url: {
       required: false,
-      type: String
+      type: String,
     },
     booking_cta: {
       required: false,
-      type: String
+      type: String,
     },
     is_virtual: {
       required: true,
-      type: Boolean
+      type: Boolean,
     },
     organisation_id: {
       required: false,
-      default: null
+      default: null,
     },
     location_id: {
-      required: false
+      required: false,
     },
     image_file_id: {
-      required: false
+      required: false,
     },
     homepage: {
       required: true,
-      type: Boolean
+      type: Boolean,
     },
     id: {
       required: false,
-      type: String
+      type: String,
     },
     organisations: {
       type: Array,
-      required: false
-    }
+      required: false,
+    },
   },
 
   computed: {
@@ -411,8 +405,8 @@ export default {
         { value: true, label: `Yes - The event is free` },
         {
           value: false,
-          label: `No - there are elements of this event that must be paid for`
-        }
+          label: `No - there are elements of this event that must be paid for`,
+        },
       ];
     },
     isVirtualOptions() {
@@ -420,8 +414,8 @@ export default {
         { value: true, label: `Yes - The event is virtual` },
         {
           value: false,
-          label: `No - the event occurs at a location`
-        }
+          label: `No - the event occurs at a location`,
+        },
       ];
     },
     todayAsDate() {
@@ -430,14 +424,14 @@ export default {
         2,
         "0"
       )}-${String(now.getDate()).padStart(2, "0")}`;
-    }
+    },
   },
 
   methods: {
     onInput(field, value) {
       this.$emit(`update:${field}`, value);
       this.$emit("clear", field);
-    }
+    },
   },
 
   watch: {
@@ -446,8 +440,8 @@ export default {
         this.$emit("update:fees_text", "");
         this.$emit("update:fees_url", "");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

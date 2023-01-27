@@ -19,10 +19,10 @@
       :error="errors.get('slug')"
     >
       <gov-hint for="slug">
-        <slot name="hint">
+        <template v-slot:hint>
           This will be used to access the organisation page.<br />
           e.g. example.com/organisations/{{ slug }}
-        </slot>
+        </template>
       </gov-hint>
     </ck-text-input>
 
@@ -97,50 +97,50 @@ export default {
   name: "OrganisationForm",
   components: {
     CkImageInput,
-    CkSocialMediasInput
+    CkSocialMediasInput,
   },
   props: {
     errors: {
       required: true,
-      type: Object
+      type: Object,
     },
     name: {
       required: true,
-      type: String
+      type: String,
     },
     slug: {
       required: true,
-      type: String
+      type: String,
     },
     description: {
       required: true,
-      type: String
+      type: String,
     },
     url: {
       required: true,
-      type: String
+      type: String,
     },
     phone: {
       required: true,
-      type: String
+      type: String,
     },
     email: {
       required: true,
-      type: String
+      type: String,
     },
     id: {
       required: false,
-      type: String
+      type: String,
     },
     social_medias: {
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onInput(field, value) {
       this.$emit(`update:${field}`, value);
       this.$emit("clear", field);
-    }
-  }
+    },
+  },
 };
 </script>

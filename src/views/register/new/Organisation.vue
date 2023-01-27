@@ -1,15 +1,9 @@
 <template>
   <div>
-    <gov-heading size="l">
-      Registration - step 5 of 5
-    </gov-heading>
-    <gov-back-link :to="{ name: 'register-new-step4' }">
-      Back
-    </gov-back-link>
+    <gov-heading size="l"> Registration - step 5 of 5 </gov-heading>
+    <gov-back-link :to="{ name: 'register-new-step4' }"> Back </gov-back-link>
 
-    <gov-heading size="l">
-      Register new Organisation
-    </gov-heading>
+    <gov-heading size="l"> Register new Organisation </gov-heading>
 
     <gov-body>
       If you are a smaller group or activity that isn't directly run by an
@@ -24,11 +18,11 @@
       :error="errors.get(['organisation.name', 'organisation.slug'])"
     >
       <gov-hint for="name">
-        <slot name="hint">
+        <template v-slot:hint>
           The name of your organisation must be unique. The URL of your page
           will be: <br />
           hounslowconnect.com/organisations/{{ form.organisation.slug }}
-        </slot>
+        </template>
       </gov-hint>
     </ck-text-input>
 
@@ -75,24 +69,24 @@
 export default {
   model: {
     prop: "form",
-    event: "update"
+    event: "update",
   },
   props: {
     form: {
       type: Object,
-      required: true
+      required: true,
     },
     errors: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     fieldsEmpty() {
       return Object.entries(this.form.organisation).some(([field, value]) => {
         return !["id", "slug"].includes(field) && value == "";
       });
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <slot name="body">
+    <template v-slot:body>
       <gov-table-row>
         <gov-table-header top scope="row">URL</gov-table-header>
         <gov-table-cell break>{{ pageFeedback.url }}</gov-table-cell>
@@ -35,7 +35,7 @@
           formatDate(autoDeleteDate(pageFeedback.updated_at))
         }}</gov-table-cell>
       </gov-table-row>
-    </slot>
+    </template>
   </gov-table>
 </template>
 
@@ -47,8 +47,8 @@ export default {
   props: {
     pageFeedback: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     autoDeleteDate(updated_at) {
@@ -56,7 +56,7 @@ export default {
         .clone()
         .add(6, "months")
         .format("Y-MM-DD[T]HH:mm:ssZ");
-    }
-  }
+    },
+  },
 };
 </script>

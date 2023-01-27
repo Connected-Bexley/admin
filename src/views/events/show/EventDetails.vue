@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Details</gov-heading>
     <gov-table>
-      <slot name="body">
+      <template v-slot:body>
         <gov-table-row>
           <gov-table-header scope="row" top>Organisation</gov-table-header>
           <gov-table-cell>{{ event.organisation.name }}</gov-table-cell>
@@ -112,7 +112,7 @@
             <location-details :location="event.location" />
           </gov-table-cell>
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
   </div>
 </template>
@@ -124,14 +124,14 @@ export default {
   name: "OrganisationEventDetails",
 
   components: {
-    LocationDetails
+    LocationDetails,
   },
 
   props: {
     event: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
 
   computed: {
@@ -161,8 +161,8 @@ export default {
       ).padStart(2, "0")}/${endDate.getFullYear()} ${String(
         endDate.getHours()
       ).padStart(2, "0")}:${String(endDate.getMinutes()).padStart(2, "0")}`;
-    }
-  }
+    },
+  },
 };
 </script>
 

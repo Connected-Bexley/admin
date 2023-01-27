@@ -33,13 +33,13 @@
           : undefined
       "
     >
-      <slot name="after-error-message">
+      <template v-slot:after-error-message>
         <gov-error-message
           v-if="errors.get('image_file_id')"
           v-text="errors.get('image_file_id')"
           for="image"
         />
-      </slot>
+      </template>
     </ck-image-input>
 
     <collection-enabled-input
@@ -89,41 +89,41 @@ export default {
     CollectionEnabledInput,
     CkTaxonomyInput,
     CkSideboxesInput,
-    CkImageInput
+    CkImageInput,
   },
   props: {
     errors: {
       required: true,
-      type: Object
+      type: Object,
     },
     id: {
       required: false,
-      type: String
+      type: String,
     },
     name: {
-      required: true
+      required: true,
     },
     intro: {
-      required: true
+      required: true,
     },
     order: {
-      required: true
+      required: true,
     },
     enabled: {
-      required: true
+      required: true,
     },
     sideboxes: {
-      required: true
+      required: true,
     },
     category_taxonomies: {
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onInput(field, value) {
       this.$emit(`update:${field}`, value);
       this.$emit("clear", field);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -22,7 +22,7 @@
           :options="waitTimeOptions"
           :error="errors.get('service.wait_time')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="wait_time">
               Provide an indication of how long someone may have to wait to
               access your {{ service.type }} after initial contact has been
@@ -34,7 +34,7 @@
               If this is not relevant to your {{ service.type }}, please skip
               this question.
             </gov-hint>
-          </slot>
+          </template>
         </ck-select-input>
 
         <ck-radio-input
@@ -45,7 +45,7 @@
           :options="isFreeOptions"
           :error="errors.get('service.is_free')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="is_free">
               Indicates whether your {{ service.type }} is completely free, or
               if some elements of the service must be paid for. Users can filter
@@ -56,7 +56,7 @@
               If the cost of your {{ service.type }} varies, you may want to
               split these into different {{ service.type }} listings.
             </gov-hint>
-          </slot>
+          </template>
         </ck-radio-input>
 
         <!-- Extra fee info -->
@@ -66,9 +66,7 @@
             @input="$emit('input', { field: 'fees_text', value: $event })"
             id="fees_text"
             label="How much does it cost? (if applicable)"
-            :hint="
-              `Please indicate the basic cost of the ${service.type}. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`
-            "
+            :hint="`Please indicate the basic cost of the ${service.type}. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`"
             type="text"
             :error="errors.get('service.fees_text')"
             :maxlength="75"
@@ -93,7 +91,7 @@
           :maxlength="150"
           :error="errors.get('service.testimonial')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="testimonial">
               Please enter a quote from a service user highlighting a positive
               outcome to help promote your good work. For example:
@@ -102,7 +100,7 @@
             <gov-hint for="testimonial">
               This {{ service.type }} changed my life!
             </gov-hint>
-          </slot>
+          </template>
         </ck-textarea-input>
 
         <ck-text-input
@@ -113,7 +111,7 @@
           type="url"
           :error="errors.get('service.video_embed')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="video_embed">
               If you have a short video (less than 5 minutes) showcasing your
               {{ service.type }}, please add a link below to the site that hosts
@@ -129,7 +127,7 @@
                 Need help editing or creating a {{ service.type }} video?
               </gov-link>
             </gov-hint>
-          </slot>
+          </template>
         </ck-text-input>
       </gov-grid-column>
     </gov-grid-row>
@@ -152,9 +150,7 @@
           @input="$emit('input', { field: 'contact_name', value: $event })"
           id="contact_name"
           label="Contact name"
-          :hint="
-            `Provide the contact name (First name & Surname) for this ${service.type}, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`
-          "
+          :hint="`Provide the contact name (First name & Surname) for this ${service.type}, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`"
           type="text"
           :error="errors.get('service.contact_name')"
         />
@@ -167,7 +163,7 @@
           type="tel"
           :error="errors.get('service.contact_phone')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="contact_phone">
               Please provide a public facing phone number for people to contact
               you on.
@@ -178,7 +174,7 @@
               <br />
               020 8XXX XXXX for landline or 07XXX XXXXXX for mobile.
             </gov-hint>
-          </slot>
+          </template>
         </ck-text-input>
 
         <ck-text-input
@@ -186,9 +182,7 @@
           @input="$emit('input', { field: 'contact_email', value: $event })"
           id="contact_email"
           :label="`Public ${service.type} email address`"
-          :hint="
-            `Please provide the contact email address for the ${service.type}.`
-          "
+          :hint="`Please provide the contact email address for the ${service.type}.`"
           type="email"
           :error="errors.get('service.contact_email')"
         />
@@ -224,19 +218,19 @@ import SocialMediasInput from "@/views/services/inputs/SocialMediasInput";
 
 export default {
   components: {
-    SocialMediasInput
+    SocialMediasInput,
   },
 
   props: {
     service: {
       type: Object,
-      required: true
+      required: true,
     },
 
     errors: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   computed: {
@@ -247,7 +241,7 @@ export default {
         { text: "Two weeks", value: "two_weeks" },
         { text: "Three weeks", value: "three_weeks" },
         { text: "One month", value: "month" },
-        { text: "Longer than a month", value: "longer" }
+        { text: "Longer than a month", value: "longer" },
       ];
     },
 
@@ -256,8 +250,8 @@ export default {
         { value: true, label: `Yes - The ${this.service.type} is free` },
         {
           value: false,
-          label: `No - there are elements of this ${this.service.type} that must be paid for`
-        }
+          label: `No - there are elements of this ${this.service.type} that must be paid for`,
+        },
       ];
     },
 
@@ -269,7 +263,7 @@ export default {
       return `mailto:${to}?subject=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(body)}`;
-    }
-  }
+    },
+  },
 };
 </script>

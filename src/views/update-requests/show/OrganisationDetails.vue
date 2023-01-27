@@ -6,14 +6,14 @@
       <gov-link
         :to="{
           name: 'organisations-show',
-          params: { organisation: original.id }
+          params: { organisation: original.id },
         }"
         v-text="original.name"
       />.
     </gov-body>
 
     <gov-table>
-      <slot name="body">
+      <template v-slot:body>
         <gov-table-row>
           <gov-table-header scope="column"></gov-table-header>
           <gov-table-header scope="column">From</gov-table-header>
@@ -81,7 +81,7 @@
             />
           </gov-table-cell>
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
   </div>
 </template>
@@ -94,37 +94,37 @@ export default {
   props: {
     updateRequestId: {
       required: true,
-      type: String
+      type: String,
     },
 
     requestedAt: {
       required: true,
-      type: String
+      type: String,
     },
 
     organisation: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
       loading: false,
-      original: null
+      original: null,
     };
   },
   methods: {
     async fetchOriginal() {
       this.loading = true;
       const {
-        data: { data: original }
+        data: { data: original },
       } = await http.get(`/organisations/${this.organisation.id}`);
       this.original = original;
       this.loading = false;
-    }
+    },
   },
   created() {
     this.fetchOriginal();
-  }
+  },
 };
 </script>

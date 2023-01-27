@@ -1,91 +1,89 @@
 <template>
   <div class="ck-wysiwyg" :class="{ 'ck-wysiwyg--lg': large }">
     <editor-menu-bar class="ck-wysiwyg__toolbar" :editor="editor">
-      <div
-        class="ck-wysiwyg__toolbar-buttons-wrapper"
-        :commands="{ commands }"
-        :isActive="{ isActive }"
-      >
-        <gov-button
-          v-if="isActive.bold"
-          class="ck-wysiwyg__toolbar-button"
-          :active="isActive.bold()"
-          @click="commands.bold"
-          title="Bold"
-        >
-          <i class="fas fa-bold"></i>
-        </gov-button>
+      <template v-slot:default="{ commands, isActive }">
+        <div class="ck-wysiwyg__toolbar-buttons-wrapper">
+          <gov-button
+            v-if="isActive.bold"
+            class="ck-wysiwyg__toolbar-button"
+            :active="isActive.bold()"
+            @click="commands.bold"
+            title="Bold"
+          >
+            <i class="fas fa-bold"></i>
+          </gov-button>
 
-        <gov-button
-          v-if="isActive.italic"
-          class="ck-wysiwyg__toolbar-button"
-          :active="isActive.italic()"
-          @click="commands.italic"
-          title="Italic"
-        >
-          <i class="fas fa-italic"></i>
-        </gov-button>
+          <gov-button
+            v-if="isActive.italic"
+            class="ck-wysiwyg__toolbar-button"
+            :active="isActive.italic()"
+            @click="commands.italic"
+            title="Italic"
+          >
+            <i class="fas fa-italic"></i>
+          </gov-button>
 
-        <gov-button
-          v-if="isActive.heading"
-          class="ck-wysiwyg__toolbar-button"
-          :active="isActive.heading({ level: 1 })"
-          @click="commands.heading({ level: 1 })"
-          title="Heading 1"
-        >
-          H1
-        </gov-button>
+          <gov-button
+            v-if="isActive.heading"
+            class="ck-wysiwyg__toolbar-button"
+            :active="isActive.heading({ level: 1 })"
+            @click="commands.heading({ level: 1 })"
+            title="Heading 1"
+          >
+            H1
+          </gov-button>
 
-        <gov-button
-          v-if="isActive.heading"
-          class="ck-wysiwyg__toolbar-button"
-          :active="isActive.heading({ level: 2 })"
-          @click="commands.heading({ level: 2 })"
-          title="Heading 2"
-        >
-          H2
-        </gov-button>
+          <gov-button
+            v-if="isActive.heading"
+            class="ck-wysiwyg__toolbar-button"
+            :active="isActive.heading({ level: 2 })"
+            @click="commands.heading({ level: 2 })"
+            title="Heading 2"
+          >
+            H2
+          </gov-button>
 
-        <gov-button
-          v-if="isActive.heading"
-          class="ck-wysiwyg__toolbar-button"
-          :active="isActive.heading({ level: 3 })"
-          @click="commands.heading({ level: 3 })"
-          title="Heading 3"
-        >
-          H3
-        </gov-button>
+          <gov-button
+            v-if="isActive.heading"
+            class="ck-wysiwyg__toolbar-button"
+            :active="isActive.heading({ level: 3 })"
+            @click="commands.heading({ level: 3 })"
+            title="Heading 3"
+          >
+            H3
+          </gov-button>
 
-        <gov-button
-          v-if="isActive.bullet_list"
-          class="ck-wysiwyg__toolbar-button"
-          :active="isActive.bullet_list()"
-          @click="commands.bullet_list"
-          title="Bullet list"
-        >
-          <i class="fas fa-list-ul"></i>
-        </gov-button>
+          <gov-button
+            v-if="isActive.bullet_list"
+            class="ck-wysiwyg__toolbar-button"
+            :active="isActive.bullet_list()"
+            @click="commands.bullet_list"
+            title="Bullet list"
+          >
+            <i class="fas fa-list-ul"></i>
+          </gov-button>
 
-        <gov-button
-          v-if="isActive.ordered_list"
-          class="ck-wysiwyg__toolbar-button"
-          :active="isActive.ordered_list()"
-          @click="commands.ordered_list"
-          title="Ordered list"
-        >
-          <i class="fas fa-list-ol"></i>
-        </gov-button>
+          <gov-button
+            v-if="isActive.ordered_list"
+            class="ck-wysiwyg__toolbar-button"
+            :active="isActive.ordered_list()"
+            @click="commands.ordered_list"
+            title="Ordered list"
+          >
+            <i class="fas fa-list-ol"></i>
+          </gov-button>
 
-        <gov-button
-          v-if="isActive.link"
-          class="ck-wysiwyg__toolbar-button"
-          :active="isActive.link()"
-          @click="commands.link({ href: promptUrl() })"
-          title="Link"
-        >
-          <i class="fas fa-link"></i>
-        </gov-button>
-      </div>
+          <gov-button
+            v-if="isActive.link"
+            class="ck-wysiwyg__toolbar-button"
+            :active="isActive.link()"
+            @click="commands.link({ href: promptUrl() })"
+            title="Link"
+          >
+            <i class="fas fa-link"></i>
+          </gov-button>
+        </div>
+      </template>
     </editor-menu-bar>
     <editor-content class="ck-wysiwyg__content" :editor="editor" />
   </div>
@@ -101,7 +99,7 @@ import {
   ListItem,
   Bold,
   Italic,
-  Link
+  Link,
 } from "tiptap-extensions";
 
 export default {
@@ -109,20 +107,20 @@ export default {
 
   components: {
     EditorMenuBar,
-    EditorContent
+    EditorContent,
   },
 
   props: {
     value: {
       type: String,
       required: false,
-      default: ""
+      default: "",
     },
 
     large: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
 
     extensions: {
@@ -137,15 +135,15 @@ export default {
           new ListItem(),
           new Bold(),
           new Italic(),
-          new Link()
+          new Link(),
         ];
-      }
-    }
+      },
+    },
   },
 
   data() {
     return {
-      editor: null
+      editor: null,
     };
   },
 
@@ -155,7 +153,7 @@ export default {
       content: this.toHtml(this.value),
       onUpdate: ({ getHTML }) => {
         this.onEdit(getHTML());
-      }
+      },
     });
   },
 
@@ -171,7 +169,7 @@ export default {
 
     promptUrl() {
       return window.prompt("Please enter a URL");
-    }
+    },
   },
 
   mounted() {
@@ -182,7 +180,7 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy();
-  }
+  },
 };
 </script>
 

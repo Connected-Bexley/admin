@@ -21,7 +21,7 @@
           :options="waitTimeOptions"
           :error="errors.get('wait_time')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="wait_time">
               Provide an indication of how long someone may have to wait to
               access your {{ type }} after initial contact has been made. You
@@ -31,7 +31,7 @@
               If this is not relevant to your {{ type }}, please skip this
               question.
             </gov-hint>
-          </slot>
+          </template>
         </ck-select-input>
 
         <ck-radio-input
@@ -45,7 +45,7 @@
           :options="isFreeOptions"
           :error="errors.get('is_free')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="is_free">
               Indicates whether your {{ type }} is completely free, or if some
               elements of the service must be paid for. Users can filter their
@@ -55,7 +55,7 @@
               If the cost of your {{ type }} varies, you may want to split these
               into different {{ type }} listings.
             </gov-hint>
-          </slot>
+          </template>
         </ck-radio-input>
 
         <!-- Extra fee info -->
@@ -68,9 +68,7 @@
             "
             id="fees_text"
             label="How much does it cost? (if applicable)"
-            :hint="
-              `Please indicate the basic cost of the ${type}. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`
-            "
+            :hint="`Please indicate the basic cost of the ${type}. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`"
             type="text"
             :error="errors.get('fees_text')"
             :maxlength="75"
@@ -102,13 +100,13 @@
           type="text"
           :error="errors.get('cqc_location_id')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="cqc_location_id">
               Please provide the service's Care Quality Commission Location ID
               number if it has one. This will be used to display information
               about the CQC rating on the service page.
             </gov-hint>
-          </slot>
+          </template>
         </ck-text-input>
 
         <ck-textarea-input
@@ -122,7 +120,7 @@
           :maxlength="150"
           :error="errors.get('testimonial')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="testimonial">
               Please enter a quote from a service user highlighting a positive
               outcome to help promote your good work. For example:
@@ -130,7 +128,7 @@
             <gov-hint for="testimonial">
               This {{ type }} changed my life!
             </gov-hint>
-          </slot>
+          </template>
         </ck-textarea-input>
 
         <ck-text-input
@@ -144,7 +142,7 @@
           type="url"
           :error="errors.get('video_embed')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="video_embed">
               If you have a short video (less than 5 minutes) showcasing your
               {{ type }}, please add a link below to the site that hosts it.
@@ -157,7 +155,7 @@
                 Need help editing or creating a {{ type }} video?
               </gov-link>
             </gov-hint>
-          </slot>
+          </template>
         </ck-text-input>
       </gov-grid-column>
     </gov-grid-row>
@@ -183,9 +181,7 @@
           "
           id="contact_name"
           label="Contact name"
-          :hint="
-            `Provide the contact name (First name & Surname) for this ${type}, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`
-          "
+          :hint="`Provide the contact name (First name & Surname) for this ${type}, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`"
           type="text"
           :error="errors.get('contact_name')"
         />
@@ -201,7 +197,7 @@
           type="tel"
           :error="errors.get('contact_phone')"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="contact_phone">
               Please provide a public facing phone number for people to contact
               you on.
@@ -211,7 +207,7 @@
               <br />
               020 8XXX XXXX for landline or 07XXX XXXXXX for mobile.
             </gov-hint>
-          </slot>
+          </template>
         </ck-text-input>
 
         <ck-text-input
@@ -238,42 +234,42 @@ export default {
   name: "AdditionalInfoTab",
   props: {
     errors: {
-      required: true
+      required: true,
     },
     type: {
-      required: true
+      required: true,
     },
     wait_time: {
-      required: true
+      required: true,
     },
     is_free: {
-      required: true
+      required: true,
     },
     fees_text: {
-      required: true
+      required: true,
     },
     fees_url: {
-      required: true
+      required: true,
     },
     testimonial: {
-      required: true
+      required: true,
     },
     video_embed: {
-      required: true
+      required: true,
     },
     contact_name: {
-      required: true
+      required: true,
     },
     contact_phone: {
-      required: true
+      required: true,
     },
     contact_email: {
-      required: true
+      required: true,
     },
     cqc_location_id: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     waitTimeOptions() {
@@ -283,7 +279,7 @@ export default {
         { text: "Two weeks", value: "two_weeks" },
         { text: "Three weeks", value: "three_weeks" },
         { text: "One month", value: "month" },
-        { text: "Longer than a month", value: "longer" }
+        { text: "Longer than a month", value: "longer" },
       ];
     },
     isFreeOptions() {
@@ -291,8 +287,8 @@ export default {
         { value: true, label: `Yes - The ${this.type} is free` },
         {
           value: false,
-          label: `No - there are elements of this ${this.type} that must be paid for`
-        }
+          label: `No - there are elements of this ${this.type} that must be paid for`,
+        },
       ];
     },
     videoEmbedHelpHref() {
@@ -303,7 +299,7 @@ export default {
       return `mailto:${to}?subject=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(body)}`;
-    }
+    },
   },
   watch: {
     is_free(newIsFree) {
@@ -311,7 +307,7 @@ export default {
         this.$emit("update:fees_text", "");
         this.$emit("update:fees_url", "");
       }
-    }
-  }
+    },
+  },
 };
 </script>

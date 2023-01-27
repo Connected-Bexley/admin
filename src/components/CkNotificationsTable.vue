@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <slot name="header">
+    <template v-slot:header>
       <gov-table-row>
         <gov-table-header scope="col">Status</gov-table-header>
         <gov-table-header scope="col">Channel</gov-table-header>
@@ -9,19 +9,17 @@
         <gov-table-header scope="col">Date / Time</gov-table-header>
         <gov-table-header scope="col" right></gov-table-header>
       </gov-table-row>
-    </slot>
-    <slot name="body">
+    </template>
+    <template v-slot:body>
       <gov-table-row
         v-for="notification in notifications"
         :key="notification.id"
       >
         <gov-table-cell>
           <gov-tag
-            :class="
-              `notification-status notification-status--${formatStatus(
-                notification
-              )}`
-            "
+            :class="`notification-status notification-status--${formatStatus(
+              notification
+            )}`"
             >{{ formatStatus(notification) }}</gov-tag
           >
         </gov-table-cell>
@@ -37,7 +35,7 @@
           <gov-link
             :to="{
               name: 'notifications-show',
-              params: { notification: notification.id }
+              params: { notification: notification.id },
             }"
             >View</gov-link
           >
@@ -46,7 +44,7 @@
       <gov-table-row v-if="notifications.length === 0">
         <gov-table-cell center colspan="6">No notifications</gov-table-cell>
       </gov-table-row>
-    </slot>
+    </template>
   </gov-table>
 </template>
 
@@ -56,8 +54,8 @@ export default {
   props: {
     notifications: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     formatStatus(notification) {
@@ -101,8 +99,8 @@ export default {
       } else {
         return "Sending...";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

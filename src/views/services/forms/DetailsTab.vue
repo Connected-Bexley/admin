@@ -45,10 +45,10 @@
           v-if="auth.isGlobalAdmin"
         >
           <gov-hint for="slug">
-            <slot name="hint">
+            <template v-slot:hint>
               This will be used to access the {{ type }} page.<br />
               e.g. example.com/services/{{ slug }}
-            </slot>
+            </template>
           </gov-hint>
         </ck-text-input>
 
@@ -77,9 +77,7 @@
           "
           id="url"
           :label="`What is the web address of your ${type}?`"
-          :hint="
-            `This must start with ‘http://’ or ‘https://’. You can use your organisation’s website address if the ${type} doesn’t have its own.`
-          "
+          :hint="`This must start with ‘http://’ or ‘https://’. You can use your organisation’s website address if the ${type} doesn’t have its own.`"
           type="url"
           :error="errors.get('url')"
         />
@@ -92,9 +90,7 @@
           "
           id="score"
           label="Quality Score"
-          :hint="
-            `Rate the overall effectiveness and quality of the ${type} between 1 (poor) and 5 (excellent). This is not displayed but affects positioning within search results.`
-          "
+          :hint="`Rate the overall effectiveness and quality of the ${type} between 1 (poor) and 5 (excellent). This is not displayed but affects positioning within search results.`"
           :options="scoreOptions"
           :error="errors.get('score')"
           v-if="auth.isSuperAdmin"
@@ -112,7 +108,7 @@
             id ? apiUrl(`/services/${id}/logo.png?v=${now}`) : undefined
           "
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="logo">
               This can be different to the logo of your organisation.
               <gov-link :href="logoHelpHref"
@@ -123,7 +119,7 @@
               If your {{ type }} doesn't have a logo, the site will use the
               organisation logo if there is one uploaded.
             </gov-hint>
-          </slot>
+          </template>
         </ck-image-input>
 
         <ck-radio-input
@@ -134,11 +130,9 @@
           "
           id="status"
           :label="`Is the ${type} enabled`"
-          :hint="
-            `Indicates if the ${type} is enabled or disabled (disabled ${$options.filters.plural(
-              type
-            )} will not be shown in search results)`
-          "
+          :hint="`Indicates if the ${type} is enabled or disabled (disabled ${$options.filters.plural(
+            type
+          )} will not be shown in search results)`"
           :options="statusOptions"
           :error="errors.get('status')"
           v-if="auth.isGlobalAdmin"
@@ -202,51 +196,51 @@ export default {
     CkImageInput,
     CkGalleryItemsInput,
     CkDateInput,
-    TagInput
+    TagInput,
   },
   props: {
     errors: {
-      required: true
+      required: true,
     },
     isNew: {
       required: false,
       type: Boolean,
-      default: false
+      default: false,
     },
     name: {
-      required: true
+      required: true,
     },
     slug: {
-      required: true
+      required: true,
     },
     type: {
-      required: true
+      required: true,
     },
     organisation_id: {
-      required: false
+      required: false,
     },
     url: {
-      required: true
+      required: true,
     },
     status: {
-      required: true
+      required: true,
     },
     score: {
-      required: true
+      required: true,
     },
     ends_at: {
-      required: true
+      required: true,
     },
     gallery_items: {
-      required: true
+      required: true,
     },
     tags: {
-      required: true
+      required: true,
     },
     id: {
       required: false,
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
@@ -256,11 +250,11 @@ export default {
         { text: "It is a Service", value: "service" },
         { text: "It is an Activity", value: "activity" },
         { text: "It is a Club", value: "club" },
-        { text: "It is a Group", value: "group" }
+        { text: "It is a Group", value: "group" },
       ],
       statusOptions: [
         { label: "Enabled", value: "active" },
-        { label: "Disabled", value: "inactive" }
+        { label: "Disabled", value: "inactive" },
       ],
       scoreOptions: [
         { text: "Unrated", value: "" },
@@ -268,8 +262,8 @@ export default {
         { text: "Below Average", value: 2 },
         { text: "Average", value: 3 },
         { text: "Above Average", value: 4 },
-        { text: "Excellent", value: 5 }
-      ]
+        { text: "Excellent", value: 5 },
+      ],
     };
   },
   computed: {
@@ -278,15 +272,15 @@ export default {
       const subject = "Help uploading service logo";
 
       return `mailto:${to}?subject=${encodeURIComponent(subject)}`;
-    }
+    },
   },
   methods: {
     async fetchOrganisations() {
       this.loading = true;
       let fetchedOrganisations = await this.fetchAll("/organisations", {
-        "filter[has_permission]": true
+        "filter[has_permission]": true,
       });
-      fetchedOrganisations = fetchedOrganisations.map(organisation => {
+      fetchedOrganisations = fetchedOrganisations.map((organisation) => {
         return { text: organisation.name, value: organisation.id };
       });
       this.organisations = [...this.organisations, ...fetchedOrganisations];
@@ -300,10 +294,10 @@ export default {
         this.$emit("update:slug", this.slugify(name));
         this.$emit("clear", "slug");
       }
-    }
+    },
   },
   created() {
     this.fetchOrganisations();
-  }
+  },
 };
 </script>

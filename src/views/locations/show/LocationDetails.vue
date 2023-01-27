@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <slot name="body">
+    <template v-slot:body>
       <gov-table-row>
         <gov-table-header scope="row" top>Address line 1</gov-table-header>
         <gov-table-cell>{{ location.address_line_1 }}</gov-table-cell>
@@ -79,7 +79,7 @@
           </gmap-map>
         </gov-table-cell>
       </gov-table-row>
-    </slot>
+    </template>
   </gov-table>
 </template>
 
@@ -89,8 +89,8 @@ export default {
   props: {
     location: {
       required: true,
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  },
 };
 </script>

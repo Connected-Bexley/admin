@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <slot name="body">
+    <template v-slot:body>
       <gov-table-row>
         <gov-table-header top scope="row">Action</gov-table-header>
         <gov-table-cell>
@@ -45,7 +45,7 @@
           formatDate(autoDeleteDate(audit.updated_at))
         }}</gov-table-cell>
       </gov-table-row>
-    </slot>
+    </template>
   </gov-table>
 </template>
 
@@ -57,8 +57,8 @@ export default {
   props: {
     audit: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     autoDeleteDate(updated_at) {
@@ -66,8 +66,8 @@ export default {
         .clone()
         .add(24, "months")
         .format("Y-MM-DD[T]HH:mm:ssZ");
-    }
-  }
+    },
+  },
 };
 </script>
 

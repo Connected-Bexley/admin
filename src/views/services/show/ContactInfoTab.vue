@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Contact info</gov-heading>
     <gov-table>
-      <slot name="body">
+      <template v-slot:body>
         <gov-table-row>
           <gov-table-header scope="row" top>Contact name</gov-table-header>
           <gov-table-cell>{{ service.contact_name }}</gov-table-cell>
@@ -19,7 +19,7 @@
           >
           <gov-table-cell>{{ service.contact_email }}</gov-table-cell>
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
   </div>
 </template>
@@ -30,8 +30,8 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>

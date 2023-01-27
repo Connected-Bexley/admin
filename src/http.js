@@ -2,8 +2,6 @@ import axios from "axios";
 import Auth from "@/classes/Auth";
 import router from "@/router";
 
-axios.defaults.withCredentials = true;
-
 const http = axios.create({
   baseURL: `${process.env.VUE_APP_API_URI}/core/v1`,
 });

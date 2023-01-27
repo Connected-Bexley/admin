@@ -1,6 +1,6 @@
 <template>
   <gov-table>
-    <slot name="header">
+    <template v-slot:header>
       <gov-table-row>
         <gov-table-header scope="col">Loation Name</gov-table-header>
         <gov-table-header scope="col">Address Line 1</gov-table-header>
@@ -8,8 +8,8 @@
         <gov-table-header scope="col">Postcode</gov-table-header>
         <gov-table-header scope="col" right></gov-table-header>
       </gov-table-row>
-    </slot>
-    <slot name="body">
+    </template>
+    <template v-slot:body>
       <gov-table-row
         v-for="serviceLocation in serviceLocations"
         :key="serviceLocation.id"
@@ -24,7 +24,7 @@
           <gov-link
             :to="{
               name: 'service-locations-show',
-              params: { serviceLocation: serviceLocation.id }
+              params: { serviceLocation: serviceLocation.id },
             }"
             >View</gov-link
           >
@@ -35,7 +35,7 @@
           >No locations for this service</gov-table-cell
         >
       </gov-table-row>
-    </slot>
+    </template>
   </gov-table>
 </template>
 
@@ -45,8 +45,8 @@ export default {
   props: {
     serviceLocations: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>

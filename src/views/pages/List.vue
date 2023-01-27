@@ -29,7 +29,7 @@
             </gov-grid-row>
           </gov-form-group>
 
-          <slot name="extra-filters">
+          <template v-slot:extra-filters>
             <gov-form-group>
               <gov-label for="filter[page_type]">Page type</gov-label>
               <gov-select
@@ -39,7 +39,7 @@
                 :options="pageTypes"
               />
             </gov-form-group>
-          </slot>
+          </template>
         </ck-table-filters>
       </gov-grid-column>
       <gov-grid-column v-if="auth.isGlobalAdmin" width="one-third">
@@ -62,7 +62,7 @@
               <gov-link
                 :to="{
                   name: 'pages-edit',
-                  params: { page: page.id }
+                  params: { page: page.id },
                 }"
               >
                 Edit </gov-link
@@ -85,23 +85,23 @@
           @move-up="onMoveUp"
           @move-down="onMoveDown"
         >
-          <slot name="edit" :node="editProps.node">
+          <template v-slot:edit="{ node }">
             <gov-link
               :to="{
                 name: 'pages-edit',
-                params: { page: node.id }
+                params: { page: node.id },
               }"
             >
               Edit
             </gov-link>
-          </slot>
-          <slot name="status" :node="statusProps.node">
+          </template>
+          <template v-slot:status="{ node }">
             <gov-tag v-if="node.page_type === 'landing'">Landing page</gov-tag
             >&nbsp;
             <gov-tag v-if="!node.enabled" class="govuk-tag--grey"
               >disabled</gov-tag
             >
-          </slot>
+          </template>
         </ck-tree-list>
       </gov-grid-column>
     </gov-grid-row>
@@ -117,7 +117,7 @@ export default {
   name: "ListPages",
   components: {
     CkTreeList,
-    CkTableFilters
+    CkTableFilters,
   },
   data() {
     return {
@@ -126,20 +126,20 @@ export default {
       pages: [],
       filters: {
         title: "",
-        page_type: null
+        page_type: null,
       },
       minSearchPhraseLength: 3,
       pageTypes: [
         { value: "", text: "All" },
         { value: "information", text: "Information page" },
-        { value: "landing", text: "Landing page" }
-      ]
+        { value: "landing", text: "Landing page" },
+      ],
     };
   },
   computed: {
     pagesTree() {
       return this.buildPagesTree(
-        this.pages.filter(page => {
+        this.pages.filter((page) => {
           return !page.parent;
         })
       );
@@ -153,19 +153,19 @@ export default {
         params["filter[page_type]"] = this.filters.page_type;
       }
       return params;
-    }
+    },
   },
   methods: {
     async fetchPages() {
       this.loading = true;
       this.searching = Object.keys(this.params).length > 0;
       const { data } = await http.get("/pages/index", {
-        params: this.params
+        params: this.params,
       });
-      this.pages = data.data.map(page => {
+      this.pages = data.data.map((page) => {
         return {
           label: page.title,
-          ...page
+          ...page,
         };
       });
 
@@ -175,7 +175,7 @@ export default {
       page.order--;
       await http.put(`/pages/${page.id}`, {
         id: page.id,
-        order: page.order
+        order: page.order,
       });
       this.fetchPages();
     },
@@ -183,7 +183,7 @@ export default {
       page.order++;
       await http.put(`/pages/${page.id}`, {
         id: page.id,
-        order: page.order
+        order: page.order,
       });
       this.fetchPages();
     },
@@ -199,9 +199,9 @@ export default {
         .sort((page1, page2) => {
           return page1.order - page2.order;
         })
-        .forEach(page => {
+        .forEach((page) => {
           page.children = this.pages.filter(
-            child => child.parent && child.parent.id === page.id
+            (child) => child.parent && child.parent.id === page.id
           );
 
           if (depth === 0) {
@@ -214,11 +214,11 @@ export default {
         });
 
       return parsed;
-    }
+    },
   },
   created() {
     this.fetchPages();
-  }
+  },
 };
 </script>
 

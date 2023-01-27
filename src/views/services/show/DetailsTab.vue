@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Details</gov-heading>
     <gov-table>
-      <slot name="body">
+      <template v-slot:body>
         <gov-table-row>
           <gov-table-header top scope="row"
             >Name of {{ service.type }}</gov-table-header
@@ -95,7 +95,7 @@
           <gov-table-header top scope="row"
             >Gallery items ({{ imageUrls.length }})</gov-table-header
           >
-          <gov-table-cell style="width: 50%;">
+          <gov-table-cell style="width: 50%">
             <ck-carousel v-if="imageUrls.length > 0" :image-urls="imageUrls" />
             <gov-body v-else>-</gov-body>
           </gov-table-cell>
@@ -114,7 +114,7 @@
             <template v-else>None</template>
           </gov-table-cell>
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
   </div>
 </template>
@@ -132,8 +132,8 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
@@ -145,15 +145,15 @@ export default {
         2: "Below Average",
         3: "Average",
         4: "Above Average",
-        5: "Excellent"
-      }
+        5: "Excellent",
+      },
     };
   },
 
   computed: {
     imageUrls() {
-      return this.service.gallery_items.map(galleryItem => galleryItem.url);
-    }
+      return this.service.gallery_items.map((galleryItem) => galleryItem.url);
+    },
   },
 
   filters: {
@@ -166,14 +166,14 @@ export default {
 
     lastModifiedAt(date) {
       return moment(date).format("D/M/YYYY");
-    }
+    },
   },
 
   methods: {
     async onMarkAsStillUpToDate() {
       await this.refreshForm.put(`/services/${this.service.id}/refresh`);
       this.$router.go();
-    }
-  }
+    },
+  },
 };
 </script>

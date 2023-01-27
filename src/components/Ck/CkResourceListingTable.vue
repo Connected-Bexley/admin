@@ -2,7 +2,7 @@
   <ck-loader v-if="loading" />
   <div v-else>
     <gov-table>
-      <slot name="header">
+      <template v-slot:header>
         <gov-table-row>
           <gov-table-header
             v-for="(column, index) in columns"
@@ -17,8 +17,8 @@
           </gov-table-header>
           <gov-table-header> </gov-table-header>
         </gov-table-row>
-      </slot>
-      <slot name="body">
+      </template>
+      <template v-slot:body>
         <gov-table-row v-for="resource in resources" :key="resource.id">
           <gov-table-cell
             v-for="(column, index) in columns"
@@ -39,7 +39,7 @@
             >None found</gov-table-cell
           >
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
     <ck-pagination
       @previous="onPrevious"
@@ -70,42 +70,42 @@ export default {
     GovTableRow,
     GovLink,
     CkLoader,
-    CkPagination
+    CkPagination,
   },
 
   props: {
     uri: {
       required: true,
-      type: String
+      type: String,
     },
 
     params: {
       required: false,
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
 
     columns: {
       required: true,
-      type: Array
+      type: Array,
     },
 
     viewRoute: {
       required: false,
-      type: Function
+      type: Function,
     },
 
     defaultSort: {
       required: false,
       type: String,
-      default: ""
+      default: "",
     },
 
     actionText: {
       required: false,
       type: String,
-      default: "View"
-    }
+      default: "View",
+    },
   },
 
   data() {
@@ -114,7 +114,7 @@ export default {
       loading: false,
       currentPage: 1,
       totalPages: 1,
-      sort: this.defaultSort
+      sort: this.defaultSort,
     };
   },
 
@@ -122,7 +122,7 @@ export default {
     allParams() {
       const params = {
         ...this.params,
-        page: this.currentPage
+        page: this.currentPage,
       };
 
       if (this.sort !== "") {
@@ -130,7 +130,7 @@ export default {
       }
 
       return params;
-    }
+    },
   },
 
   methods: {
@@ -197,11 +197,11 @@ export default {
 
     onAction(resource) {
       this.$emit("action", resource);
-    }
+    },
   },
 
   created() {
     this.fetchResources();
-  }
+  },
 };
 </script>

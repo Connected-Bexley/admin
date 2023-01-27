@@ -1,7 +1,7 @@
 <template>
   <div>
     <gov-table>
-      <slot name="body">
+      <template v-slot:body>
         <gov-table-row>
           <gov-table-header scope="column">User</gov-table-header>
           <gov-table-header scope="column">To</gov-table-header>
@@ -30,13 +30,13 @@
           <gov-table-header top scope="row">Organisation</gov-table-header>
           <gov-table-cell>{{ organisation.name }}</gov-table-cell>
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
 
     <gov-section-break size="m" />
 
     <gov-table v-if="!organisation.id">
-      <slot name="body">
+      <template v-slot:body>
         <gov-table-row>
           <gov-table-header scope="column">Organisation</gov-table-header>
           <gov-table-header scope="column">To</gov-table-header>
@@ -71,13 +71,13 @@
           <gov-table-header top scope="row">Phone</gov-table-header>
           <gov-table-cell>{{ organisation.phone || "-" }}</gov-table-cell>
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
 
     <gov-section-break size="m" />
 
     <gov-table v-if="service">
-      <slot name="body">
+      <template v-slot:body>
         <gov-table-row>
           <gov-table-header scope="column">Service</gov-table-header>
           <gov-table-header scope="column">To</gov-table-header>
@@ -251,7 +251,7 @@
             <template v-else>None</template>
           </gov-table-cell>
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
   </div>
 </template>
@@ -262,27 +262,27 @@ export default {
   props: {
     updateRequestId: {
       required: true,
-      type: String
+      type: String,
     },
 
     requestedAt: {
       required: true,
-      type: String
+      type: String,
     },
 
     user: {
       required: true,
-      type: Object
+      type: Object,
     },
 
     organisation: {
       required: true,
-      type: Object
+      type: Object,
     },
 
     service: {
-      type: Object
-    }
+      type: Object,
+    },
   },
 
   filters: {
@@ -303,7 +303,7 @@ export default {
         case "other":
           return "Other";
       }
-    }
-  }
+    },
+  },
 };
 </script>

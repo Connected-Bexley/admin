@@ -45,7 +45,7 @@
           :error="errors.get('referral_button_text')"
           :disabled="!isGlobalAdmin"
         >
-          <slot name="hint">
+          <template v-slot:hint>
             <gov-hint for="referral_button_text">
               E.g ‘Sign Up’, ‘Refer To’, or ‘Join In’
             </gov-hint>
@@ -63,7 +63,7 @@
               This button will be added to your {{ type }} page, and link users
               to the URL below.
             </gov-hint>
-          </slot>
+          </template>
         </ck-text-input>
 
         <ck-text-input
@@ -107,7 +107,7 @@
           label="Show referral disclaimer?"
           :options="[
             { value: true, label: 'Display' },
-            { value: false, label: 'Don\'t display' }
+            { value: false, label: 'Don\'t display' },
           ]"
           :error="errors.get('show_referral_disclaimer')"
           :disabled="!isSuperAdmin"
@@ -124,39 +124,39 @@ export default {
   name: "ReferralTab",
   props: {
     errors: {
-      required: true
+      required: true,
     },
     isGlobalAdmin: {
       required: true,
-      type: Boolean
+      type: Boolean,
     },
     isSuperAdmin: {
       required: true,
-      type: Boolean
+      type: Boolean,
     },
     originalData: {
       required: false,
-      type: Object
+      type: Object,
     },
     type: {
       required: true,
-      type: String
+      type: String,
     },
     show_referral_disclaimer: {
-      required: true
+      required: true,
     },
     referral_method: {
-      required: true
+      required: true,
     },
     referral_button_text: {
-      required: true
+      required: true,
     },
     referral_email: {
-      required: true
+      required: true,
     },
     referral_url: {
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     referralMethodOptions() {
@@ -166,8 +166,8 @@ export default {
         { text: "Yes - Through an external form", value: "external" },
         {
           text: `No - This ${this.type} doesn’t accept referrals`,
-          value: "none"
-        }
+          value: "none",
+        },
       ];
     },
     referralIsInternalOrExternal() {
@@ -185,7 +185,7 @@ export default {
       return `mailto:${to}?subject=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(body)}`;
-    }
+    },
   },
   watch: {
     referral_method(newReferralMethod, oldReferralMethod) {
@@ -235,7 +235,7 @@ export default {
 
         this.$emit("clear", "show_referral_disclaimer");
       }
-    }
-  }
+    },
+  },
 };
 </script>

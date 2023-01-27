@@ -2,7 +2,7 @@
   <div>
     <gov-heading size="l">Additional info</gov-heading>
     <gov-table>
-      <slot name="body">
+      <template v-slot:body>
         <gov-table-row>
           <gov-table-header scope="row" top>Average wait time</gov-table-header>
           <gov-table-cell>{{ waitTime }}</gov-table-cell>
@@ -27,7 +27,7 @@
             service.video_embed || "-"
           }}</gov-table-cell>
         </gov-table-row>
-      </slot>
+      </template>
     </gov-table>
   </div>
 </template>
@@ -38,8 +38,8 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     waitTime() {
@@ -61,7 +61,7 @@ export default {
     },
     isFree() {
       return this.service.is_free ? "Yes" : "No";
-    }
-  }
+    },
+  },
 };
 </script>

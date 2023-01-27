@@ -45,15 +45,15 @@
 
               <gov-table>
                 <gov-table-row>
-                  <slot name="header">
+                  <template v-slot:header>
                     <gov-table-header />
                     <gov-table-header center>A</gov-table-header>
                     <gov-table-header center>B</gov-table-header>
                     <gov-table-header center>C</gov-table-header>
                     <gov-table-header center>D</gov-table-header>
-                  </slot>
+                  </template>
                 </gov-table-row>
-                <slot name="body">
+                <template v-slot:body>
                   <gov-table-row>
                     <gov-table-header center>1</gov-table-header>
                     <gov-table-cell>old people</gov-table-cell>
@@ -68,7 +68,7 @@
                     <gov-table-cell>elders</gov-table-cell>
                     <gov-table-cell>pensioner</gov-table-cell>
                   </gov-table-row>
-                </slot>
+                </template>
               </gov-table>
             </li>
             <li>
@@ -111,8 +111,8 @@ export default {
       file: null,
 
       form: new Form({
-        synonyms: null
-      })
+        synonyms: null,
+      }),
     };
   },
 
@@ -136,7 +136,7 @@ export default {
       string = decodeURIComponent(
         atob(string)
           .split("")
-          .map(function(c) {
+          .map(function (c) {
             return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
           })
           .join("")
@@ -148,12 +148,12 @@ export default {
     parseCsv(content) {
       const synonyms = content
         .split(/\n/)
-        .map(synonym => synonym.split(","))
-        .map(synonym => synonym.filter(word => word.length > 1))
-        .filter(synonym => synonym.length > 0);
+        .map((synonym) => synonym.split(","))
+        .map((synonym) => synonym.filter((word) => word.length > 1))
+        .filter((synonym) => synonym.length > 0);
 
       return synonyms;
-    }
-  }
+    },
+  },
 };
 </script>
