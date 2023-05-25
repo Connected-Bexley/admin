@@ -15,23 +15,23 @@ export default {
     top: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     center: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     right: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     clickable: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     computedClasses() {
@@ -39,10 +39,10 @@ export default {
         "align-top": this.top,
         "text-center": this.center,
         "text-right": this.right,
-        "ck-table__header--clickable": this.clickable
+        "ck-table__header--clickable": this.clickable,
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

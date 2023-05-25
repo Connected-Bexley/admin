@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - List Organisations" />
+    <vue-headful :title="`${appName} - List Organisations`" />
 
     <gov-back-link :to="{ name: 'dashboard' }">Back to dashboard</gov-back-link>
     <gov-main-wrapper>
@@ -50,26 +50,26 @@
               {
                 heading: 'Organisation name',
                 sort: 'name',
-                render: organisation => organisation.name
+                render: (organisation) => organisation.name,
               },
               {
                 heading: 'Web address URL',
-                render: organisation => organisation.url
+                render: (organisation) => organisation.url,
               },
               {
                 heading: 'Phone number',
-                render: organisation => organisation.phone || '-'
+                render: (organisation) => organisation.phone || '-',
               },
               {
                 heading: 'Email',
-                render: organisation => organisation.email || '-'
-              }
+                render: (organisation) => organisation.email || '-',
+              },
             ]"
             :view-route="
-              organisation => {
+              (organisation) => {
                 return {
                   name: 'organisations-show',
-                  params: { organisation: organisation.id }
+                  params: { organisation: organisation.id },
                 };
               }
             "
@@ -90,14 +90,14 @@ export default {
   data() {
     return {
       filters: {
-        name: ""
-      }
+        name: "",
+      },
     };
   },
   computed: {
     params() {
       const params = {
-        "filter[has_permission]": true
+        "filter[has_permission]": true,
       };
 
       if (this.filters.name !== "") {
@@ -105,7 +105,7 @@ export default {
       }
 
       return params;
-    }
+    },
   },
   methods: {
     onSearch() {
@@ -114,7 +114,7 @@ export default {
     },
     onAddOrganisation() {
       this.$router.push({ name: "organisations-create" });
-    }
-  }
+    },
+  },
 };
 </script>

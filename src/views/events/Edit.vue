@@ -2,7 +2,7 @@
   <gov-width-container>
     <ck-loader v-if="loading" />
     <template v-else>
-      <vue-headful title="Hounslow Connect - Edit Event" />
+      <vue-headful :title="`${appName} - Edit Event`" />
 
       <gov-back-link :to="{ name: 'events-index' }"
         >Back to events</gov-back-link
@@ -105,11 +105,11 @@ export default {
     return {
       tabs: [
         { id: "details", heading: "Details", active: true },
-        { id: "taxonomies", heading: "Taxonomies", active: false }
+        { id: "taxonomies", heading: "Taxonomies", active: false },
       ],
       loading: false,
       event: null,
-      form: null
+      form: null,
     };
   },
 
@@ -117,7 +117,7 @@ export default {
     allowedTabs() {
       if (!this.auth.isGlobalAdmin) {
         const taxonomiesTabIndex = this.tabs.findIndex(
-          tab => tab.id === "taxonomies"
+          (tab) => tab.id === "taxonomies"
         );
         const tabs = this.tabs.slice();
         tabs.splice(taxonomiesTabIndex, 1);
@@ -129,7 +129,7 @@ export default {
     },
     updateButtonText() {
       return this.auth.isGlobalAdmin ? "Update" : "Request update";
-    }
+    },
   },
 
   methods: {
@@ -164,8 +164,8 @@ export default {
         location_id: this.event.location_id,
         image_file_id: null,
         category_taxonomies: this.event.category_taxonomies.map(
-          taxonomy => taxonomy.id
-        )
+          (taxonomy) => taxonomy.id
+        ),
       });
 
       this.loading = false;
@@ -259,7 +259,7 @@ export default {
       const updateRequestId = response.id;
       let next = {
         name: "events-updated",
-        params: { event: this.event.id }
+        params: { event: this.event.id },
       };
 
       if (this.auth.isGlobalAdmin) {
@@ -278,20 +278,20 @@ export default {
       this.$router.push(next);
     },
     onTabChange({ index }) {
-      this.tabs.forEach(tab => (tab.active = false));
+      this.tabs.forEach((tab) => (tab.active = false));
       const tabId = this.allowedTabs[index].id;
-      this.tabs.find(tab => tab.id === tabId).active = true;
+      this.tabs.find((tab) => tab.id === tabId).active = true;
     },
     isTabActive(id) {
-      const tab = this.allowedTabs.find(tab => tab.id === id);
+      const tab = this.allowedTabs.find((tab) => tab.id === id);
 
       return tab === undefined ? false : tab.active;
-    }
+    },
   },
 
   created() {
     this.fetchEvent();
-  }
+  },
 };
 </script>
 

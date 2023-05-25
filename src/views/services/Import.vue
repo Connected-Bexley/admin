@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Import Services" />
+    <vue-headful :title="`${appName} - Import Services`" />
 
     <gov-back-link :to="{ name: 'services-index' }"
       >Back to Services</gov-back-link
@@ -84,7 +84,7 @@ export default {
   components: {
     Form,
     SpreadsheetImportForm,
-    SpreadsheetImportErrors
+    SpreadsheetImportErrors,
   },
 
   data() {
@@ -97,7 +97,7 @@ export default {
 
       form: new Form({
         spreadsheet: null,
-        organisation_id: null
+        organisation_id: null,
       }),
 
       fields: {
@@ -131,10 +131,10 @@ export default {
         criteria_housing: "Housing",
         criteria_income: "Income",
         criteria_language: "Language",
-        criteria_other: "Other"
+        criteria_other: "Other",
       },
 
-      errors: []
+      errors: [],
     };
   },
 
@@ -147,8 +147,8 @@ export default {
         : null;
     },
     exampleSpreadsheetDownloadLink() {
-      return `${process.env.VUE_APP_API_URI}/downloads/services_import_example.xlsx`;
-    }
+      return `${this.appApiUri}/downloads/services_import_example.xlsx`;
+    },
   },
 
   methods: {
@@ -164,12 +164,12 @@ export default {
 
       this.form
         .post("/services/import")
-        .then(response => {
+        .then((response) => {
           this.uploadRows = response.data.imported_row_count;
           this.file = null;
           this.organisationId = null;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.data) {
             this.invalidRows = error.data.errors.spreadsheet;
             this.file = null;
@@ -181,8 +181,8 @@ export default {
             this.errors.push({ message: error.message });
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

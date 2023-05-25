@@ -38,49 +38,54 @@ export default {
     type: {
       type: String,
       required: false,
-      default: "submit"
+      default: "submit",
     },
     expand: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     error: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     start: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
+    },
+    warning: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     to: {
-      required: false
+      required: false,
     },
     href: {
-      required: false
+      required: false,
     },
     active: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     success: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     disabled: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     onClick() {
       this.$emit("click");
-    }
+    },
   },
   computed: {
     computedClasses() {
@@ -88,12 +93,13 @@ export default {
         expand: this.expand,
         "govuk-button--error": this.error,
         "govuk-button--start": this.start,
+        "govuk-button--warning": this.warning,
         "ck-button--active": this.active,
         "ck-button--success": this.success,
-        "ck-button--disabled": this.disabled
+        "ck-button--disabled": this.disabled,
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

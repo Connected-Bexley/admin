@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Edit Thesaurus" />
+    <vue-headful :title="`${appName} - Edit Thesaurus`" />
 
     <gov-back-link :to="{ name: 'admin-index-search-engine' }"
       >Back to thesaurus</gov-back-link
@@ -109,8 +109,8 @@ export default {
       file: null,
 
       form: new Form({
-        synonyms: null
-      })
+        synonyms: null,
+      }),
     };
   },
 
@@ -134,7 +134,7 @@ export default {
       string = decodeURIComponent(
         atob(string)
           .split("")
-          .map(function(c) {
+          .map(function (c) {
             return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
           })
           .join("")
@@ -146,12 +146,12 @@ export default {
     parseCsv(content) {
       const synonyms = content
         .split(/\n/)
-        .map(synonym => synonym.split(","))
-        .map(synonym => synonym.filter(word => word.length > 1))
-        .filter(synonym => synonym.length > 0);
+        .map((synonym) => synonym.split(","))
+        .map((synonym) => synonym.filter((word) => word.length > 1))
+        .filter((synonym) => synonym.length > 0);
 
       return synonyms;
-    }
-  }
+    },
+  },
 };
 </script>

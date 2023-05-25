@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Import Organisations" />
+    <vue-headful :title="`${appName} - Import Organisations`" />
 
     <gov-back-link :to="{ name: 'organisations-index' }"
       >Back to Organisations</gov-back-link
@@ -75,7 +75,7 @@ export default {
   components: {
     Form,
     SpreadsheetImportForm,
-    SpreadsheetImportErrors
+    SpreadsheetImportErrors,
   },
 
   data() {
@@ -92,7 +92,7 @@ export default {
 
       form: new Form({
         spreadsheet: null,
-        ignore_duplicates: null
+        ignore_duplicates: null,
       }),
 
       fields: {
@@ -102,8 +102,8 @@ export default {
         description: "Description",
         email: "Email",
         phone: "Phone",
-        url: "Url"
-      }
+        url: "Url",
+      },
     };
   },
 
@@ -116,8 +116,8 @@ export default {
         : null;
     },
     exampleSpreadsheetDownloadLink() {
-      return `${process.env.VUE_APP_API_URI}/downloads/organisations_import_example.xls`;
-    }
+      return `${this.appApiUri}/downloads/organisations_import_example.xls`;
+    },
   },
 
   methods: {
@@ -130,10 +130,10 @@ export default {
         (duplicateIds, duplicateRow) => {
           return duplicateIds.concat(
             duplicateRow.originals
-              .filter(original => {
+              .filter((original) => {
                 return original.ignored;
               })
-              .map(original => {
+              .map((original) => {
                 return original.id;
               })
           );
@@ -146,16 +146,16 @@ export default {
 
       this.form
         .post("/organisations/import")
-        .then(response => {
+        .then((response) => {
           this.uploadRows = response.data.imported_row_count;
           this.file = null;
         })
-        .catch(error => {
+        .catch((error) => {
           this.invalidRows = error.data.errors
             ? error.data.errors.spreadsheet
             : [];
           this.duplicateRows =
-            error.data.duplicates.map(duplicateRow => {
+            error.data.duplicates.map((duplicateRow) => {
               for (let i = 0; i < duplicateRow.originals.length; i++) {
                 duplicateRow.originals[i].ignored = false;
               }
@@ -168,14 +168,14 @@ export default {
       for (let i = 0; i < this.duplicateRows.length; i++) {
         for (let j = 0; j < this.duplicateRows[i].originals.length; j++) {
           if (this.duplicateRows[i].originals[j].id === duplicateId) {
-            this.duplicateRows[i].originals[j].ignored = !this.duplicateRows[i]
-              .originals[j].ignored;
+            this.duplicateRows[i].originals[j].ignored =
+              !this.duplicateRows[i].originals[j].ignored;
             return;
           }
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -43,7 +43,7 @@
               v-if="auth.isGlobalAdmin"
               :to="{
                 name: 'taxonomies-categories-edit',
-                params: { taxonomy: taxonomy.id }
+                params: { taxonomy: taxonomy.id },
               }"
             >
               Edit
@@ -58,7 +58,7 @@
                 v-if="auth.isGlobalAdmin"
                 :to="{
                   name: 'taxonomies-categories-edit',
-                  params: { taxonomy: taxonomy.id }
+                  params: { taxonomy: taxonomy.id },
                 }"
               >
                 Edit
@@ -72,7 +72,7 @@
                     v-if="auth.isGlobalAdmin"
                     :to="{
                       name: 'taxonomies-categories-edit',
-                      params: { taxonomy: taxonomy.id }
+                      params: { taxonomy: taxonomy.id },
                     }"
                   >
                     Edit
@@ -89,7 +89,7 @@
                         v-if="auth.isGlobalAdmin"
                         :to="{
                           name: 'taxonomies-categories-edit',
-                          params: { taxonomy: taxonomy.id }
+                          params: { taxonomy: taxonomy.id },
                         }"
                       >
                         Edit
@@ -106,7 +106,7 @@
                             v-if="auth.isGlobalAdmin"
                             :to="{
                               name: 'taxonomies-categories-edit',
-                              params: { taxonomy: taxonomy.id }
+                              params: { taxonomy: taxonomy.id },
                             }"
                           >
                             Edit
@@ -123,7 +123,7 @@
                                 v-if="auth.isGlobalAdmin"
                                 :to="{
                                   name: 'taxonomies-categories-edit',
-                                  params: { taxonomy: taxonomy.id }
+                                  params: { taxonomy: taxonomy.id },
                                 }"
                               >
                                 Edit
@@ -143,7 +143,7 @@
                                     v-if="auth.isGlobalAdmin"
                                     :to="{
                                       name: 'taxonomies-categories-edit',
-                                      params: { taxonomy: taxonomy.id }
+                                      params: { taxonomy: taxonomy.id },
                                     }"
                                   >
                                     Edit
@@ -185,7 +185,7 @@ export default {
   data() {
     return {
       loading: false,
-      taxonomies: []
+      taxonomies: [],
     };
   },
   methods: {
@@ -196,10 +196,10 @@ export default {
       this.taxonomies = data.data;
 
       this.loading = false;
-    }
+    },
   },
   created() {
     this.fetchTaxonomies();
-  }
+  },
 };
 </script>

@@ -17,9 +17,7 @@
             >
               {{ field }}
             </gov-table-header>
-            <gov-table-header>
-              Duplicates
-            </gov-table-header>
+            <gov-table-header> Duplicates </gov-table-header>
           </gov-table-row>
         </template>
         <template slot="body">
@@ -48,7 +46,7 @@
                       <gov-link
                         :to="{
                           name: 'organisations-show',
-                          params: { organisation: original.id }
+                          params: { organisation: original.id },
                         }"
                       >
                         {{ original.name }}
@@ -81,29 +79,29 @@ export default {
   props: {
     fields: {
       type: Object,
-      required: true
+      required: true,
     },
     invalidRows: {
       type: Array,
       required: false,
       default() {
         return [];
-      }
+      },
     },
     duplicateRows: {
       type: Array,
       required: false,
       default() {
         return [];
-      }
-    }
+      },
+    },
   },
   computed: {
     combinedRows() {
       const combinedRows = this.invalidRows.slice();
       if (this.duplicateRows.length) {
-        this.duplicateRows.forEach(duplicateRow => {
-          const index = this.invalidRows.findIndex(invalidRow => {
+        this.duplicateRows.forEach((duplicateRow) => {
+          const index = this.invalidRows.findIndex((invalidRow) => {
             return invalidRow.row.index === duplicateRow.row.index;
           });
           if (-1 === index) {
@@ -114,7 +112,7 @@ export default {
         });
       }
       return combinedRows;
-    }
+    },
   },
   methods: {
     trimString(s) {
@@ -122,8 +120,8 @@ export default {
     },
     ignoreDuplicate(duplicate) {
       this.$emit("ignoreDuplicate", duplicate.id);
-    }
-  }
+    },
+  },
 };
 </script>
 

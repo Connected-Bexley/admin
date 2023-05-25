@@ -87,7 +87,7 @@
           onRegularOpeningHourInput({
             index,
             field: 'frequency',
-            value: $event
+            value: $event,
           })
         "
         :id="`regular_opening_hours.${index}.frequency`"
@@ -119,7 +119,7 @@
           onRegularOpeningHourInput({
             index,
             field: 'day_of_month',
-            value: $event
+            value: $event,
           })
         "
         :id="`regular_opening_hours.${index}.day_of_month`"
@@ -135,7 +135,7 @@
           onRegularOpeningHourInput({
             index,
             field: 'occurrence_of_month',
-            value: $event
+            value: $event,
           })
         "
         :id="`regular_opening_hours.${index}.occurrence_of_month`"
@@ -153,7 +153,7 @@
           onRegularOpeningHourInput({
             index,
             field: 'starts_at',
-            value: $event
+            value: $event,
           })
         "
         :id="`regular_opening_hours.${index}.starts_at`"
@@ -174,13 +174,13 @@
           onRegularOpeningHourInput({
             index,
             field: 'closes_at',
-            value: $event
+            value: $event,
           })
         "
         :error="
           errors.get([
             `regular_opening_hours.${index}.opens_at`,
-            `regular_opening_hours.${index}.closes_at`
+            `regular_opening_hours.${index}.closes_at`,
           ])
         "
       />
@@ -194,9 +194,7 @@
       <template v-if="regular_opening_hours.length === 0">Add day</template>
       <template v-else>Add another day</template> </gov-button
     >&nbsp;<!--
- --><gov-button @click="onAddWeekdays()">
-      Add weekdays
-    </gov-button>
+ --><gov-button @click="onAddWeekdays()"> Add weekdays </gov-button>
     <!-- /Regular opening hours -->
 
     <!-- Holiday opening hours -->
@@ -211,7 +209,7 @@
           onHolidayOpeningHourInput({
             index,
             field: 'is_closed',
-            value: $event
+            value: $event,
           })
         "
         :id="`holiday_opening_hours.${index}.is_closed`"
@@ -224,7 +222,7 @@
           onHolidayOpeningHourInput({
             index,
             field: 'starts_at',
-            value: $event
+            value: $event,
           })
         "
         :id="`holiday_opening_hours.${index}.starts_at`"
@@ -254,13 +252,13 @@
           onHolidayOpeningHourInput({
             index,
             field: 'closes_at',
-            value: $event
+            value: $event,
           })
         "
         :error="
           errors.get([
             `holiday_opening_hours.${index}.opens_at`,
-            `holiday_opening_hours.${index}.closes_at`
+            `holiday_opening_hours.${index}.closes_at`,
           ])
         "
       />
@@ -306,75 +304,75 @@ export default {
     DateInput,
     TimePeriodInput,
     IsClosedInput,
-    CkImageInput
+    CkImageInput,
   },
   props: {
     errors: {
       required: true,
-      type: Object
+      type: Object,
     },
     locationErrors: {
       required: false,
-      type: Object
+      type: Object,
     },
     location_type: {
-      required: false
+      required: false,
     },
     location_id: {
-      required: false
+      required: false,
     },
     name: {
       required: true,
-      type: String
+      type: String,
     },
     regular_opening_hours: {
       required: true,
-      type: Array
+      type: Array,
     },
     holiday_opening_hours: {
       required: true,
-      type: Array
+      type: Array,
     },
     address_line_1: {
       required: false,
-      type: String
+      type: String,
     },
     address_line_2: {
       required: false,
-      type: String
+      type: String,
     },
     address_line_3: {
       required: false,
-      type: String
+      type: String,
     },
     city: {
       required: false,
-      type: String
+      type: String,
     },
     county: {
       required: false,
-      type: String
+      type: String,
     },
     postcode: {
       required: false,
-      type: String
+      type: String,
     },
     country: {
       required: false,
-      type: String
+      type: String,
     },
     has_induction_loop: {
       required: false,
-      type: Boolean
+      type: Boolean,
     },
     has_wheelchair_access: {
       required: false,
-      type: Boolean
+      type: Boolean,
     },
     id: {
       required: false,
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
@@ -383,18 +381,18 @@ export default {
       index: 1,
       countries: [
         { text: "Please select", value: null, disabled: true },
-        ...countries
+        ...countries,
       ],
       locationTypes: [
         { value: "existing", label: "Existing" },
-        { value: "new", label: "New" }
+        { value: "new", label: "New" },
       ],
       frequencies: [
         { text: "Please select", value: null, disabled: true },
         { text: "Weekly", value: "weekly" },
         { text: "Monthly", value: "monthly" },
         { text: "Fortnightly", value: "fortnightly" },
-        { text: "Nth occurrence of month", value: "nth_occurrence_of_month" }
+        { text: "Nth occurrence of month", value: "nth_occurrence_of_month" },
       ],
       weekdays: [
         { text: "Please select", value: null, disabled: true },
@@ -404,7 +402,7 @@ export default {
         { text: "Thursday", value: 4 },
         { text: "Friday", value: 5 },
         { text: "Saturday", value: 6 },
-        { text: "Sunday", value: 7 }
+        { text: "Sunday", value: 7 },
       ],
       daysInMonth: [{ text: "Please select", value: null, disabled: true }],
       occurrences: [
@@ -413,14 +411,14 @@ export default {
         { text: "Second", value: 2 },
         { text: "Third", value: 3 },
         { text: "Fourth", value: 4 },
-        { text: "Last", value: 5 }
-      ]
+        { text: "Last", value: 5 },
+      ],
     };
   },
   computed: {
     isCreateForm() {
       return this.location_type !== undefined;
-    }
+    },
   },
   methods: {
     setDaysInMonth() {
@@ -432,13 +430,13 @@ export default {
       }
     },
     cloneRegularOpeningHours() {
-      return this.regular_opening_hours.map(regularOpeningHour => ({
-        ...regularOpeningHour
+      return this.regular_opening_hours.map((regularOpeningHour) => ({
+        ...regularOpeningHour,
       }));
     },
     cloneHolidayOpeningHours() {
-      return this.holiday_opening_hours.map(holidayOpeningHour => ({
-        ...holidayOpeningHour
+      return this.holiday_opening_hours.map((holidayOpeningHour) => ({
+        ...holidayOpeningHour,
       }));
     },
     onInput({ field, value }) {
@@ -464,23 +462,23 @@ export default {
     async fetchLocations() {
       this.loading = true;
       this.locations = await this.fetchAll("/locations");
-      this.locations = this.locations.map(location => {
+      this.locations = this.locations.map((location) => {
         return {
           text: `${location.address_line_1}, ${location.city}, ${location.postcode}`,
-          value: location.id
+          value: location.id,
         };
       });
       this.locations.unshift({
         text: "Please select",
         value: null,
-        disabled: true
+        disabled: true,
       });
       this.loading = false;
     },
     appendLocation(location) {
       this.locations.push({
         text: `${location.address_line_1}, ${location.city}, ${location.postcode}`,
-        value: location.id
+        value: location.id,
       });
     },
     onAddRegularOpeningHour() {
@@ -493,7 +491,7 @@ export default {
         starts_at: "",
         opens_at: null,
         closes_at: null,
-        index: this.index
+        index: this.index,
       });
       this.$emit("update:regular_opening_hours", regularOpeningHours);
       this.index++;
@@ -510,7 +508,7 @@ export default {
           starts_at: "",
           opens_at: null,
           closes_at: null,
-          index: this.index
+          index: this.index,
         });
         this.index++;
       }
@@ -525,7 +523,7 @@ export default {
         ends_at: "",
         opens_at: null,
         closes_at: null,
-        index: this.index
+        index: this.index,
       });
       this.$emit("update:holiday_opening_hours", holidayOpeningHours);
       this.index++;
@@ -539,7 +537,7 @@ export default {
       let holidayOpeningHours = this.cloneHolidayOpeningHours();
       holidayOpeningHours.splice(index, 1);
       this.$emit("update:holiday_opening_hours", holidayOpeningHours);
-    }
+    },
   },
   created() {
     this.setDaysInMonth();
@@ -569,8 +567,8 @@ export default {
         return;
       }
 
-      let regularOpeningHours = newValue.map(regularOpeningHour => ({
-        ...regularOpeningHour
+      let regularOpeningHours = newValue.map((regularOpeningHour) => ({
+        ...regularOpeningHour,
       }));
 
       for (let regularOpeningHour of regularOpeningHours) {
@@ -604,8 +602,8 @@ export default {
         return;
       }
 
-      let holidayOpeningHours = newValue.map(holidayOpeningHour => ({
-        ...holidayOpeningHour
+      let holidayOpeningHours = newValue.map((holidayOpeningHour) => ({
+        ...holidayOpeningHour,
       }));
 
       for (let holidayOpeningHour of holidayOpeningHours) {
@@ -616,7 +614,7 @@ export default {
       }
 
       this.$emit("update:holiday_opening_hours", holidayOpeningHours);
-    }
-  }
+    },
+  },
 };
 </script>

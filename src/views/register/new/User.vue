@@ -1,12 +1,8 @@
 <template>
   <div>
-    <gov-heading size="l">
-      Registration - step 4 of 5
-    </gov-heading>
+    <gov-heading size="l"> Registration - step 4 of 5 </gov-heading>
 
-    <gov-back-link :to="{ name: 'register-new-step3' }">
-      Back
-    </gov-back-link>
+    <gov-back-link :to="{ name: 'register-new-step3' }"> Back </gov-back-link>
 
     <user-account :form="form" :errors="errors" />
     <gov-button
@@ -24,26 +20,26 @@ import UserAccount from "../forms/UserAccount";
 
 export default {
   components: {
-    UserAccount
+    UserAccount,
   },
   model: {
     prop: "form",
-    event: "update"
+    event: "update",
   },
   props: {
     form: {
       type: Object,
-      required: true
+      required: true,
     },
     errors: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     fieldsEmpty() {
-      return Object.values(this.form.user).some(field => field == "");
-    }
-  }
+      return Object.values(this.form.user).some((field) => field == "");
+    },
+  },
 };
 </script>

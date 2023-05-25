@@ -17,12 +17,12 @@
       <gov-error-message
         v-if="
           errors.has(`gallery_items.${index}`) ||
-            errors.has(`gallery_items.${index}.file_id`)
+          errors.has(`gallery_items.${index}.file_id`)
         "
         v-text="
           errors.get([
             `gallery_items.${index}`,
-            `gallery_items.${index}.file_id`
+            `gallery_items.${index}.file_id`,
           ])
         "
         :for="galleryItem.$index"
@@ -50,24 +50,24 @@ export default {
 
   model: {
     prop: "galleryItems",
-    event: "input"
+    event: "input",
   },
 
   props: {
     galleryItems: {
       type: Array,
-      required: true
+      required: true,
     },
 
     errors: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
-      index: 1
+      index: 1,
     };
   },
 
@@ -88,7 +88,7 @@ export default {
       galleryItems.push({
         file_id: null,
         image: null,
-        $index: this.index
+        $index: this.index,
       });
       this.$emit("input", galleryItems);
 
@@ -101,7 +101,7 @@ export default {
       this.$emit("input", galleryItems);
       this.$emit("clear", `gallery_items.${deleteIndex}`);
       this.$emit("clear", `gallery_items.${deleteIndex}.file_id`);
-    }
-  }
+    },
+  },
 };
 </script>

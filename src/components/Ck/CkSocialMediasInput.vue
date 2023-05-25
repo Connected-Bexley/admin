@@ -40,17 +40,17 @@ export default {
   name: "SocialMediasInput",
   model: {
     prop: "socialMedias",
-    event: "input"
+    event: "input",
   },
   props: {
     socialMedias: {
       required: true,
-      type: Array
+      type: Array,
     },
     errors: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -60,28 +60,28 @@ export default {
         { text: "Facebook", value: "facebook" },
         { text: "Instagram", value: "instagram" },
         { text: "YouTube", value: "youtube" },
-        { text: "Other", value: "other" }
+        { text: "Other", value: "other" },
       ],
       exampleSocialMediaUrls: {
         twitter: "https://twitter.com/example",
         facebook: "https://www.facebook.com/example",
         instagram: "https://www.instagram.com/example",
         youtube: "https://www.youtube.com/channel/example-channelId",
-        other: "the public link from your social media account"
+        other: "the public link from your social media account",
       },
-      socialMediasIndex: 1
+      socialMediasIndex: 1,
     };
   },
   methods: {
     cloneSocialMedias() {
-      return this.socialMedias.map(socialMedia => ({ ...socialMedia }));
+      return this.socialMedias.map((socialMedia) => ({ ...socialMedia }));
     },
     onAddSocialMedia() {
       let socialMedias = this.cloneSocialMedias();
       socialMedias.push({
         type: null,
         url: "",
-        index: this.socialMediasIndex
+        index: this.socialMediasIndex,
       });
       this.$emit("input", socialMedias);
 
@@ -108,7 +108,7 @@ export default {
       return `Copy the link from your browser, e.g. ${
         this.exampleSocialMediaUrls[type || "other"]
       }`;
-    }
-  }
+    },
+  },
 };
 </script>

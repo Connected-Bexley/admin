@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Add Event Collection" />
+    <vue-headful :title="`${appName} - Add Event Collection`" />
 
     <gov-back-link :to="{ name: 'admin-index-collections-events' }"
       >Back to event collections</gov-back-link
@@ -60,15 +60,15 @@ export default {
         order: 1,
         enabled: true,
         sideboxes: [],
-        category_taxonomies: []
-      })
+        category_taxonomies: [],
+      }),
     };
   },
   methods: {
     async onSubmit() {
       await this.form.post("/collections/organisation-events");
       this.$router.push({ name: "admin-index-collections-events" });
-    }
-  }
+    },
+  },
 };
 </script>

@@ -2,9 +2,7 @@
   <gov-width-container>
     <ck-loader v-if="loading" />
     <template v-else>
-      <vue-headful
-        :title="`Hounslow Connect - Edit Service: ${service.name}`"
-      />
+      <vue-headful :title="`${appName} - Edit Service: ${service.name}`" />
 
       <!-- Edit form -->
       <div v-show="updateRequest === null">
@@ -52,7 +50,10 @@
                   @update:logo_file_id="form.logo_file_id = $event"
                   @update:logo="form.logo = $event"
                   :status.sync="form.status"
+                  :score.sync="form.score"
+                  :ends_at.sync="form.ends_at"
                   :gallery_items.sync="form.gallery_items"
+                  :tags.sync="form.tags"
                   :id="service.id"
                 >
                   <gov-button @click="onNext" start>Next</gov-button>
@@ -75,6 +76,7 @@
                   :contact_name.sync="form.contact_name"
                   :contact_phone.sync="form.contact_phone"
                   :contact_email.sync="form.contact_email"
+                  :cqc_location_id.sync="form.cqc_location_id"
                 >
                   <gov-button @click="onNext" start>Next</gov-button>
                 </additional-info-tab>
@@ -194,9 +196,9 @@
                 :gallery-items-data-uris="
                   form.gallery_items
                     .filter(
-                      galleryItem => typeof galleryItem.image !== 'undefined'
+                      (galleryItem) => typeof galleryItem.image !== 'undefined'
                     )
-                    .map(galleryItem => galleryItem.image)
+                    .map((galleryItem) => galleryItem.image)
                 "
               />
 
@@ -241,7 +243,7 @@ export default {
     EligibilityTab,
     ReferralTab,
     TaxonomiesTab,
-    ServiceDetails
+    ServiceDetails,
   },
   data() {
     return {
@@ -253,19 +255,19 @@ export default {
         { id: "eligibility", heading: "Eligibility", active: false },
         { id: "taxonomies", heading: "Taxonomies", active: false },
         { id: "description", heading: "Description", active: false },
-        { id: "referral", heading: "Referral", active: false }
+        { id: "referral", heading: "Referral", active: false },
       ],
       errors: {},
       service: null,
       loading: false,
-      updateRequest: null
+      updateRequest: null,
     };
   },
   computed: {
     allowedTabs() {
       if (!this.auth.isGlobalAdmin) {
         const taxonomiesTabIndex = this.tabs.findIndex(
-          tab => tab.id === "taxonomies"
+          (tab) => tab.id === "taxonomies"
         );
         const tabs = this.tabs.slice();
         tabs.splice(taxonomiesTabIndex, 1);
@@ -277,7 +279,7 @@ export default {
     },
     updateButtonText() {
       return this.auth.isGlobalAdmin ? "Update" : "Request update";
-    }
+    },
   },
   methods: {
     async fetchService() {
@@ -293,6 +295,7 @@ export default {
         slug: this.service.slug,
         type: this.service.type,
         status: this.service.status,
+        score: this.service.score || "",
         intro: this.service.intro,
         description: this.service.description,
         wait_time: this.service.wait_time,
@@ -305,25 +308,28 @@ export default {
         contact_name: this.service.contact_name || "",
         contact_phone: this.service.contact_phone || "",
         contact_email: this.service.contact_email || "",
+        cqc_location_id: this.service.cqc_location_id || "",
         show_referral_disclaimer: this.service.show_referral_disclaimer,
         referral_method: this.service.referral_method,
         referral_button_text: this.service.referral_button_text || "",
         referral_email: this.service.referral_email || "",
         referral_url: this.service.referral_url || "",
+        ends_at: (this.service.ends_at || "").substring(0, 10),
         useful_infos: this.service.useful_infos,
         offerings: this.service.offerings,
-        gallery_items: this.service.gallery_items.map(galleryItem => ({
+        gallery_items: this.service.gallery_items.map((galleryItem) => ({
           file_id: galleryItem.file_id,
-          image: null
+          image: null,
         })),
+        tags: this.service.tags,
         category_taxonomies: this.service.category_taxonomies.map(
-          taxonomy => taxonomy.id
+          (taxonomy) => taxonomy.id
         ),
         eligibility_types: JSON.parse(
           JSON.stringify(this.service.eligibility_types)
         ),
         logo_file_id: null,
-        logo: null
+        logo: null,
       });
 
       this.loading = false;
@@ -334,6 +340,11 @@ export default {
         (config, data) => {
           // Append preview mode if enabled.
           data.preview = preview;
+
+          // Append time to end date (set to morning).
+          if (data.ends_at !== "") {
+            data.ends_at = `${data.ends_at}T00:00:00+0000`;
+          }
 
           // Remove any unchanged values.
           if (data.organisation_id === this.service.organisation_id) {
@@ -350,6 +361,9 @@ export default {
           }
           if (data.status === this.service.status) {
             delete data.status;
+          }
+          if (data.score === this.service.score) {
+            delete data.score;
           }
           if (data.intro === this.service.intro) {
             delete data.intro;
@@ -388,6 +402,12 @@ export default {
             delete data.contact_email;
           }
           if (
+            !this.appCqcLocationActive ||
+            data.cqc_location_id === (this.service.cqc_location_id || "")
+          ) {
+            delete data.cqc_location_id;
+          }
+          if (
             data.show_referral_disclaimer ===
             this.service.show_referral_disclaimer
           ) {
@@ -408,6 +428,9 @@ export default {
           if (data.referral_url === (this.service.referral_url || "")) {
             delete data.referral_url;
           }
+          if (data.ends_at === (this.service.ends_at || "")) {
+            delete data.ends_at;
+          }
           if (
             JSON.stringify(data.useful_infos) ===
             JSON.stringify(this.service.useful_infos)
@@ -423,7 +446,7 @@ export default {
           if (
             JSON.stringify(data.category_taxonomies) ===
             JSON.stringify(
-              this.service.category_taxonomies.map(taxonomy => taxonomy.id)
+              this.service.category_taxonomies.map((taxonomy) => taxonomy.id)
             )
           ) {
             delete data.category_taxonomies;
@@ -433,6 +456,12 @@ export default {
             JSON.stringify(this.service.eligibility_types)
           ) {
             delete data.eligibility_types;
+          }
+          if (
+            !this.appServiceTagsActive ||
+            JSON.stringify(data.tags) === JSON.stringify(this.service.tags)
+          ) {
+            delete data.tags;
           }
 
           // Remove the logo from the request if null, or delete if false.
@@ -445,13 +474,13 @@ export default {
           // Remove the gallery items from the request if null, or delete if false.
           if (
             JSON.stringify(
-              data.gallery_items.map(galleryItem => ({
-                file_id: galleryItem.file_id
+              data.gallery_items.map((galleryItem) => ({
+                file_id: galleryItem.file_id,
               }))
             ) ===
             JSON.stringify(
-              this.service.gallery_items.map(galleryItem => ({
-                file_id: galleryItem.file_id
+              this.service.gallery_items.map((galleryItem) => ({
+                file_id: galleryItem.file_id,
               }))
             )
           ) {
@@ -469,7 +498,7 @@ export default {
       const updateRequestId = response.id;
       let next = {
         name: "services-updated",
-        params: { service: this.service.id }
+        params: { service: this.service.id },
       };
 
       if (this.auth.isGlobalAdmin) {
@@ -491,30 +520,30 @@ export default {
       this.updateRequest = await this.onSubmit(true);
     },
     onTabChange({ index }) {
-      this.tabs.forEach(tab => (tab.active = false));
+      this.tabs.forEach((tab) => (tab.active = false));
       const tabId = this.allowedTabs[index].id;
-      this.tabs.find(tab => tab.id === tabId).active = true;
+      this.tabs.find((tab) => tab.id === tabId).active = true;
     },
     onNext() {
       const currentTabIndex = this.allowedTabs.findIndex(
-        tab => tab.active === true
+        (tab) => tab.active === true
       );
-      this.tabs.forEach(tab => (tab.active = false));
+      this.tabs.forEach((tab) => (tab.active = false));
       const newTabId = this.allowedTabs[currentTabIndex + 1].id;
-      this.tabs.find(tab => tab.id === newTabId).active = true;
+      this.tabs.find((tab) => tab.id === newTabId).active = true;
       this.scrollToTop();
     },
     scrollToTop() {
       document.getElementById("main-content").scrollIntoView();
     },
     isTabActive(id) {
-      const tab = this.allowedTabs.find(tab => tab.id === id);
+      const tab = this.allowedTabs.find((tab) => tab.id === id);
 
       return tab === undefined ? false : tab.active;
-    }
+    },
   },
   created() {
     this.fetchService();
-  }
+  },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Logout" />
+    <vue-headful :title="`${appName} - Logout`" />
 
     <gov-main-wrapper>
       <gov-grid-row>
@@ -24,7 +24,7 @@ import Auth from "@/classes/Auth";
 export default {
   data() {
     return {
-      loginUri: Auth.authorizeUrl
+      loginUri: Auth.authorizeUrl,
     };
   },
   created() {
@@ -32,6 +32,6 @@ export default {
     Auth.logout();
 
     this.$root.$emit("logout");
-  }
+  },
 };
 </script>

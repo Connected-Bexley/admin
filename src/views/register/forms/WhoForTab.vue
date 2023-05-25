@@ -17,15 +17,13 @@
           @input="
             $emit('input', {
               field: 'criteria',
-              value: Object.assign(service.criteria, { age_group: $event })
+              value: Object.assign(service.criteria, { age_group: $event }),
             })
           "
           :error="errors.get('service.criteria.age_group')"
           id="criteria.age_group"
           label="Age of service user (if applicable)"
-          :hint="
-            `E.g “This ${service.type} is for people 16+” or “This ${service.type} is aimed at people nearing retirement”`
-          "
+          :hint="`E.g “This ${service.type} is for people 16+” or “This ${service.type} is aimed at people nearing retirement”`"
         />
         <!-- /Age group -->
 
@@ -35,15 +33,13 @@
           @input="
             $emit('input', {
               field: 'criteria',
-              value: Object.assign(service.criteria, { disability: $event })
+              value: Object.assign(service.criteria, { disability: $event }),
             })
           "
           :error="errors.get('service.criteria.disability')"
           id="criteria.disability"
           label="Disability Requirements / Restrictions (if applicable)"
-          :hint="
-            `e.g. &quot;This ${service.type} is for those with MS and their carers&quot;, or &quot;For all people with disabilities and their carers&quot;`
-          "
+          :hint="`e.g. &quot;This ${service.type} is for those with MS and their carers&quot;, or &quot;For all people with disabilities and their carers&quot;`"
         />
         <!-- /Disability -->
 
@@ -53,7 +49,7 @@
           @input="
             $emit('input', {
               field: 'criteria',
-              value: Object.assign(service.criteria, { gender: $event })
+              value: Object.assign(service.criteria, { gender: $event }),
             })
           "
           :error="errors.get('service.criteria.gender')"
@@ -69,7 +65,7 @@
           @input="
             $emit('input', {
               field: 'criteria',
-              value: Object.assign(service.criteria, { housing: $event })
+              value: Object.assign(service.criteria, { housing: $event }),
             })
           "
           :error="errors.get('service.criteria.housing')"
@@ -85,15 +81,13 @@
           @input="
             $emit('input', {
               field: 'criteria',
-              value: Object.assign(service.criteria, { income: $event })
+              value: Object.assign(service.criteria, { income: $event }),
             })
           "
           :error="errors.get('service.criteria.income')"
           id="criteria.income"
           label="Income level (if applicable)"
-          :hint="
-            `e.g. &quot;This ${service.type} is aimed at people claiming benefits or with Income support&quot;`
-          "
+          :hint="`e.g. &quot;This ${service.type} is aimed at people claiming benefits or with Income support&quot;`"
         />
         <!-- /Income -->
 
@@ -103,15 +97,13 @@
           @input="
             $emit('input', {
               field: 'criteria',
-              value: Object.assign(service.criteria, { language: $event })
+              value: Object.assign(service.criteria, { language: $event }),
             })
           "
           :error="errors.get('service.criteria.language')"
           id="criteria.language"
           label="Language accessability (if applicable)"
-          :hint="
-            `E.g. “Instructors speak English, but open to all”, or “This ${service.type} is available in a number of languages - please contact for more information”`
-          "
+          :hint="`E.g. “Instructors speak English, but open to all”, or “This ${service.type} is available in a number of languages - please contact for more information”`"
         />
         <!-- /Language -->
 
@@ -121,17 +113,13 @@
           @input="
             $emit('input', {
               field: 'criteria',
-              value: Object.assign(service.criteria, { other: $event })
+              value: Object.assign(service.criteria, { other: $event }),
             })
           "
           :error="errors.get('service.criteria.other')"
           id="criteria.other"
-          :label="
-            `Any other notes as to who the ${service.type} is aimed at/not appropriate for?`
-          "
-          :hint="
-            `E.g. “This ${service.type} is open to all”, or “This ${service.type} is aimed at people living in Chessington”`
-          "
+          :label="`Any other notes as to who the ${service.type} is aimed at/not appropriate for?`"
+          :hint="`E.g. “This ${service.type} is open to all”, or “This ${service.type} is aimed at people living in Chessington”`"
         />
         <!-- /Other -->
 
@@ -146,19 +134,19 @@ import CriteriaInput from "@/views/services/inputs/CriteriaInput";
 
 export default {
   components: {
-    CriteriaInput
+    CriteriaInput,
   },
 
   props: {
     service: {
       type: Object,
-      required: true
+      required: true,
     },
 
     errors: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>

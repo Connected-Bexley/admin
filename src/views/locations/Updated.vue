@@ -3,9 +3,7 @@
     <ck-loader v-if="loading" />
     <template v-else>
       <vue-headful
-        :title="
-          `Hounslow Connect - Location Updated: ${location.address_line_1}`
-        "
+        :title="`${appName} - Location Updated: ${location.address_line_1}`"
       />
 
       <gov-back-link
@@ -25,7 +23,7 @@
             <gov-button
               :to="{
                 name: 'locations-show',
-                params: { location: this.$route.params.location }
+                params: { location: this.$route.params.location },
               }"
               >Back to location</gov-button
             >
@@ -44,7 +42,7 @@ export default {
   data() {
     return {
       loading: false,
-      location: null
+      location: null,
     };
   },
   methods: {
@@ -55,10 +53,10 @@ export default {
       );
       this.location = response.data.data;
       this.loading = false;
-    }
+    },
   },
   created() {
     this.fetchLocation();
-  }
+  },
 };
 </script>

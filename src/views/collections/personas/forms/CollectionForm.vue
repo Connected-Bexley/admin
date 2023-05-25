@@ -47,12 +47,20 @@
       "
     />
 
+    <collection-homepage-input
+      :value="homepage"
+      @input="onInput('homepage', $event)"
+      id="homepage"
+      label="Show the Persona on the homepage"
+      :error="errors.get('homepage')"
+    />
+
     <collection-enabled-input
       :value="enabled"
       @input="onInput('enabled', $event)"
       id="status"
       type="category"
-      label="Status of Category"
+      label="Status of Persona"
       :error="errors.get('enabled')"
     />
 
@@ -87,51 +95,57 @@ import CkImageInput from "@/components/Ck/CkImageInput";
 import CkTaxonomyInput from "@/components/Ck/CkTaxonomyInput";
 import CkSideboxesInput from "@/views/collections/inputs/SideboxesInput";
 import CollectionEnabledInput from "@/views/collections/inputs/CollectionEnabledInput";
+import CollectionHomepageInput from "@/views/collections/inputs/CollectionHomepageInput";
 
 export default {
   name: "CollectionForm",
+
   components: {
     CollectionEnabledInput,
+    CollectionHomepageInput,
     CkImageInput,
     CkTaxonomyInput,
-    CkSideboxesInput
+    CkSideboxesInput,
   },
   props: {
     errors: {
       required: true,
-      type: Object
+      type: Object,
     },
     name: {
-      required: true
+      required: true,
     },
     intro: {
-      required: true
+      required: true,
     },
     subtitle: {
-      required: true
+      required: true,
     },
     order: {
-      required: true
+      required: true,
     },
     enabled: {
-      required: true
+      required: true,
+    },
+    homepage: {
+      required: true,
     },
     sideboxes: {
-      required: true
+      required: true,
     },
     category_taxonomies: {
-      required: true
+      required: true,
     },
     id: {
       required: false,
-      type: String
-    }
+      type: String,
+    },
   },
   methods: {
     onInput(field, value) {
       this.$emit(`update:${field}`, value);
       this.$emit("clear", field);
-    }
-  }
+    },
+  },
 };
 </script>

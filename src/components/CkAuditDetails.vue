@@ -57,8 +57,8 @@ export default {
   props: {
     audit: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     autoDeleteDate(updated_at) {
@@ -66,8 +66,8 @@ export default {
         .clone()
         .add(24, "months")
         .format("Y-MM-DD[T]HH:mm:ssZ");
-    }
-  }
+    },
+  },
 };
 </script>
 

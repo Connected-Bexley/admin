@@ -1,12 +1,8 @@
 <template>
   <div>
-    <gov-heading size="l">
-      Create an account
-    </gov-heading>
+    <gov-heading size="l"> Create an account </gov-heading>
 
-    <gov-body>
-      Please enter your details below to create an account.
-    </gov-body>
+    <gov-body> Please enter your details below to create an account. </gov-body>
 
     <gov-hint>
       By signing up you agree to our
@@ -66,23 +62,23 @@ export default {
   props: {
     form: {
       type: Object,
-      required: true
+      required: true,
     },
 
     errors: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   computed: {
     termsAndConditionsUrl() {
-      return `${process.env.VUE_APP_FRONTEND_URI}/terms-and-conditions`;
+      return `${this.appFrontendUri}/terms-and-conditions`;
     },
     privacyPolicyUrl() {
-      return `${process.env.VUE_APP_FRONTEND_URI}/privacy-policy`;
-    }
-  }
+      return `${this.appFrontendUri}/privacy-policy`;
+    },
+  },
 };
 </script>
 

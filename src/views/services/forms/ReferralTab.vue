@@ -53,7 +53,7 @@
               for="referral_button_text"
               v-if="referral_method === 'internal'"
             >
-              By enabling referrals through Hounslow Connect, a button will be
+              By enabling referrals through {{ appName }}, a button will be
               added to your page which will link to the referral form.
             </gov-hint>
             <gov-hint
@@ -107,7 +107,7 @@
           label="Show referral disclaimer?"
           :options="[
             { value: true, label: 'Display' },
-            { value: false, label: 'Don\'t display' }
+            { value: false, label: 'Don\'t display' },
           ]"
           :error="errors.get('show_referral_disclaimer')"
           :disabled="!isSuperAdmin"
@@ -124,50 +124,50 @@ export default {
   name: "ReferralTab",
   props: {
     errors: {
-      required: true
+      required: true,
     },
     isGlobalAdmin: {
       required: true,
-      type: Boolean
+      type: Boolean,
     },
     isSuperAdmin: {
       required: true,
-      type: Boolean
+      type: Boolean,
     },
     originalData: {
       required: false,
-      type: Object
+      type: Object,
     },
     type: {
       required: true,
-      type: String
+      type: String,
     },
     show_referral_disclaimer: {
-      required: true
+      required: true,
     },
     referral_method: {
-      required: true
+      required: true,
     },
     referral_button_text: {
-      required: true
+      required: true,
     },
     referral_email: {
-      required: true
+      required: true,
     },
     referral_url: {
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     referralMethodOptions() {
       return [
         { text: "Please select", value: null, disabled: true },
-        { text: "Yes - Through Hounslow Connect", value: "internal" },
+        { text: `Yes - Through ${this.appName}`, value: "internal" },
         { text: "Yes - Through an external form", value: "external" },
         {
           text: `No - This ${this.type} doesn’t accept referrals`,
-          value: "none"
-        }
+          value: "none",
+        },
       ];
     },
     referralIsInternalOrExternal() {
@@ -178,12 +178,14 @@ export default {
       const subject = `Turn referrals on for my ${this.type}`;
       const body = `${this.$options.filters.ucfirst(
         this.type
-      )} Name: XXX\n\nWe are interested in finding out more about accepting referrals through Hounslow Connect.`;
+      )} Name: XXX\n\nWe are interested in finding out more about accepting referrals through ${
+        this.appName
+      }.`;
 
       return `mailto:${to}?subject=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(body)}`;
-    }
+    },
   },
   watch: {
     referral_method(newReferralMethod, oldReferralMethod) {
@@ -233,7 +235,7 @@ export default {
 
         this.$emit("clear", "show_referral_disclaimer");
       }
-    }
-  }
+    },
+  },
 };
 </script>

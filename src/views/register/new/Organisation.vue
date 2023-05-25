@@ -1,15 +1,9 @@
 <template>
   <div>
-    <gov-heading size="l">
-      Registration - step 5 of 5
-    </gov-heading>
-    <gov-back-link :to="{ name: 'register-new-step4' }">
-      Back
-    </gov-back-link>
+    <gov-heading size="l"> Registration - step 5 of 5 </gov-heading>
+    <gov-back-link :to="{ name: 'register-new-step4' }"> Back </gov-back-link>
 
-    <gov-heading size="l">
-      Register new Organisation
-    </gov-heading>
+    <gov-heading size="l"> Register new Organisation </gov-heading>
 
     <gov-body>
       If you are a smaller group or activity that isn't directly run by an
@@ -73,24 +67,24 @@
 export default {
   model: {
     prop: "form",
-    event: "update"
+    event: "update",
   },
   props: {
     form: {
       type: Object,
-      required: true
+      required: true,
     },
     errors: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     fieldsEmpty() {
       return Object.entries(this.form.organisation).some(([field, value]) => {
         return !["id", "slug"].includes(field) && value == "";
       });
-    }
-  }
+    },
+  },
 };
 </script>

@@ -15,33 +15,33 @@ export default {
   props: {
     width: {
       type: Number,
-      required: true
+      required: true,
     },
     height: {
       type: Number,
-      required: true
+      required: true,
     },
     src: {
       type: String,
-      required: true
+      required: true,
     },
     title: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       computedWidth: 0,
-      computedHeight: 0
+      computedHeight: 0,
     };
   },
 
   computed: {
     aspectRatio() {
       return this.height / this.width;
-    }
+    },
   },
   methods: {
     computeWidth() {
@@ -56,12 +56,12 @@ export default {
       const bottomPad = parseInt(style.paddingBottom) || 0;
       this.computedHeight =
         this.computedWidth * this.aspectRatio - topPad - bottomPad;
-    }
+    },
   },
   mounted() {
     this.computeWidth();
     this.computeHeight();
-  }
+  },
 };
 </script>
 

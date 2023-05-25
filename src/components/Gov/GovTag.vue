@@ -6,6 +6,17 @@
 
 <script>
 export default {
-  name: "GovTag"
+  name: "GovTag",
 };
 </script>
+
+<style lang="scss" scoped>
+@import "@/scss/app.scss";
+
+.govuk-tag {
+  &--grey {
+    color: $govuk-text-colour;
+    background-color: $govuk-canvas-background-colour;
+  }
+}
+</style>

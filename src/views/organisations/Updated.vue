@@ -3,13 +3,13 @@
     <ck-loader v-if="loading" />
     <template v-else>
       <vue-headful
-        :title="`Hounslow Connect - Organisation Updated: ${organisation.name}`"
+        :title="`${appName} - Organisation Updated: ${organisation.name}`"
       />
 
       <gov-back-link
         :to="{
           name: 'organisations-show',
-          params: { organisation: organisation.id }
+          params: { organisation: organisation.id },
         }"
         >Back to organisation</gov-back-link
       >
@@ -26,7 +26,7 @@
             <gov-button
               :to="{
                 name: 'organisations-show',
-                params: { organisation: this.$route.params.organisation }
+                params: { organisation: this.$route.params.organisation },
               }"
               >Back to organisation</gov-button
             >
@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       loading: false,
-      organisation: null
+      organisation: null,
     };
   },
   methods: {
@@ -56,10 +56,10 @@ export default {
       );
       this.organisation = response.data.data;
       this.loading = false;
-    }
+    },
   },
   created() {
     this.fetchOrganisation();
-  }
+  },
 };
 </script>

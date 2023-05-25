@@ -19,17 +19,17 @@ export default {
   props: {
     errors: {
       required: true,
-      type: Object
+      type: Object,
     },
 
     spreadsheet: {
-      required: true
+      required: true,
     },
 
     feedback: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
 
   watch: {
@@ -37,14 +37,14 @@ export default {
       if (wasThen && !isNow) {
         this.$refs.fileInput.$refs.file.$el.value = "";
       }
-    }
+    },
   },
 
   methods: {
     onInput(field, value) {
       this.$emit(`update:${field}`, value);
       this.$emit("clear", field);
-    }
-  }
+    },
+  },
 };
 </script>

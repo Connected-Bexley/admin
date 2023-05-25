@@ -18,7 +18,7 @@
           "
           id="type"
           label="What is it?"
-          hint="This option changes how your page is described on Hounslow Connect"
+          :hint="`This option changes how your page is described on ${appName}`"
           :options="typeOptions"
           :error="errors.get('type')"
         />
@@ -75,11 +75,23 @@
           "
           id="url"
           :label="`What is the web address of your ${type}?`"
-          :hint="
-            `This must start with ‘http://’ or ‘https://’. You can use your organisation’s website address if the ${type} doesn’t have its own.`
-          "
+          :hint="`This must start with ‘http://’ or ‘https://’. You can use your organisation’s website address if the ${type} doesn’t have its own.`"
           type="url"
           :error="errors.get('url')"
+        />
+
+        <ck-select-input
+          :value="score"
+          @input="
+            $emit('update:score', $event);
+            $emit('clear', 'score');
+          "
+          id="score"
+          label="Quality Score"
+          :hint="`Rate the overall effectiveness and quality of the ${type} between 1 (poor) and 5 (excellent). This is not displayed but affects positioning within search results.`"
+          :options="scoreOptions"
+          :error="errors.get('score')"
+          v-if="auth.isSuperAdmin"
         />
 
         <ck-image-input
@@ -116,14 +128,24 @@
           "
           id="status"
           :label="`Is the ${type} enabled`"
-          :hint="
-            `Indicates if the ${type} is enabled or disabled (disabled ${$options.filters.plural(
-              type
-            )} will not be shown in search results)`
-          "
+          :hint="`Indicates if the ${type} is enabled or disabled (disabled ${$options.filters.plural(
+            type
+          )} will not be shown in search results)`"
           :options="statusOptions"
           :error="errors.get('status')"
           v-if="auth.isGlobalAdmin"
+        />
+
+        <ck-date-input
+          id="ends_at"
+          :value="ends_at"
+          @input="
+            $emit('update:ends_at', $event);
+            $emit('clear', 'ends_at');
+          "
+          :error="errors.get('ends_at')"
+          label="End date"
+          :hint="`The date which this ${type} should be made inactive`"
         />
 
         <gov-heading size="m">Gallery items</gov-heading>
@@ -139,6 +161,21 @@
           :errors="errors"
         />
 
+        <template v-if="appServiceTagsActive">
+          <gov-heading size="m">Tags</gov-heading>
+
+          <gov-body v-if="auth.isGlobalAdmin">
+            Select tags to help users find the {{ type }}.
+          </gov-body>
+
+          <tag-input
+            :service-tags="tags"
+            @input="$emit('update:tags', $event)"
+            @clear="$emit('clear', $event)"
+            :errors="errors"
+          />
+        </template>
+
         <slot />
       </gov-grid-column>
     </gov-grid-row>
@@ -147,45 +184,61 @@
 
 <script>
 import CkImageInput from "@/components/Ck/CkImageInput";
+import CkDateInput from "@/components/Ck/CkDateInput";
 import CkGalleryItemsInput from "@/views/services/inputs/GalleryItemsInput";
+import TagInput from "@/views/services/inputs/TagInput";
 
 export default {
   name: "DetailsTab",
-  components: { CkImageInput, CkGalleryItemsInput },
+  components: {
+    CkImageInput,
+    CkGalleryItemsInput,
+    CkDateInput,
+    TagInput,
+  },
   props: {
     errors: {
-      required: true
+      required: true,
     },
     isNew: {
       required: false,
       type: Boolean,
-      default: false
+      default: false,
     },
     name: {
-      required: true
+      required: true,
     },
     slug: {
-      required: true
+      required: true,
     },
     type: {
-      required: true
+      required: true,
     },
     organisation_id: {
-      required: false
+      required: false,
     },
     url: {
-      required: true
+      required: true,
     },
     status: {
-      required: true
+      required: true,
+    },
+    score: {
+      required: true,
+    },
+    ends_at: {
+      required: true,
     },
     gallery_items: {
-      required: true
+      required: true,
+    },
+    tags: {
+      required: true,
     },
     id: {
       required: false,
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
@@ -195,12 +248,20 @@ export default {
         { text: "It is a Service", value: "service" },
         { text: "It is an Activity", value: "activity" },
         { text: "It is a Club", value: "club" },
-        { text: "It is a Group", value: "group" }
+        { text: "It is a Group", value: "group" },
       ],
       statusOptions: [
         { label: "Enabled", value: "active" },
-        { label: "Disabled", value: "inactive" }
-      ]
+        { label: "Disabled", value: "inactive" },
+      ],
+      scoreOptions: [
+        { text: "Unrated", value: "" },
+        { text: "Poor", value: 1 },
+        { text: "Below Average", value: 2 },
+        { text: "Average", value: 3 },
+        { text: "Above Average", value: 4 },
+        { text: "Excellent", value: 5 },
+      ],
     };
   },
   computed: {
@@ -209,15 +270,15 @@ export default {
       const subject = "Help uploading service logo";
 
       return `mailto:${to}?subject=${encodeURIComponent(subject)}`;
-    }
+    },
   },
   methods: {
     async fetchOrganisations() {
       this.loading = true;
       let fetchedOrganisations = await this.fetchAll("/organisations", {
-        "filter[has_permission]": true
+        "filter[has_permission]": true,
       });
-      fetchedOrganisations = fetchedOrganisations.map(organisation => {
+      fetchedOrganisations = fetchedOrganisations.map((organisation) => {
         return { text: organisation.name, value: organisation.id };
       });
       this.organisations = [...this.organisations, ...fetchedOrganisations];
@@ -231,10 +292,10 @@ export default {
         this.$emit("update:slug", this.slugify(name));
         this.$emit("clear", "slug");
       }
-    }
+    },
   },
   created() {
     this.fetchOrganisations();
-  }
+  },
 };
 </script>

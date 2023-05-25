@@ -8,9 +8,7 @@
         v-text="original.name"
       />.
     </gov-body>
-    <gov-body v-else>
-      For a new service.
-    </gov-body>
+    <gov-body v-else> For a new service. </gov-body>
 
     <gov-table>
       <template slot="body">
@@ -63,7 +61,7 @@
               v-if="original.hasOwnProperty('organisation_id')"
               :to="{
                 name: 'organisations-show',
-                params: { organisation: original.organisation_id }
+                params: { organisation: original.organisation_id },
               }"
             >
               {{ original.organisation.name }}
@@ -73,7 +71,7 @@
             <gov-link
               :to="{
                 name: 'organisations-show',
-                params: { organisation: service.organisation_id }
+                params: { organisation: service.organisation_id },
               }"
             >
               {{ service.organisation.name || "" }}
@@ -97,6 +95,20 @@
           <gov-table-cell>{{ service.status | status }}</gov-table-cell>
         </gov-table-row>
 
+        <gov-table-row v-if="service.hasOwnProperty('score')">
+          <gov-table-header top scope="row">Quality Score</gov-table-header>
+          <gov-table-cell v-if="original">{{
+            original.score | score
+          }}</gov-table-cell>
+          <gov-table-cell>{{ service.score | score }}</gov-table-cell>
+        </gov-table-row>
+
+        <gov-table-row v-if="service.hasOwnProperty('ends_at')">
+          <gov-table-header top scope="row">End date</gov-table-header>
+          <gov-table-cell>{{ original.ends_at | endsAt }}</gov-table-cell>
+          <gov-table-cell>{{ service.ends_at | endsAt }}</gov-table-cell>
+        </gov-table-row>
+
         <gov-table-row v-if="service.hasOwnProperty('is_free')">
           <gov-table-header top scope="row">Is free</gov-table-header>
           <gov-table-cell v-if="original">{{
@@ -113,7 +125,7 @@
               :key="rootTaxonomy.id"
               v-if="
                 eligibilityTaxonomyChanged(rootTaxonomy) ||
-                  eligibilityCustomChanged(rootTaxonomy)
+                eligibilityCustomChanged(rootTaxonomy)
               "
             >
               <span class="govuk-!-font-weight-bold">{{
@@ -141,7 +153,7 @@
               :key="rootTaxonomy.id"
               v-if="
                 eligibilityTaxonomyChanged(rootTaxonomy) ||
-                  eligibilityCustomChanged(rootTaxonomy)
+                eligibilityCustomChanged(rootTaxonomy)
               "
             >
               <span class="govuk-!-font-weight-bold">{{
@@ -236,7 +248,7 @@
             <gov-list
               v-if="
                 original.hasOwnProperty('useful_infos') &&
-                  Array.isArray(original.useful_infos)
+                Array.isArray(original.useful_infos)
               "
             >
               <li
@@ -279,7 +291,7 @@
             <gov-list
               v-if="
                 original.hasOwnProperty('offerings') &&
-                  Array.isArray(original.offerings)
+                Array.isArray(original.offerings)
               "
               bullet
             >
@@ -321,13 +333,21 @@
           <gov-table-cell>{{ service.contact_phone }}</gov-table-cell>
         </gov-table-row>
 
+        <gov-table-row v-if="service.hasOwnProperty('cqc_location_id')">
+          <gov-table-header top scope="row">CQC Location ID</gov-table-header>
+          <gov-table-cell v-if="original">{{
+            original.cqc_location_id | originalExists
+          }}</gov-table-cell>
+          <gov-table-cell>{{ service.cqc_location_id }}</gov-table-cell>
+        </gov-table-row>
+
         <gov-table-row v-if="service.hasOwnProperty('social_medias')">
           <gov-table-header top scope="row">Social medias</gov-table-header>
           <gov-table-cell break v-if="original">
             <gov-list
               v-if="
                 original.hasOwnProperty('social_medias') &&
-                  Array.isArray(original.social_medias)
+                Array.isArray(original.social_medias)
               "
             >
               <li
@@ -376,6 +396,37 @@
           }}</gov-table-cell>
         </gov-table-row>
 
+        <gov-table-row v-if="service.hasOwnProperty('tags')">
+          <gov-table-header top scope="row">Tags</gov-table-header>
+          <gov-table-cell v-if="original">
+            <gov-list
+              v-if="
+                original.hasOwnProperty('tags') && Array.isArray(original.tags)
+              "
+              bullet
+            >
+              <li
+                v-for="(tag, index) in original.tags"
+                :key="`ServiceTag::Original::${index}`"
+              >
+                {{ tag.label }}
+              </li>
+            </gov-list>
+            <template v-else>None</template>
+          </gov-table-cell>
+          <gov-table-cell>
+            <gov-list v-if="Array.isArray(service.tags)" bullet>
+              <li
+                v-for="(tag, index) in service.tags"
+                :key="`ServiceTag::New::${index}`"
+              >
+                {{ tag.label }}
+              </li>
+            </gov-list>
+            <template v-else>None</template>
+          </gov-table-cell>
+        </gov-table-row>
+
         <gov-table-row v-if="service.hasOwnProperty('category_taxonomies')">
           <gov-table-header top scope="row"
             >Category taxonomies</gov-table-header
@@ -385,7 +436,7 @@
               bullet
               v-if="
                 original.hasOwnProperty('category_taxonomies') &&
-                  Array.isArray(original.category_taxonomies)
+                Array.isArray(original.category_taxonomies)
               "
             >
               <li
@@ -448,9 +499,9 @@
               v-if="service.id"
               :src="
                 logoDataUri ||
-                  apiUrl(
-                    `/services/${service.id}/logo.png?update_request_id=${updateRequestId}`
-                  )
+                apiUrl(
+                  `/services/${service.id}/logo.png?update_request_id=${updateRequestId}`
+                )
               "
               alt="Service logo"
               class="ck-logo"
@@ -459,9 +510,9 @@
               v-else
               :src="
                 logoDataUri ||
-                  apiUrl(
-                    `/services/new/logo.png?update_request_id=${updateRequestId}`
-                  )
+                apiUrl(
+                  `/services/new/logo.png?update_request_id=${updateRequestId}`
+                )
               "
               alt="Service logo"
               class="ck-logo"
@@ -471,11 +522,11 @@
 
         <gov-table-row v-if="service.hasOwnProperty('gallery_items')">
           <gov-table-header top scope="row">Gallery items</gov-table-header>
-          <gov-table-cell style="width: 25%;" v-if="original">
+          <gov-table-cell style="width: 25%" v-if="original">
             <ck-carousel
               v-if="
                 original.hasOwnProperty('gallery_items') &&
-                  Array.isArray(original.gallery_items)
+                Array.isArray(original.gallery_items)
               "
               :image-urls="imageUrls(original)"
             />
@@ -496,6 +547,7 @@
 
 <script>
 import http from "@/http";
+import moment from "moment";
 import CkCarousel from "@/components/Ck/CkCarousel";
 import CkTaxonomyTree from "@/components/Ck/CkTaxonomyTree";
 
@@ -505,28 +557,28 @@ export default {
   props: {
     updateRequestId: {
       required: true,
-      type: String
+      type: String,
     },
 
     requestedAt: {
       required: true,
-      type: String
+      type: String,
     },
 
     service: {
       required: true,
-      type: Object
+      type: Object,
     },
 
     logoDataUri: {
       required: false,
-      type: String
+      type: String,
     },
 
     galleryItemsDataUris: {
       required: false,
-      type: Array
-    }
+      type: Array,
+    },
   },
 
   components: { CkCarousel, CkTaxonomyTree },
@@ -538,7 +590,7 @@ export default {
       taxonomies: [],
       flattenedTaxonomies: [],
       eligibilityTypes: [],
-      flattenedEligibilityTypes: []
+      flattenedEligibilityTypes: [],
     };
   },
 
@@ -547,7 +599,7 @@ export default {
       return this.galleryItemsDataUris && this.galleryItemsDataUris.length > 0
         ? this.galleryItemsDataUris
         : this.imageUrls(this.service);
-    }
+    },
   },
 
   methods: {
@@ -555,7 +607,7 @@ export default {
       let name = taxonomy.name;
 
       if (taxonomy.parent_id !== null) {
-        const parent = this.flattenedTaxonomies.find(flattenedTaxonomy => {
+        const parent = this.flattenedTaxonomies.find((flattenedTaxonomy) => {
           return flattenedTaxonomy.id === taxonomy.parent_id;
         });
         name = `${this.taxonomyName(parent)} / ${name}`;
@@ -580,9 +632,9 @@ export default {
       // If this is an update request for a NEW service, then there's no original to check for.
       if (this.service.id !== null) {
         const {
-          data: { data: original }
+          data: { data: original },
         } = await http.get(`/services/${this.service.id}`, {
-          params: { include: "organisation" }
+          params: { include: "organisation" },
         });
         this.original = original;
       } else {
@@ -592,14 +644,14 @@ export default {
 
     async fetchTaxonomies() {
       const {
-        data: { data: taxonomies }
+        data: { data: taxonomies },
       } = await http.get("/taxonomies/categories");
       this.taxonomies = taxonomies;
       this.flattenedTaxonomies = this.getFlattenedTaxonomies(taxonomies);
     },
 
     getFlattenedTaxonomies(taxonomies = null, flattenedTaxonomies = []) {
-      taxonomies.forEach(taxonomy => {
+      taxonomies.forEach((taxonomy) => {
         flattenedTaxonomies.push(taxonomy);
 
         if (taxonomy.children.length > 0) {
@@ -610,7 +662,7 @@ export default {
     },
 
     findTaxonomy(id) {
-      return this.flattenedTaxonomies.find(taxonomy => taxonomy.id === id);
+      return this.flattenedTaxonomies.find((taxonomy) => taxonomy.id === id);
     },
 
     async fetchServiceEligibilites() {
@@ -629,7 +681,7 @@ export default {
       let ids = [taxonomy.id];
       if (taxonomy.parent_id) {
         const parent = flatTaxonomyTree.find(
-          tax => tax.id === taxonomy.parent_id
+          (tax) => tax.id === taxonomy.parent_id
         );
         if (parent) {
           ids = ids.concat(
@@ -644,7 +696,7 @@ export default {
       return service.eligibility_types.taxonomies.reduce(
         (taxonomyIds, taxonomyId) => {
           const taxonomy = this.flattenedEligibilityTypes.find(
-            taxonomy => taxonomy.id === taxonomyId
+            (taxonomy) => taxonomy.id === taxonomyId
           );
           return taxonomyIds.concat(
             this.getTaxonomyAndAncestorsIds(
@@ -666,7 +718,7 @@ export default {
     },
 
     imageUrls(service) {
-      return service.gallery_items.map(galleryItem => {
+      return service.gallery_items.map((galleryItem) => {
         if (galleryItem.hasOwnProperty("url")) {
           return galleryItem.url;
         }
@@ -699,12 +751,24 @@ export default {
         typeof this.service.eligibility_types.custom[rootSlug] == "string" &&
         this.service.eligibility_types.custom[rootSlug] !== customEligibility
       );
-    }
+    },
   },
 
   filters: {
     status(status) {
       return status === "active" ? "Enabled" : "Disabled";
+    },
+
+    score(score) {
+      const qualityScores = {
+        0: "Unrated",
+        1: "Poor",
+        2: "Below Average",
+        3: "Average",
+        4: "Above Average",
+        5: "Excellent",
+      };
+      return qualityScores[score];
     },
 
     isFree(isFree) {
@@ -736,11 +800,18 @@ export default {
 
     showReferralDisclaimer(showReferralDisclaimer) {
       return showReferralDisclaimer ? "Show" : "Hide";
-    }
+    },
+
+    endsAt(date) {
+      if (date === null || date === "") {
+        return "";
+      }
+      return moment(date).format("D/M/YYYY");
+    },
   },
 
   created() {
     this.fetchAll();
-  }
+  },
 };
 </script>

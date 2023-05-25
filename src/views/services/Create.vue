@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Add Service" />
+    <vue-headful :title="`${appName} - Add Service`" />
 
     <gov-back-link :to="{ name: 'services-index' }"
       >Back to services</gov-back-link
@@ -29,7 +29,7 @@
               <li>You can return to edit this {{ form.type }} at any time.</li>
               <li>
                 If you would like your service to accept referrals through
-                Hounslow Connect, please contact the team at
+                {{ appName }}, please contact the team at
                 <gov-link :href="`mailto:${contactEmail}`">
                   {{ contactEmail }}
                 </gov-link>
@@ -79,7 +79,10 @@
                 :url.sync="form.url"
                 @update:logo_file_id="form.logo_file_id = $event"
                 :status.sync="form.status"
+                :score.sync="form.score"
+                :ends_at.sync="form.ends_at"
                 :gallery_items.sync="form.gallery_items"
+                :tags.sync="form.tags"
               >
                 <gov-button @click="onNext" start>Next</gov-button>
               </details-tab>
@@ -101,6 +104,7 @@
                 :contact_name.sync="form.contact_name"
                 :contact_phone.sync="form.contact_phone"
                 :contact_email.sync="form.contact_email"
+                :cqc_location_id.sync="form.cqc_location_id"
               >
                 <gov-button @click="onNext" start>Next</gov-button>
               </additional-info-tab>
@@ -211,7 +215,7 @@ export default {
     UsefulInfoTab,
     EligibilityTab,
     ReferralTab,
-    TaxonomiesTab
+    TaxonomiesTab,
   },
   data() {
     return {
@@ -222,6 +226,7 @@ export default {
         slug: "",
         type: "service",
         status: "inactive",
+        score: "",
         intro: "",
         description: "",
         wait_time: null,
@@ -234,11 +239,13 @@ export default {
         contact_name: "",
         contact_phone: "",
         contact_email: "",
+        cqc_location_id: "",
         show_referral_disclaimer: false,
         referral_method: "none",
         referral_button_text: "",
         referral_email: "",
         referral_url: "",
+        ends_at: "",
         criteria: {
           age_group: "",
           disability: "",
@@ -247,23 +254,24 @@ export default {
           housing: "",
           income: "",
           language: "",
-          other: ""
+          other: "",
         },
         useful_infos: [
           {
             title: "",
             description: "",
-            order: 1
-          }
+            order: 1,
+          },
         ],
         offerings: [],
         gallery_items: [],
+        tags: [],
         category_taxonomies: [],
         eligibility_types: {
           taxonomies: [],
-          custom: {}
+          custom: {},
         },
-        logo_file_id: null
+        logo_file_id: null,
       }),
       errors: {},
       tabs: [
@@ -273,17 +281,17 @@ export default {
         { id: "eligibility", heading: "Eligibility", active: false },
         { id: "taxonomies", heading: "Taxonomies", active: false },
         { id: "description", heading: "Description", active: false },
-        { id: "referral", heading: "Referral", active: false }
+        { id: "referral", heading: "Referral", active: false },
       ],
       updateRequestCreated: false,
-      updateRequestMessage: null
+      updateRequestMessage: null,
     };
   },
   computed: {
     allowedTabs() {
       if (!this.auth.isGlobalAdmin) {
         const taxonomiesTabIndex = this.tabs.findIndex(
-          tab => tab.id === "taxonomies"
+          (tab) => tab.id === "taxonomies"
         );
         const tabs = this.tabs.slice();
         tabs.splice(taxonomiesTabIndex, 1);
@@ -292,11 +300,16 @@ export default {
       }
 
       return this.tabs;
-    }
+    },
   },
   methods: {
     async onSubmit() {
       const data = await this.form.post("/services", (config, data) => {
+        // Append time to end date (set to morning).
+        if (data.ends_at !== "") {
+          data.ends_at = `${data.ends_at}T00:00:00+0000`;
+        }
+
         // Remove useful info if only item and empty.
         if (
           data.useful_infos.length === 1 &&
@@ -304,6 +317,15 @@ export default {
           data.useful_infos[0].description === ""
         ) {
           data.useful_infos = [];
+        }
+
+        // Remove any flagged items that are not used
+        if (!this.appCqcLocationActive) {
+          delete data.cqc_location_id;
+        }
+
+        if (!this.appServiceTagsActive) {
+          delete data.tags;
         }
       });
       const serviceId = data.data.id;
@@ -314,7 +336,7 @@ export default {
       if (this.auth.isGlobalAdmin && serviceId) {
         this.$router.push({
           name: "services-post-create",
-          params: { service: serviceId }
+          params: { service: serviceId },
         });
       } else if (!this.form.$errors.any()) {
         this.updateRequestCreated = true;
@@ -322,27 +344,27 @@ export default {
       }
     },
     onTabChange({ index }) {
-      this.tabs.forEach(tab => (tab.active = false));
+      this.tabs.forEach((tab) => (tab.active = false));
       const tabId = this.allowedTabs[index].id;
-      this.tabs.find(tab => tab.id === tabId).active = true;
+      this.tabs.find((tab) => tab.id === tabId).active = true;
     },
     onNext() {
       const currentTabIndex = this.allowedTabs.findIndex(
-        tab => tab.active === true
+        (tab) => tab.active === true
       );
-      this.tabs.forEach(tab => (tab.active = false));
+      this.tabs.forEach((tab) => (tab.active = false));
       const newTabId = this.allowedTabs[currentTabIndex + 1].id;
-      this.tabs.find(tab => tab.id === newTabId).active = true;
+      this.tabs.find((tab) => tab.id === newTabId).active = true;
       this.scrollToTop();
     },
     scrollToTop() {
       document.getElementById("main-content").scrollIntoView();
     },
     isTabActive(id) {
-      const tab = this.allowedTabs.find(tab => tab.id === id);
+      const tab = this.allowedTabs.find((tab) => tab.id === id);
 
       return tab === undefined ? false : tab.active;
-    }
-  }
+    },
+  },
 };
 </script>

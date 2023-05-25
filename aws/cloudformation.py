@@ -1,8 +1,8 @@
 # ==================================================
 # This stack creates the API infrastructure.
 # ==================================================
-from troposphere import Template, Parameter, Ref, GetAtt, Join, Output
-from troposphere.s3 import Bucket, PublicRead, WebsiteConfiguration, RedirectAllRequestsTo
+from troposphere import Template, Parameter, Ref, GetAtt, Join, Sub, Output
+from troposphere.s3 import Bucket, BucketPolicy, OwnershipControls, OwnershipControlsRule, PublicAccessBlockConfiguration
 import troposphere.iam as iam
 import troposphere.cloudfront as cloudfront
 import uuid
@@ -11,8 +11,8 @@ import uuid
 # Template details.
 # ==================================================
 template = Template(
-    'Create the infrastructure needed to run the One Hounslow Connect Backend')
-template.add_version('2010-09-09')
+    'Create the infrastructure needed to run the Connected Places Backend')
+template.set_version('2010-09-09')
 
 # ==================================================
 # Parameters.
@@ -48,30 +48,11 @@ cname_parameter = template.add_parameter(
     )
 )
 
-cname_301_parameter = template.add_parameter(
-    Parameter(
-        'Cname301',
-        Type='String',
-        Description='The CNAME that should be 301 redirected to the site CNAME.',
-        MinLength='1',
-        AllowedPattern='^(?!:\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$',
-        ConstraintDescription='Must be a valid domain'
-    )
-)
-
 certificate_arn_parameter = template.add_parameter(
     Parameter(
         'CertificateArn',
         Type='String',
         Description='The ARN for the CloudFront distribution SSL certificate (must be in us-east-1).'
-    )
-)
-
-certificate_301_arn_parameter = template.add_parameter(
-    Parameter(
-        'Certificate301Arn',
-        Type='String',
-        Description='The ARN for the CloudFront distribution SSL certificate covering the domain to be 301 redirected (must be in us-east-1).'
     )
 )
 
@@ -89,20 +70,57 @@ bucket_resource = template.add_resource(
     Bucket(
         'Bucket',
         BucketName=bucket_name_variable,
-        AccessControl=PublicRead
+        PublicAccessBlockConfiguration=PublicAccessBlockConfiguration(
+            BlockPublicAcls=True,
+            BlockPublicPolicy=True,
+            IgnorePublicAcls=True,
+            RestrictPublicBuckets=True
+        ),
+        OwnershipControls=OwnershipControls(
+            Rules=[
+                OwnershipControlsRule(
+                    ObjectOwnership="BucketOwnerPreferred"
+                )
+            ]
+        ),
     )
 )
 
-bucket_301_resource = template.add_resource(
-    Bucket(
-        'Bucket301',
-        BucketName=Ref(cname_301_parameter),
-        AccessControl=PublicRead,
-        WebsiteConfiguration=WebsiteConfiguration(
-            RedirectAllRequestsTo=RedirectAllRequestsTo(
-            HostName=Ref(cname_parameter),
-            )
+cloudfront_oai = template.add_resource(
+    cloudfront.CloudFrontOriginAccessIdentity(
+        'CloudFrontOAI',
+        CloudFrontOriginAccessIdentityConfig=cloudfront.CloudFrontOriginAccessIdentityConfig(
+            Comment=Sub("Cloudfront OAI for ${Cname}")
         )
+    )
+)
+
+bucket_policy = template.add_resource(
+    BucketPolicy(
+        'PublicBucketPolicy',
+        Bucket=Ref(bucket_resource),
+        PolicyDocument={
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Action": [
+                        "s3:GetObject"
+                    ],
+                    "Effect": "Allow",
+                    "Resource": [
+                        Join("", [
+                                "arn:aws:s3:::",
+                                Ref(bucket_resource),
+                                "/*"
+                            ]
+                        )
+                    ],
+                    "Principal": {
+                        'CanonicalUser': GetAtt(cloudfront_oai, 'S3CanonicalUserId')
+                    }
+                }
+            ]
+        }
     )
 )
 
@@ -130,6 +148,11 @@ distribution_resource = template.add_resource(
                     ErrorCode=404,
                     ResponseCode=200,
                     ResponsePagePath='/index.html'
+                ),
+                cloudfront.CustomErrorResponse(
+                    ErrorCode=403,
+                    ResponseCode=200,
+                    ResponsePagePath='/index.html'
                 )
             ],
             DefaultCacheBehavior=cloudfront.DefaultCacheBehavior(
@@ -146,46 +169,14 @@ distribution_resource = template.add_resource(
                 cloudfront.Origin(
                     DomainName=GetAtt(bucket_resource, 'DomainName'),
                     Id=Join('-', ['S3', Ref(bucket_resource)]),
-                    S3OriginConfig=cloudfront.S3Origin()
+                    S3OriginConfig=cloudfront.S3OriginConfig(
+                        OriginAccessIdentity=Join('', ['origin-access-identity/cloudfront/', Ref(cloudfront_oai)])
+                    )
                 )
             ],
             ViewerCertificate=cloudfront.ViewerCertificate(
                 AcmCertificateArn=Ref(certificate_arn_parameter),
                 SslSupportMethod='sni-only'
-            )
-        )
-    )
-)
-
-distribution_301_resource = template.add_resource(
-    cloudfront.Distribution(
-        'Distribution301',
-        DistributionConfig=cloudfront.DistributionConfig(
-            Aliases=[
-                Ref(cname_301_parameter)
-            ],
-            DefaultCacheBehavior=cloudfront.DefaultCacheBehavior(
-                ForwardedValues=cloudfront.ForwardedValues(
-                    QueryString=False
-                ),
-                TargetOriginId=Join('-', ['S3', Ref(bucket_301_resource)]),
-                ViewerProtocolPolicy='redirect-to-https'
-            ),
-            Enabled=True,
-            IPV6Enabled=True,
-            Origins=[
-                cloudfront.Origin(
-                    DomainName=Join('.', [Ref(cname_301_parameter), 's3-website', Ref('AWS::Region'),'amazonaws.com']),
-                    Id=Join('-', ['S3', Ref(bucket_301_resource)]),
-                    CustomOriginConfig=cloudfront.CustomOrigin(
-                        OriginProtocolPolicy='http-only'
-                    )
-                )
-            ],
-            ViewerCertificate=cloudfront.ViewerCertificate(
-                AcmCertificateArn=Ref(certificate_301_arn_parameter),
-                SslSupportMethod='sni-only',
-                MinimumProtocolVersion='TLSv1.2_2019'
             )
         )
     )

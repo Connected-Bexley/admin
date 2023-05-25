@@ -3,7 +3,7 @@
     <ck-loader v-if="loading" />
     <template v-else>
       <vue-headful
-        :title="`Hounslow Connect - Edit Taxonomy Category: ${taxonomy.name}`"
+        :title="`${appName} - Edit Taxonomy Category: ${taxonomy.name}`"
       />
 
       <gov-back-link :to="{ name: 'admin-index-taxonomies' }"
@@ -65,7 +65,7 @@ export default {
     return {
       loading: false,
       taxonomy: null,
-      form: null
+      form: null,
     };
   },
   methods: {
@@ -79,7 +79,7 @@ export default {
       this.form = new Form({
         parent_id: this.taxonomy.parent_id,
         name: this.taxonomy.name,
-        order: this.taxonomy.order
+        order: this.taxonomy.order,
       });
 
       this.loading = false;
@@ -90,10 +90,10 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "admin-index-taxonomies" });
-    }
+    },
   },
   created() {
     this.fetchTaxonomy();
-  }
+  },
 };
 </script>

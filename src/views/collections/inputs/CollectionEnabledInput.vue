@@ -31,31 +31,31 @@
 export default {
   props: {
     value: {
-      required: true
+      required: true,
     },
     error: {
-      required: true
+      required: true,
     },
     id: {
       type: String,
-      required: true
+      required: true,
     },
     type: {
       type: String,
       required: true,
-      validator: function(value) {
+      validator: function (value) {
         return ["category", "persona"].indexOf(value) !== -1;
-      }
+      },
     },
     label: {
       required: true,
-      type: String
+      type: String,
     },
     hint: {
       required: false,
-      type: String
-    }
-  }
+      type: String,
+    },
+  },
 };
 </script>
 

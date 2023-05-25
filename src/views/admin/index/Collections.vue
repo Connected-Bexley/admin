@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-headful title="Hounslow Connect - Admin: Collections" />
+    <vue-headful :title="`${appName} - Admin: Collections`" />
 
     <gov-tabs :tabs="tabs">
       <router-view />
@@ -17,14 +17,14 @@ export default {
         { heading: "Categories", to: { name: "admin-index-collections" } },
         {
           heading: "Personas",
-          to: { name: "admin-index-collections-personas" }
+          to: { name: "admin-index-collections-personas" },
         },
         {
           heading: "Events",
-          to: { name: "admin-index-collections-events" }
-        }
-      ]
+          to: { name: "admin-index-collections-events" },
+        },
+      ],
     };
-  }
+  },
 };
 </script>

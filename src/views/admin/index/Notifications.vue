@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-headful title="Hounslow Connect - Admin: Notifications" />
+    <vue-headful :title="`${appName} - Admin: Notifications`" />
 
     <gov-heading size="l">Notifications</gov-heading>
     <ck-loader v-if="loading" />
@@ -28,7 +28,7 @@ export default {
       loading: false,
       notifications: [],
       currentPage: 1,
-      lastPage: 1
+      lastPage: 1,
     };
   },
   methods: {
@@ -36,7 +36,7 @@ export default {
       this.loading = true;
 
       const { data } = await http.get("/notifications", {
-        params: { page: this.currentPage }
+        params: { page: this.currentPage },
       });
       this.notifications = data.data;
       this.currentPage = data.meta.current_page;
@@ -51,10 +51,10 @@ export default {
     onPrevious() {
       this.currentPage--;
       this.fetchNotifications();
-    }
+    },
   },
   created() {
     this.fetchNotifications();
-  }
+  },
 };
 </script>

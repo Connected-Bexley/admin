@@ -11,8 +11,8 @@ export default {
     href: {
       type: String,
       required: false,
-      default: "#content"
-    }
-  }
+      default: "#content",
+    },
+  },
 };
 </script>

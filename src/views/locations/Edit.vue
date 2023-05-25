@@ -3,7 +3,7 @@
     <ck-loader v-if="loading" />
     <template v-else>
       <vue-headful
-        :title="`Hounslow Connect - Edit Location: ${location.address_line_1}`"
+        :title="`${appName} - Edit Location: ${location.address_line_1}`"
       />
 
       <gov-back-link
@@ -68,13 +68,13 @@ export default {
     return {
       loading: false,
       location: null,
-      form: null
+      form: null,
     };
   },
   computed: {
     updateButtonText() {
       return this.auth.isGlobalAdmin ? "Update" : "Request update";
-    }
+    },
   },
   methods: {
     async fetchLocation() {
@@ -96,7 +96,7 @@ export default {
         has_wheelchair_access: this.location.has_wheelchair_access,
         has_induction_loop: this.location.has_induction_loop,
         has_accessible_toilet: this.location.has_accessible_toilet,
-        image_file_id: null
+        image_file_id: null,
       });
 
       this.loading = false;
@@ -157,7 +157,7 @@ export default {
       const updateRequestId = response.id;
       let next = {
         name: "locations-updated",
-        params: { location: this.location.id }
+        params: { location: this.location.id },
       };
 
       if (this.auth.isGlobalAdmin) {
@@ -174,10 +174,10 @@ export default {
         }
       }
       this.$router.push(next);
-    }
+    },
   },
   created() {
     this.fetchLocation();
-  }
+  },
 };
 </script>

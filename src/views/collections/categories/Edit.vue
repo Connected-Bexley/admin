@@ -3,9 +3,7 @@
     <ck-loader v-if="loading" />
     <template v-else>
       <vue-headful
-        :title="
-          `Hounslow Connect - Edit Collection Category: ${collection.name}`
-        "
+        :title="`${appName} - Edit Collection Category: ${collection.name}`"
       />
 
       <gov-back-link :to="{ name: 'admin-index-collections' }"
@@ -32,6 +30,7 @@
               :intro.sync="form.intro"
               :order.sync="form.order"
               :enabled.sync="form.enabled"
+              :homepage.sync="form.homepage"
               :sideboxes.sync="form.sideboxes"
               :category_taxonomies.sync="form.category_taxonomies"
               @update:image_file_id="form.image_file_id = $event"
@@ -72,7 +71,7 @@ export default {
     return {
       loading: false,
       collection: null,
-      form: null
+      form: null,
     };
   },
   methods: {
@@ -89,10 +88,11 @@ export default {
         image_file_id: this.collection.image_file_id,
         order: this.collection.order,
         enabled: this.collection.enabled,
+        homepage: this.collection.homepage,
         sideboxes: this.collection.sideboxes,
         category_taxonomies: this.collection.category_taxonomies.map(
-          taxonomy => taxonomy.id
-        )
+          (taxonomy) => taxonomy.id
+        ),
       });
 
       this.loading = false;
@@ -103,10 +103,10 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "admin-index-collections" });
-    }
+    },
   },
   created() {
     this.fetchCollection();
-  }
+  },
 };
 </script>

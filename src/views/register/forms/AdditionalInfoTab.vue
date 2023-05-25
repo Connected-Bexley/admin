@@ -66,9 +66,7 @@
             @input="$emit('input', { field: 'fees_text', value: $event })"
             id="fees_text"
             label="How much does it cost? (if applicable)"
-            :hint="
-              `Please indicate the basic cost of the ${service.type}. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`
-            "
+            :hint="`Please indicate the basic cost of the ${service.type}. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`"
             type="text"
             :error="errors.get('service.fees_text')"
             :maxlength="75"
@@ -142,7 +140,7 @@
         <gov-body>
           Please provide your {{ service.type }}’s public-facing contact
           details. These will be displayed on your {{ service.type }}’s page on
-          the Hounslow Connect website.
+          the {{ appName }} website.
         </gov-body>
 
         <gov-section-break size="l" />
@@ -152,9 +150,7 @@
           @input="$emit('input', { field: 'contact_name', value: $event })"
           id="contact_name"
           label="Contact name"
-          :hint="
-            `Provide the contact name (First name & Surname) for this ${service.type}, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`
-          "
+          :hint="`Provide the contact name (First name & Surname) for this ${service.type}, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`"
           type="text"
           :error="errors.get('service.contact_name')"
         />
@@ -186,9 +182,7 @@
           @input="$emit('input', { field: 'contact_email', value: $event })"
           id="contact_email"
           :label="`Public ${service.type} email address`"
-          :hint="
-            `Please provide the contact email address for the ${service.type}.`
-          "
+          :hint="`Please provide the contact email address for the ${service.type}.`"
           type="email"
           :error="errors.get('service.contact_email')"
         />
@@ -224,19 +218,19 @@ import SocialMediasInput from "@/views/services/inputs/SocialMediasInput";
 
 export default {
   components: {
-    SocialMediasInput
+    SocialMediasInput,
   },
 
   props: {
     service: {
       type: Object,
-      required: true
+      required: true,
     },
 
     errors: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   computed: {
@@ -247,7 +241,7 @@ export default {
         { text: "Two weeks", value: "two_weeks" },
         { text: "Three weeks", value: "three_weeks" },
         { text: "One month", value: "month" },
-        { text: "Longer than a month", value: "longer" }
+        { text: "Longer than a month", value: "longer" },
       ];
     },
 
@@ -256,20 +250,20 @@ export default {
         { value: true, label: `Yes - The ${this.service.type} is free` },
         {
           value: false,
-          label: `No - there are elements of this ${this.service.type} that must be paid for`
-        }
+          label: `No - there are elements of this ${this.service.type} that must be paid for`,
+        },
       ];
     },
 
     videoEmbedHelpHref() {
       const to = this.contactEmail;
       const subject = `Make a video for my ${this.service.type}`;
-      const body = `My ${this.service.type} is: xxx\n\nI am interested in making a video for my ${this.service.type} page on Hounslow Connect.`;
+      const body = `My ${this.service.type} is: xxx\n\nI am interested in making a video for my ${this.service.type} page on ${this.appName}.`;
 
       return `mailto:${to}?subject=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(body)}`;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - List Locations" />
+    <vue-headful :title="`${appName} - List Locations`" />
 
     <gov-back-link :to="{ name: 'dashboard' }">Back to dashboard</gov-back-link>
 
@@ -63,24 +63,24 @@
               {
                 heading: 'Address line 1',
                 sort: 'address_line_1',
-                render: location => location.address_line_1
+                render: (location) => location.address_line_1,
               },
               {
                 heading: 'City',
                 sort: 'city',
-                render: location => location.city
+                render: (location) => location.city,
               },
               {
                 heading: 'Postcode',
                 sort: 'postcode',
-                render: location => location.postcode
-              }
+                render: (location) => location.postcode,
+              },
             ]"
             :view-route="
-              location => {
+              (location) => {
                 return {
                   name: 'locations-show',
-                  params: { location: location.id }
+                  params: { location: location.id },
                 };
               }
             "
@@ -103,8 +103,8 @@ export default {
       filters: {
         address_line_1: "",
         city: "",
-        postcode: ""
-      }
+        postcode: "",
+      },
     };
   },
   computed: {
@@ -124,7 +124,7 @@ export default {
       }
 
       return params;
-    }
+    },
   },
   methods: {
     onSearch() {
@@ -133,7 +133,7 @@ export default {
     },
     onAddLocation() {
       this.$router.push({ name: "locations-create" });
-    }
-  }
+    },
+  },
 };
 </script>

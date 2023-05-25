@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Add Collection Category" />
+    <vue-headful :title="`${appName} - Add Collection Category`" />
 
     <gov-back-link :to="{ name: 'admin-index-collections' }"
       >Back to collection categories</gov-back-link
@@ -25,6 +25,7 @@
             :intro.sync="form.intro"
             :order.sync="form.order"
             :enabled.sync="form.enabled"
+            :homepage.sync="form.homepage"
             :sideboxes.sync="form.sideboxes"
             :category_taxonomies.sync="form.category_taxonomies"
             @update:image_file_id="form.image_file_id = $event"
@@ -57,16 +58,17 @@ export default {
         image_file_id: null,
         order: 1,
         enabled: true,
+        homepage: false,
         sideboxes: [],
-        category_taxonomies: []
-      })
+        category_taxonomies: [],
+      }),
     };
   },
   methods: {
     async onSubmit() {
       await this.form.post("/collections/categories");
       this.$router.push({ name: "admin-index-collections" });
-    }
-  }
+    },
+  },
 };
 </script>

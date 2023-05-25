@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Add Taxonomy Organisation" />
+    <vue-headful :title="`${appName} - Add Taxonomy Organisation`" />
 
     <gov-back-link :to="{ name: 'admin-index-taxonomies-organisations' }"
       >Back to taxonomy organisations</gov-back-link
@@ -47,15 +47,15 @@ export default {
     return {
       form: new Form({
         name: "",
-        order: 1
-      })
+        order: 1,
+      }),
     };
   },
   methods: {
     async onSubmit() {
       await this.form.post("/taxonomies/organisations");
       this.$router.push({ name: "admin-index-taxonomies-organisations" });
-    }
-  }
+    },
+  },
 };
 </script>

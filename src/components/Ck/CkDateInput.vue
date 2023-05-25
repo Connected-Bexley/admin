@@ -31,6 +31,7 @@
     />
 
     <gov-error-message v-if="error" v-text="error" :for="id" />
+    <gov-error-message v-if="!validDate" v-text="'Invalid date'" :for="id" />
   </gov-form-group>
 </template>
 
@@ -41,25 +42,26 @@ export default {
   name: "CkDateInput",
   props: {
     value: {
-      required: true
+      required: true,
     },
     error: {
-      required: true
+      required: true,
     },
     id: {
       type: String,
-      required: true
+      required: true,
     },
     label: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       year: "",
       month: "",
-      day: ""
+      day: "",
+      validDate: true,
     };
   },
   methods: {
@@ -67,6 +69,7 @@ export default {
       let year = parseInt(this.year);
       let month = parseInt(this.month);
       let day = parseInt(this.day);
+      this.validDate = true;
 
       // Only parse the date if the inputs are all valid.
       for (let value of [year, month, day]) {
@@ -82,6 +85,7 @@ export default {
 
       // Only return the date if it's vaild.
       if (date === "Invalid date") {
+        this.validDate = false;
         this.$emit("input", "");
         return;
       }
@@ -93,7 +97,7 @@ export default {
       this.year = date.year().toString();
       this.month = (date.month() + 1).toString();
       this.day = date.date().toString();
-    }
+    },
   },
 
   watch: {
@@ -105,13 +109,13 @@ export default {
       if (newValue !== "") {
         this.parseDate(newValue);
       }
-    }
+    },
   },
 
   created() {
     if (this.value) {
       this.parseDate(this.value);
     }
-  }
+  },
 };
 </script>

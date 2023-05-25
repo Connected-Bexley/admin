@@ -8,9 +8,7 @@
         v-text="original.title"
       />.
     </gov-body>
-    <gov-body v-else>
-      For a new event.
-    </gov-body>
+    <gov-body v-else> For a new event. </gov-body>
 
     <gov-table>
       <template slot="body">
@@ -31,7 +29,7 @@
               v-if="original.hasOwnProperty('organisation_id')"
               :to="{
                 name: 'organisations-show',
-                params: { organisation: original.organisation_id }
+                params: { organisation: original.organisation_id },
               }"
             >
               {{ original.organisation.name }}
@@ -41,7 +39,7 @@
             <gov-link
               :to="{
                 name: 'organisations-show',
-                params: { organisation: event.organisation_id }
+                params: { organisation: event.organisation_id },
               }"
             >
               {{ event.organisation.name || "" }}
@@ -221,7 +219,7 @@
               bullet
               v-if="
                 original.hasOwnProperty('category_taxonomies') &&
-                  Array.isArray(original.category_taxonomies)
+                Array.isArray(original.category_taxonomies)
               "
             >
               <li
@@ -312,18 +310,18 @@ export default {
   props: {
     updateRequestId: {
       required: true,
-      type: String
+      type: String,
     },
 
     requestedAt: {
       required: true,
-      type: String
+      type: String,
     },
 
     event: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
 
   components: { CkCarousel, CkTaxonomyTree, LocationDetails },
@@ -337,7 +335,7 @@ export default {
       eligibilityTypes: [],
       flattenedEligibilityTypes: [],
       originalLocation: null,
-      eventLocation: null
+      eventLocation: null,
     };
   },
 
@@ -346,7 +344,7 @@ export default {
       let name = taxonomy.name;
 
       if (taxonomy.parent_id !== null) {
-        const parent = this.flattenedTaxonomies.find(flattenedTaxonomy => {
+        const parent = this.flattenedTaxonomies.find((flattenedTaxonomy) => {
           return flattenedTaxonomy.id === taxonomy.parent_id;
         });
         name = `${this.taxonomyName(parent)} / ${name}`;
@@ -374,9 +372,9 @@ export default {
       if (this.event.id !== null) {
         this.loading = true;
         const {
-          data: { data: original }
+          data: { data: original },
         } = await http.get(`/organisation-events/${this.event.id}`, {
-          params: { include: "organisation" }
+          params: { include: "organisation" },
         });
         this.original = original;
         this.loading = false;
@@ -387,7 +385,7 @@ export default {
 
     async fetchTaxonomies() {
       const {
-        data: { data: taxonomies }
+        data: { data: taxonomies },
       } = await http.get("/taxonomies/categories");
       this.taxonomies = taxonomies;
       this.flattenedTaxonomies = this.getFlattenedTaxonomies(taxonomies);
@@ -413,7 +411,7 @@ export default {
     },
 
     getFlattenedTaxonomies(taxonomies = null, flattenedTaxonomies = []) {
-      taxonomies.forEach(taxonomy => {
+      taxonomies.forEach((taxonomy) => {
         flattenedTaxonomies.push(taxonomy);
 
         if (taxonomy.children.length > 0) {
@@ -424,14 +422,14 @@ export default {
     },
 
     findTaxonomy(id) {
-      return this.flattenedTaxonomies.find(taxonomy => taxonomy.id === id);
+      return this.flattenedTaxonomies.find((taxonomy) => taxonomy.id === id);
     },
 
     getTaxonomyAndAncestorsIds(taxonomy, flatTaxonomyTree) {
       let ids = [taxonomy.id];
       if (taxonomy.parent_id) {
         const parent = flatTaxonomyTree.find(
-          tax => tax.id === taxonomy.parent_id
+          (tax) => tax.id === taxonomy.parent_id
         );
         if (parent) {
           ids = ids.concat(
@@ -440,7 +438,7 @@ export default {
         }
       }
       return ids;
-    }
+    },
   },
 
   filters: {
@@ -454,11 +452,11 @@ export default {
 
     asDate(dateValue) {
       return new Date(dateValue).toDateString();
-    }
+    },
   },
 
   async created() {
     await this.fetchAll();
-  }
+  },
 };
 </script>

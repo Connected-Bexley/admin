@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <vue-headful
-      title="Hounslow Connect"
+      :title="appName"
       :head="headAttributes"
       :html="htmlAttributes"
     />
 
     <gov-skip-link href="#main-content">Skip to main content</gov-skip-link>
 
-    <gov-header service-name="Hounslow Connect" :navigation="headerNav" />
+    <gov-header :service-name="appName" :navigation="headerNav" />
 
     <div class="govuk-width-container">
       <main
@@ -37,23 +37,23 @@ export default {
       bodyClasses: ["js-enabled"],
       mainClasses: [],
       headerNav: [],
-      logoutInterval: null
+      logoutInterval: null,
     };
   },
   computed: {
     headAttributes() {
       return {
         "meta[name=theme-color]": {
-          content: this.themeColor
+          content: this.themeColor,
         },
-        "meta[name=robots]": { content: "noindex" }
+        "meta[name=robots]": { content: "noindex" },
       };
     },
     htmlAttributes() {
       return {
         body: {
-          class: [document.body.className, ...this.bodyClasses].join(" ")
-        }
+          class: [document.body.className, ...this.bodyClasses].join(" "),
+        },
       };
     },
     loggedInItems() {
@@ -62,38 +62,38 @@ export default {
         { text: "Locations", to: { name: "locations-index" } },
         { text: "Referrals", to: { name: "referrals-index" } },
         { text: "Organisations", to: { name: "organisations-index" } },
-        { text: "Events", to: { name: "events-index" } },
+        { text: "Pages", to: { name: "pages-index" } },
         {
           text: "Users",
-          to: { name: "users-index" }
+          to: { name: "users-index" },
         },
         {
           text: "Reports",
           to: { name: "reports-index" },
-          hide: !Auth.isGlobalAdmin
+          hide: !Auth.isGlobalAdmin,
         },
         {
           text: "Admin",
           to: { name: "admin-index" },
-          hide: !Auth.isGlobalAdmin
+          hide: !Auth.isGlobalAdmin,
         },
         {
           text: "Update requests",
           to: { name: "update-requests-index" },
-          hide: !Auth.isGlobalAdmin
+          hide: !Auth.isGlobalAdmin,
         },
         {
           text: "Help",
-          to: { name: "help-index" }
-        }
+          to: { name: "help-index" },
+        },
       ];
     },
     loggedOutItems() {
       return [
         { text: "Register", to: { name: "register-index" } },
-        { text: "Login", href: Auth.authorizeUrl }
+        { text: "Login", href: Auth.authorizeUrl },
       ];
-    }
+    },
   },
   methods: {
     setHeaderItems() {
@@ -122,7 +122,7 @@ export default {
     endAutoLogoutInterval() {
       clearInterval(this.logoutInterval);
       this.logoutInterval = null;
-    }
+    },
   },
 
   created() {
@@ -138,6 +138,6 @@ export default {
 
   destroyed() {
     this.endAutoLogoutInterval();
-  }
+  },
 };
 </script>

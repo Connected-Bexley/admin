@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Add User" />
+    <vue-headful :title="`${appName} - Add User`" />
 
     <gov-back-link :to="{ name: 'users-index' }">Back to users</gov-back-link>
     <gov-main-wrapper>
@@ -55,8 +55,8 @@ export default {
         email: "",
         phone: "",
         password: "",
-        roles: []
-      })
+        roles: [],
+      }),
     };
   },
   methods: {
@@ -65,7 +65,7 @@ export default {
         // Strip spaces from the phone number.
         data.phone = data.phone.replace(/\s/g, "");
 
-        data.roles.forEach(role => {
+        data.roles.forEach((role) => {
           switch (role.role) {
             // Delete the organisation and service IDs instead of sending null values.
             case "Super Admin":
@@ -82,9 +82,9 @@ export default {
 
       this.$router.push({
         name: "users-show",
-        params: { user: data.data.id }
+        params: { user: data.data.id },
       });
-    }
-  }
+    },
+  },
 };
 </script>

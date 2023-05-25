@@ -9,7 +9,7 @@ export default class Form {
    * @param {object} config
    * @param {object} httpClient
    */
-  constructor(data, config = {}, httpClient = http) {
+  constructor(data = {}, config = {}, httpClient = http) {
     this.$originalData = data;
 
     for (let field in data) {
@@ -96,12 +96,12 @@ export default class Form {
 
     return new Promise((resolve, reject) => {
       this.$http[requestType](url, data, config)
-        .then(response => {
+        .then((response) => {
           this.onSuccess(response.data);
 
           resolve(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.hasOwnProperty("data")) {
             this.onFail(error.response.data);
           }

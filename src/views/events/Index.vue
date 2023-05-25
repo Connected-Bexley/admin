@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - List Events" />
+    <vue-headful :title="`${appName} - List Events`" />
 
     <gov-back-link :to="{ name: 'dashboard' }">Back to dashboard</gov-back-link>
 
@@ -41,34 +41,34 @@
               {
                 heading: 'Title',
                 sort: 'title',
-                render: event => event.title
+                render: (event) => event.title,
               },
               {
                 heading: 'Start',
                 sort: 'start_date',
-                render: event => startDateTimeStr(event)
+                render: (event) => startDateTimeStr(event),
               },
               {
                 heading: 'End',
                 sort: 'end_date',
-                render: event => endDateTimeStr(event)
+                render: (event) => endDateTimeStr(event),
               },
               {
                 heading: 'Summary',
                 sort: 'intro',
-                render: event => event.intro
+                render: (event) => event.intro,
               },
               {
                 heading: 'Free',
                 sort: 'is_free',
-                render: event => (event.is_free ? 'Yes' : 'No')
-              }
+                render: (event) => (event.is_free ? 'Yes' : 'No'),
+              },
             ]"
             :view-route="
-              event => {
+              (event) => {
                 return {
                   name: 'events-show',
-                  params: { event: event.id }
+                  params: { event: event.id },
                 };
               }
             "
@@ -90,15 +90,15 @@ export default {
   data() {
     return {
       filters: {
-        organisation: ""
-      }
+        organisation: "",
+      },
     };
   },
   computed: {
     params() {
       let params = {
         include: "organisation",
-        "filter[has_permission]": true
+        "filter[has_permission]": true,
       };
 
       if (this.filters.organisation !== "") {
@@ -106,7 +106,7 @@ export default {
       }
 
       return params;
-    }
+    },
   },
   methods: {
     onSearch() {
@@ -133,8 +133,8 @@ export default {
       ).padStart(2, "0")}/${endDate.getFullYear()} ${String(
         endDate.getHours()
       ).padStart(2, "0")}:${String(endDate.getMinutes()).padStart(2, "0")}`;
-    }
-  }
+    },
+  },
 };
 </script>
 

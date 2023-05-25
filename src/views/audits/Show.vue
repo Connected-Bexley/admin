@@ -5,9 +5,7 @@
       <ck-loader v-if="loading" />
       <gov-grid-row v-else>
         <vue-headful
-          :title="
-            `Hounslow Connect - Audit: ${audit.description.substr(0, 10)}...`
-          "
+          :title="`${appName} - Audit: ${audit.description.substr(0, 10)}...`"
         />
 
         <gov-grid-column width="two-thirds">
@@ -30,7 +28,7 @@ export default {
   data() {
     return {
       loading: false,
-      audit: null
+      audit: null,
     };
   },
   methods: {
@@ -41,10 +39,10 @@ export default {
       );
       this.audit = data.data;
       this.loading = false;
-    }
+    },
   },
   created() {
     this.fetchAudit();
-  }
+  },
 };
 </script>

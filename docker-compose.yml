@@ -2,7 +2,7 @@ version: "3"
 
 services:
   troposphere:
-    image: royal-borough-kingston/ck-backend/troposphere
+    image: connected-places/backend/troposphere
     build:
       context: ./docker/troposphere
       dockerfile: Dockerfile

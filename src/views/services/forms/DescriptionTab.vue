@@ -5,7 +5,7 @@
       <gov-grid-column width="one-half">
         <gov-body>
           These sections should describe what your {{ type }} offers and is the
-          main body of content on your page on Hounslow Connect.
+          main body of content on your page on {{ appName }}.
         </gov-body>
 
         <gov-section-break size="l" />
@@ -48,9 +48,7 @@
           "
           id="description"
           label="Long description"
-          :hint="
-            `This is the largest body of text on your page. Fill it with everything else someone should know about your ${type}. Use headers, bullets and formatting for the maximum effect.`
-          "
+          :hint="`This is the largest body of text on your page. Fill it with everything else someone should know about your ${type}. Use headers, bullets and formatting for the maximum effect.`"
           :error="errors.get('description')"
           large
           :maxlength="3000"
@@ -68,25 +66,25 @@ import CkOfferingsInput from "@/views/services/inputs/OfferingsInput.vue";
 export default {
   name: "DescriptionTab",
   components: {
-    CkOfferingsInput
+    CkOfferingsInput,
   },
   props: {
     errors: {
-      required: true
+      required: true,
     },
     type: {
       required: true,
-      type: String
+      type: String,
     },
     intro: {
-      required: true
+      required: true,
     },
     offerings: {
-      required: true
+      required: true,
     },
     description: {
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>

@@ -15,8 +15,8 @@ export default {
   props: {
     synonyms: {
       required: true,
-      type: Array
-    }
-  }
+      type: Array,
+    },
+  },
 };
 </script>

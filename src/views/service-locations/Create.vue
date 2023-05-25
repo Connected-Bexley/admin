@@ -3,13 +3,13 @@
     <ck-loader v-if="loading" />
     <template v-else>
       <vue-headful
-        :title="`Hounslow Connect - Add Service Location for: ${service.name}`"
+        :title="`${appName} - Add Service Location for: ${service.name}`"
       />
 
       <gov-back-link
         :to="{
           name: 'services-show-locations',
-          params: { service: service.id }
+          params: { service: service.id },
         }"
         >Back to service</gov-back-link
       >
@@ -76,7 +76,7 @@ export default {
         name: "",
         regular_opening_hours: [],
         holiday_opening_hours: [],
-        image_file_id: null
+        image_file_id: null,
       }),
       locationForm: new Form({
         address_line_1: "",
@@ -88,11 +88,11 @@ export default {
         country: "United Kingdom",
         accessibility_info: "",
         has_wheelchair_access: false,
-        has_induction_loop: false
+        has_induction_loop: false,
       }),
       service: null,
       loading: false,
-      submitting: false
+      submitting: false,
     };
   },
   methods: {
@@ -120,15 +120,15 @@ export default {
         const { data: service } = await this.form.post("/service-locations");
         this.$router.push({
           name: "service-locations-show",
-          params: { serviceLocation: service.id }
+          params: { serviceLocation: service.id },
         });
       } catch (error) {
         this.submitting = false;
       }
-    }
+    },
   },
   created() {
     this.fetchService();
-  }
+  },
 };
 </script>

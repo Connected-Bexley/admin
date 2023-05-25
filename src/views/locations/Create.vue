@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Add Location" />
+    <vue-headful :title="`${appName} - Add Location`" />
 
     <gov-back-link :to="{ name: 'locations-index' }"
       >Back to locations</gov-back-link
@@ -63,8 +63,8 @@ export default {
         has_wheelchair_access: false,
         has_induction_loop: false,
         has_accessible_toilet: false,
-        image_file_id: null
-      })
+        image_file_id: null,
+      }),
     };
   },
   methods: {
@@ -72,10 +72,10 @@ export default {
       this.form.post("/locations").then(({ data }) =>
         this.$router.push({
           name: "locations-show",
-          params: { location: data.id }
+          params: { location: data.id },
         })
       );
-    }
-  }
+    },
+  },
 };
 </script>

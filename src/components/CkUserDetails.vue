@@ -36,7 +36,7 @@
                   <gov-link
                     :to="{
                       name: 'organisations-show',
-                      params: { organisation: role.organisation_id }
+                      params: { organisation: role.organisation_id },
                     }"
                     v-text="role.organisation.name"
                   />
@@ -56,7 +56,7 @@
                   <gov-link
                     :to="{
                       name: 'services-show',
-                      params: { service: role.service_id }
+                      params: { service: role.service_id },
                     }"
                     v-text="role.service.name"
                   />
@@ -76,7 +76,7 @@
                   <gov-link
                     :to="{
                       name: 'services-show',
-                      params: { service: role.service_id }
+                      params: { service: role.service_id },
                     }"
                     v-text="role.service.name"
                   />
@@ -96,8 +96,8 @@ export default {
   props: {
     user: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -105,7 +105,7 @@ export default {
       globalAdmin: false,
       organisationAdmin: [],
       serviceAdmin: [],
-      serviceWorker: []
+      serviceWorker: [],
     };
   },
   methods: {
@@ -116,7 +116,7 @@ export default {
       this.serviceAdmin = [];
       this.serviceWorker = [];
 
-      this.user.roles.forEach(role => {
+      this.user.roles.forEach((role) => {
         if (role.role === "Super Admin") {
           this.superAdmin = true;
         } else if (role.role === "Global Admin") {
@@ -135,10 +135,10 @@ export default {
           this.serviceWorker.push(role);
         }
       });
-    }
+    },
   },
   created() {
     this.sortRoles();
-  }
+  },
 };
 </script>

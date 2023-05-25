@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-headful title="Hounslow Connect - Admin: Taxonomies" />
+    <vue-headful :title="`${appName} - Admin: Taxonomies`" />
 
     <gov-tabs :tabs="tabs">
       <router-view />
@@ -17,14 +17,14 @@ export default {
         { heading: "Categories", to: { name: "admin-index-taxonomies" } },
         {
           heading: "Organisations",
-          to: { name: "admin-index-taxonomies-organisations" }
+          to: { name: "admin-index-taxonomies-organisations" },
         },
         {
           heading: "Service Eligibilities",
-          to: { name: "admin-index-taxonomies-service-eligibilities" }
-        }
-      ]
+          to: { name: "admin-index-taxonomies-service-eligibilities" },
+        },
+      ],
     };
-  }
+  },
 };
 </script>

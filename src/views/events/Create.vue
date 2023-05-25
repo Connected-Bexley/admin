@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Add Event" />
+    <vue-headful :title="`${appName} - Add Event`" />
 
     <gov-back-link :to="{ name: 'events-index' }">Back to events</gov-back-link>
     <gov-main-wrapper>
@@ -144,18 +144,18 @@ export default {
         organisation_id: null,
         image_file_id: null,
         homepage: false,
-        category_taxonomies: []
+        category_taxonomies: [],
       }),
 
       tabs: [
         { id: "details", heading: "Details", active: true },
-        { id: "taxonomies", heading: "Taxonomies", active: false }
+        { id: "taxonomies", heading: "Taxonomies", active: false },
       ],
 
       organisations: [{ text: "Please select", value: null }],
       updateRequestCreated: false,
       updateRequestMessage: null,
-      loading: false
+      loading: false,
     };
   },
 
@@ -163,7 +163,7 @@ export default {
     allowedTabs() {
       if (!this.auth.isGlobalAdmin) {
         const taxonomiesTabIndex = this.tabs.findIndex(
-          tab => tab.id === "taxonomies"
+          (tab) => tab.id === "taxonomies"
         );
         const tabs = this.tabs.slice();
         tabs.splice(taxonomiesTabIndex, 1);
@@ -172,16 +172,16 @@ export default {
       }
 
       return this.tabs;
-    }
+    },
   },
 
   methods: {
     async fetchOrganisations() {
       this.loading = true;
       let fetchedOrganisations = await this.fetchAll("/organisations", {
-        "filter[has_permission]": true
+        "filter[has_permission]": true,
       });
-      fetchedOrganisations = fetchedOrganisations.map(organisation => {
+      fetchedOrganisations = fetchedOrganisations.map((organisation) => {
         return { text: organisation.name, value: organisation.id };
       });
       this.organisations = [...this.organisations, ...fetchedOrganisations];
@@ -195,7 +195,7 @@ export default {
       if (this.auth.isGlobalAdmin && eventId) {
         this.$router.push({
           name: "events-show",
-          params: { event: eventId }
+          params: { event: eventId },
         });
       } else if (!this.form.$errors.any()) {
         this.updateRequestCreated = true;
@@ -203,20 +203,20 @@ export default {
       }
     },
     onTabChange({ index }) {
-      this.tabs.forEach(tab => (tab.active = false));
+      this.tabs.forEach((tab) => (tab.active = false));
       const tabId = this.allowedTabs[index].id;
-      this.tabs.find(tab => tab.id === tabId).active = true;
+      this.tabs.find((tab) => tab.id === tabId).active = true;
     },
     isTabActive(id) {
-      const tab = this.allowedTabs.find(tab => tab.id === id);
+      const tab = this.allowedTabs.find((tab) => tab.id === id);
 
       return tab === undefined ? false : tab.active;
-    }
+    },
   },
 
   created() {
     this.fetchOrganisations();
-  }
+  },
 };
 </script>
 

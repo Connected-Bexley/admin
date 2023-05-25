@@ -1,6 +1,6 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Edit Stop Words" />
+    <vue-headful :title="`${appName} - Edit Stop Words`" />
 
     <gov-back-link :to="{ name: 'admin-index-search-engine-stop-words' }"
       >Back to stop words</gov-back-link
@@ -55,8 +55,8 @@ export default {
       file: null,
 
       form: new Form({
-        stop_words: null
-      })
+        stop_words: null,
+      }),
     };
   },
 
@@ -80,7 +80,7 @@ export default {
       string = decodeURIComponent(
         atob(string)
           .split("")
-          .map(function(c) {
+          .map(function (c) {
             return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
           })
           .join("")
@@ -92,10 +92,10 @@ export default {
     parseCsv(content) {
       const stopWords = content
         .split(/\n/)
-        .filter(stopWord => stopWord.length > 0);
+        .filter((stopWord) => stopWord.length > 0);
 
       return stopWords;
-    }
-  }
+    },
+  },
 };
 </script>

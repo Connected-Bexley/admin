@@ -1,17 +1,17 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Hounslow Connect - Dashboard" />
+    <vue-headful :title="`${appName} - Dashboard`" />
 
     <gov-main-wrapper>
       <gov-grid-row>
         <gov-grid-column width="two-thirds">
           <gov-heading size="xl">
-            Welcome to the Hounslow Connect admin portal
+            Welcome to the {{ appName }} admin portal
           </gov-heading>
 
           <gov-body size="l">
-            From here, you can add and edit your pages on Hounslow Connect, as
-            well as manage referrals into your service. For any support, contact
+            From here, you can add and edit your pages on {{ appName }}, as well
+            as manage referrals into your service. For any support, contact
             <gov-link :href="`mailto:${contactEmail}`">
               {{ contactEmail }}
             </gov-link>
@@ -26,7 +26,7 @@
       <gov-grid-row>
         <gov-grid-column width="one-half">
           <gov-heading size="l">Services</gov-heading>
-          <gov-body>Add or edit your pages on Hounslow Connect.</gov-body>
+          <gov-body>Add or edit your pages on {{ appName }}.</gov-body>
           <gov-button start :to="{ name: 'services-index' }">
             Go to services
           </gov-button>
@@ -53,7 +53,7 @@
 
         <gov-grid-column width="one-half" v-if="auth.isGlobalAdmin">
           <gov-heading size="l">Organisations</gov-heading>
-          <gov-body>Add or edit organisations on Hounslow Connect.</gov-body>
+          <gov-body>Add or edit organisations on {{ appName }}.</gov-body>
           <gov-button start :to="{ name: 'organisations-index' }">
             Go to organisations
           </gov-button>
@@ -62,7 +62,7 @@
 
         <gov-grid-column width="one-half" v-if="auth.isOrganisationAdmin">
           <gov-heading size="l">Events</gov-heading>
-          <gov-body>Add or edit events on Hounslow Connect.</gov-body>
+          <gov-body>Add or edit events on {{ appName }}.</gov-body>
           <gov-button start :to="{ name: 'events-index' }">
             Go to events
           </gov-button>
@@ -80,13 +80,19 @@
 
         <gov-grid-column width="one-half" v-if="auth.isGlobalAdmin">
           <gov-heading size="l">Reports</gov-heading>
-          <gov-body>
-            Download reports of activity on Hounslow Connect.
-          </gov-body>
+          <gov-body> Download reports of activity on {{ appName }}. </gov-body>
           <gov-button start :to="{ name: 'reports-index' }">
             Go to reports
           </gov-button>
           <gov-section-break size="m" />
+        </gov-grid-column>
+
+        <gov-grid-column width="one-half" v-if="auth.isGlobalAdmin">
+          <gov-heading size="l">Pages</gov-heading>
+          <gov-body>Manage pages on the platform.</gov-body>
+          <gov-button start :to="{ name: 'pages-index' }">
+            Go to pages
+          </gov-button>
         </gov-grid-column>
 
         <gov-grid-column width="one-half" v-if="auth.isGlobalAdmin">
@@ -117,8 +123,8 @@ export default {
 
   data() {
     return {
-      auth: Auth
+      auth: Auth,
     };
-  }
+  },
 };
 </script>
