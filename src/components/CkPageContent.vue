@@ -68,17 +68,17 @@ export default {
   name: "PageContent",
 
   components: {
-    CkCallToAction,
+    CkCallToAction
   },
 
   props: {
     content: {
       type: Object,
-      required: true,
+      required: true
     },
     errors: {
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
@@ -87,8 +87,8 @@ export default {
         introduction: 1,
         about: 2,
         info_pages: 3,
-        collections: 4,
-      },
+        collections: 4
+      }
     };
   },
 
@@ -104,7 +104,7 @@ export default {
         .sort((a, b) => {
           return a[1].order - b[1].order;
         });
-    },
+    }
   },
 
   methods: {
@@ -137,7 +137,7 @@ export default {
 
       content[section]["content"].splice(index + 1, 0, {
         type: "copy",
-        value: "",
+        value: ""
       });
 
       this.$emit("update", content);
@@ -151,7 +151,7 @@ export default {
         title: "",
         description: "",
         url: "",
-        buttonText: "",
+        buttonText: ""
       });
 
       this.$emit("update", content);
@@ -192,8 +192,8 @@ export default {
 
       this.$emit("update", content);
       this.$emit("clear", `content_${section}_content`);
-    },
-  },
+    }
+  }
 };
 </script>
 

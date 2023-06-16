@@ -41,7 +41,7 @@ export default {
       loading: false,
       synonyms: [],
       currentPage: 1,
-      lastPage: 1,
+      lastPage: 1
     };
   },
 
@@ -58,7 +58,7 @@ export default {
     onExportCsv() {
       let csvContent = "data:text/csv;charset=utf-8,";
 
-      this.synonyms.forEach((rowArray) => {
+      this.synonyms.forEach(rowArray => {
         let row = rowArray.join(",");
         csvContent += row + "\r\n";
       });
@@ -69,11 +69,11 @@ export default {
       link.setAttribute("download", "thesaurus.csv");
       document.body.appendChild(link);
       link.click();
-    },
+    }
   },
 
   created() {
     this.fetchSynonyms();
-  },
+  }
 };
 </script>

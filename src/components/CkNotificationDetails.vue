@@ -5,9 +5,11 @@
         <gov-table-header top scope="row">Status</gov-table-header>
         <gov-table-cell>
           <gov-tag
-            :class="`notification-status notification-status--${formatStatus(
-              notification
-            )}`"
+            :class="
+              `notification-status notification-status--${formatStatus(
+                notification
+              )}`
+            "
             >{{ formatStatus(notification) }}</gov-tag
           >
         </gov-table-cell>
@@ -52,8 +54,8 @@ export default {
   props: {
     notification: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   methods: {
     formatStatus(notification) {
@@ -97,8 +99,8 @@ export default {
       } else {
         return "Sending...";
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

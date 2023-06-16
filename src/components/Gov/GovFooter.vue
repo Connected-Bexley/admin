@@ -68,21 +68,21 @@ export default {
       required: false,
       default() {
         return [];
-      },
+      }
     },
     navigation: {
       type: Array,
-      required: false,
+      required: false
     },
     meta: {
       type: Object,
-      required: false,
-    },
+      required: false
+    }
   },
   methods: {
     listClasses(item) {
       return item.items ? `govuk-footer__list--columns-${item.columns}` : null;
-    },
-  },
+    }
+  }
 };
 </script>

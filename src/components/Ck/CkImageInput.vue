@@ -61,29 +61,29 @@ export default {
   props: {
     label: {
       required: true,
-      type: String,
+      type: String
     },
     hint: {
       required: false,
-      type: String,
+      type: String
     },
     accept: {
       required: false,
-      default: null,
+      default: null
     },
     id: {
       required: true,
-      type: String,
+      type: String
     },
     existingUrl: {
       required: false,
-      type: String,
+      type: String
     },
     private: {
       required: false,
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   data() {
@@ -92,8 +92,8 @@ export default {
       form: new Form({
         is_private: this.private,
         mime_type: null,
-        file: null,
-      }),
+        file: null
+      })
     };
   },
 
@@ -124,7 +124,7 @@ export default {
 
       // Upload the file and retrieve the ID.
       const {
-        data: { id },
+        data: { id }
       } = await this.form.post("/files");
 
       if (!this.form.$errors.any()) {
@@ -147,7 +147,7 @@ export default {
       // For existing file.
       this.removeExisting = true;
       this.$emit("input", { file_id: false, image: null });
-    },
-  },
+    }
+  }
 };
 </script>

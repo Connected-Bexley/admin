@@ -18,7 +18,7 @@
 import Form from "@/classes/Form";
 import axios from "axios";
 const http = axios.create({
-  baseURL: `${this.appApiUri}/core/v1`,
+  baseURL: `${this.appApiUri}/core/v1`
 });
 http.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -33,7 +33,7 @@ export default {
             last_name: "",
             email: "",
             phone: "",
-            password: "",
+            password: ""
           },
           organisation: {
             id: "",
@@ -42,12 +42,12 @@ export default {
             description: "",
             url: "",
             email: "",
-            phone: "",
-          },
+            phone: ""
+          }
         },
         {},
         http
-      ),
+      )
     };
   },
   methods: {
@@ -62,13 +62,13 @@ export default {
           this.$router.push({ name: "register-index" });
         } else if (
           !this.form.organisation.id &&
-          formErrors.some((error) => error.startsWith("user"))
+          formErrors.some(error => error.startsWith("user"))
         ) {
           this.$router.push({ name: "register-new-step4" });
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

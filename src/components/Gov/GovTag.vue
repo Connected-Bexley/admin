@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "GovTag",
+  name: "GovTag"
 };
 </script>
 

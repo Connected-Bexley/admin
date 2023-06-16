@@ -13,7 +13,7 @@
           class="govuk-tabs__tab"
           :class="{
             'govuk-tabs__tab--active': tab.active,
-            'govuk-tabs__tab--bar': bar,
+            'govuk-tabs__tab--bar': bar
           }"
           href="javascript:;"
           v-text="tab.heading"
@@ -42,34 +42,34 @@ export default {
   props: {
     tabs: {
       type: Array,
-      required: true,
+      required: true
     },
     title: {
       type: String,
       required: false,
-      default: "Contents",
+      default: "Contents"
     },
     noRouter: {
       type: Boolean,
       required: false,
-      default: false,
+      default: false
     },
     bar: {
       type: Boolean,
       required: false,
-      default: false,
+      default: false
     },
     panel: {
       type: Boolean,
       required: false,
-      default: true,
-    },
+      default: true
+    }
   },
   methods: {
     onTabClick(tab, index) {
       this.$emit("tab-changed", { index, tab });
-    },
-  },
+    }
+  }
 };
 </script>
 

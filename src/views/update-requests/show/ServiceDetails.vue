@@ -61,7 +61,7 @@
               v-if="original.hasOwnProperty('organisation_id')"
               :to="{
                 name: 'organisations-show',
-                params: { organisation: original.organisation_id },
+                params: { organisation: original.organisation_id }
               }"
             >
               {{ original.organisation.name }}
@@ -71,7 +71,7 @@
             <gov-link
               :to="{
                 name: 'organisations-show',
-                params: { organisation: service.organisation_id },
+                params: { organisation: service.organisation_id }
               }"
             >
               {{ service.organisation.name || "" }}
@@ -125,7 +125,7 @@
               :key="rootTaxonomy.id"
               v-if="
                 eligibilityTaxonomyChanged(rootTaxonomy) ||
-                eligibilityCustomChanged(rootTaxonomy)
+                  eligibilityCustomChanged(rootTaxonomy)
               "
             >
               <span class="govuk-!-font-weight-bold">{{
@@ -153,7 +153,7 @@
               :key="rootTaxonomy.id"
               v-if="
                 eligibilityTaxonomyChanged(rootTaxonomy) ||
-                eligibilityCustomChanged(rootTaxonomy)
+                  eligibilityCustomChanged(rootTaxonomy)
               "
             >
               <span class="govuk-!-font-weight-bold">{{
@@ -248,7 +248,7 @@
             <gov-list
               v-if="
                 original.hasOwnProperty('useful_infos') &&
-                Array.isArray(original.useful_infos)
+                  Array.isArray(original.useful_infos)
               "
             >
               <li
@@ -291,7 +291,7 @@
             <gov-list
               v-if="
                 original.hasOwnProperty('offerings') &&
-                Array.isArray(original.offerings)
+                  Array.isArray(original.offerings)
               "
               bullet
             >
@@ -347,7 +347,7 @@
             <gov-list
               v-if="
                 original.hasOwnProperty('social_medias') &&
-                Array.isArray(original.social_medias)
+                  Array.isArray(original.social_medias)
               "
             >
               <li
@@ -436,7 +436,7 @@
               bullet
               v-if="
                 original.hasOwnProperty('category_taxonomies') &&
-                Array.isArray(original.category_taxonomies)
+                  Array.isArray(original.category_taxonomies)
               "
             >
               <li
@@ -499,9 +499,9 @@
               v-if="service.id"
               :src="
                 logoDataUri ||
-                apiUrl(
-                  `/services/${service.id}/logo.png?update_request_id=${updateRequestId}`
-                )
+                  apiUrl(
+                    `/services/${service.id}/logo.png?update_request_id=${updateRequestId}`
+                  )
               "
               alt="Service logo"
               class="ck-logo"
@@ -510,9 +510,9 @@
               v-else
               :src="
                 logoDataUri ||
-                apiUrl(
-                  `/services/new/logo.png?update_request_id=${updateRequestId}`
-                )
+                  apiUrl(
+                    `/services/new/logo.png?update_request_id=${updateRequestId}`
+                  )
               "
               alt="Service logo"
               class="ck-logo"
@@ -526,7 +526,7 @@
             <ck-carousel
               v-if="
                 original.hasOwnProperty('gallery_items') &&
-                Array.isArray(original.gallery_items)
+                  Array.isArray(original.gallery_items)
               "
               :image-urls="imageUrls(original)"
             />
@@ -557,28 +557,28 @@ export default {
   props: {
     updateRequestId: {
       required: true,
-      type: String,
+      type: String
     },
 
     requestedAt: {
       required: true,
-      type: String,
+      type: String
     },
 
     service: {
       required: true,
-      type: Object,
+      type: Object
     },
 
     logoDataUri: {
       required: false,
-      type: String,
+      type: String
     },
 
     galleryItemsDataUris: {
       required: false,
-      type: Array,
-    },
+      type: Array
+    }
   },
 
   components: { CkCarousel, CkTaxonomyTree },
@@ -590,7 +590,7 @@ export default {
       taxonomies: [],
       flattenedTaxonomies: [],
       eligibilityTypes: [],
-      flattenedEligibilityTypes: [],
+      flattenedEligibilityTypes: []
     };
   },
 
@@ -599,7 +599,7 @@ export default {
       return this.galleryItemsDataUris && this.galleryItemsDataUris.length > 0
         ? this.galleryItemsDataUris
         : this.imageUrls(this.service);
-    },
+    }
   },
 
   methods: {
@@ -607,7 +607,7 @@ export default {
       let name = taxonomy.name;
 
       if (taxonomy.parent_id !== null) {
-        const parent = this.flattenedTaxonomies.find((flattenedTaxonomy) => {
+        const parent = this.flattenedTaxonomies.find(flattenedTaxonomy => {
           return flattenedTaxonomy.id === taxonomy.parent_id;
         });
         name = `${this.taxonomyName(parent)} / ${name}`;
@@ -632,9 +632,9 @@ export default {
       // If this is an update request for a NEW service, then there's no original to check for.
       if (this.service.id !== null) {
         const {
-          data: { data: original },
+          data: { data: original }
         } = await http.get(`/services/${this.service.id}`, {
-          params: { include: "organisation" },
+          params: { include: "organisation" }
         });
         this.original = original;
       } else {
@@ -644,14 +644,14 @@ export default {
 
     async fetchTaxonomies() {
       const {
-        data: { data: taxonomies },
+        data: { data: taxonomies }
       } = await http.get("/taxonomies/categories");
       this.taxonomies = taxonomies;
       this.flattenedTaxonomies = this.getFlattenedTaxonomies(taxonomies);
     },
 
     getFlattenedTaxonomies(taxonomies = null, flattenedTaxonomies = []) {
-      taxonomies.forEach((taxonomy) => {
+      taxonomies.forEach(taxonomy => {
         flattenedTaxonomies.push(taxonomy);
 
         if (taxonomy.children.length > 0) {
@@ -662,7 +662,7 @@ export default {
     },
 
     findTaxonomy(id) {
-      return this.flattenedTaxonomies.find((taxonomy) => taxonomy.id === id);
+      return this.flattenedTaxonomies.find(taxonomy => taxonomy.id === id);
     },
 
     async fetchServiceEligibilites() {
@@ -681,7 +681,7 @@ export default {
       let ids = [taxonomy.id];
       if (taxonomy.parent_id) {
         const parent = flatTaxonomyTree.find(
-          (tax) => tax.id === taxonomy.parent_id
+          tax => tax.id === taxonomy.parent_id
         );
         if (parent) {
           ids = ids.concat(
@@ -696,7 +696,7 @@ export default {
       return service.eligibility_types.taxonomies.reduce(
         (taxonomyIds, taxonomyId) => {
           const taxonomy = this.flattenedEligibilityTypes.find(
-            (taxonomy) => taxonomy.id === taxonomyId
+            taxonomy => taxonomy.id === taxonomyId
           );
           return taxonomyIds.concat(
             this.getTaxonomyAndAncestorsIds(
@@ -718,7 +718,7 @@ export default {
     },
 
     imageUrls(service) {
-      return service.gallery_items.map((galleryItem) => {
+      return service.gallery_items.map(galleryItem => {
         if (galleryItem.hasOwnProperty("url")) {
           return galleryItem.url;
         }
@@ -751,7 +751,7 @@ export default {
         typeof this.service.eligibility_types.custom[rootSlug] == "string" &&
         this.service.eligibility_types.custom[rootSlug] !== customEligibility
       );
-    },
+    }
   },
 
   filters: {
@@ -766,7 +766,7 @@ export default {
         2: "Below Average",
         3: "Average",
         4: "Above Average",
-        5: "Excellent",
+        5: "Excellent"
       };
       return qualityScores[score];
     },
@@ -807,11 +807,11 @@ export default {
         return "";
       }
       return moment(date).format("D/M/YYYY");
-    },
+    }
   },
 
   created() {
     this.fetchAll();
-  },
+  }
 };
 </script>

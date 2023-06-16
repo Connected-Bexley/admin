@@ -30,8 +30,8 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>

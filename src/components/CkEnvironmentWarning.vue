@@ -22,8 +22,8 @@ export default {
     },
     adminUrl() {
       return String(process.env.VUE_APP_URI).replace("staging.", "");
-    },
-  },
+    }
+  }
 };
 </script>
 

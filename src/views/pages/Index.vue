@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "Pages",
+  name: "Pages"
 };
 </script>
 

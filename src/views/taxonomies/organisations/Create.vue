@@ -47,15 +47,15 @@ export default {
     return {
       form: new Form({
         name: "",
-        order: 1,
-      }),
+        order: 1
+      })
     };
   },
   methods: {
     async onSubmit() {
       await this.form.post("/taxonomies/organisations");
       this.$router.push({ name: "admin-index-taxonomies-organisations" });
-    },
-  },
+    }
+  }
 };
 </script>

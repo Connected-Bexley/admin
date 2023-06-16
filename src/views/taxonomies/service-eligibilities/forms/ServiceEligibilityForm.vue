@@ -30,22 +30,22 @@ export default {
   props: {
     errors: {
       required: true,
-      type: Object,
+      type: Object
     },
     parent_id: {
-      required: true,
+      required: true
     },
     name: {
-      required: true,
+      required: true
     },
     order: {
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       loading: false,
-      serviceEligibilities: [],
+      serviceEligibilities: []
     };
   },
 
@@ -53,11 +53,11 @@ export default {
     topLevelServiceEligibilities() {
       return [
         { text: "Select an eligibility type", value: null },
-        ...this.serviceEligibilities.map((eligibility) => {
+        ...this.serviceEligibilities.map(eligibility => {
           return { text: eligibility.name, value: eligibility.id };
-        }),
+        })
       ];
-    },
+    }
   },
 
   methods: {
@@ -72,10 +72,10 @@ export default {
       this.serviceEligibilities = data.data;
 
       this.loading = false;
-    },
+    }
   },
   created() {
     this.fetchServiceEligibilities();
-  },
+  }
 };
 </script>

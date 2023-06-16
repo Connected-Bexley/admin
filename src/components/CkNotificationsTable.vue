@@ -17,9 +17,11 @@
       >
         <gov-table-cell>
           <gov-tag
-            :class="`notification-status notification-status--${formatStatus(
-              notification
-            )}`"
+            :class="
+              `notification-status notification-status--${formatStatus(
+                notification
+              )}`
+            "
             >{{ formatStatus(notification) }}</gov-tag
           >
         </gov-table-cell>
@@ -35,7 +37,7 @@
           <gov-link
             :to="{
               name: 'notifications-show',
-              params: { notification: notification.id },
+              params: { notification: notification.id }
             }"
             >View</gov-link
           >
@@ -54,8 +56,8 @@ export default {
   props: {
     notifications: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
   methods: {
     formatStatus(notification) {
@@ -99,8 +101,8 @@ export default {
       } else {
         return "Sending...";
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -72,7 +72,7 @@ export default {
     return {
       loading: false,
       collection: null,
-      form: null,
+      form: null
     };
   },
   methods: {
@@ -92,9 +92,9 @@ export default {
         homepage: this.collection.homepage,
         sideboxes: this.collection.sideboxes,
         category_taxonomies: this.collection.category_taxonomies.map(
-          (taxonomy) => taxonomy.id
+          taxonomy => taxonomy.id
         ),
-        image_file_id: null,
+        image_file_id: null
       });
 
       this.loading = false;
@@ -118,10 +118,10 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "admin-index-collections-personas" });
-    },
+    }
   },
   created() {
     this.fetchCollection();
-  },
+  }
 };
 </script>

@@ -53,14 +53,14 @@ export default {
   name: "EditPage",
 
   components: {
-    PageForm,
+    PageForm
   },
 
   data() {
     return {
       loading: false,
       page: null,
-      form: null,
+      form: null
     };
   },
   computed: {
@@ -69,7 +69,7 @@ export default {
     },
     canDelete() {
       return this.auth.isGlobalAdmin && this.page.children.length === 0;
-    },
+    }
   },
   methods: {
     async fetchPage() {
@@ -86,7 +86,7 @@ export default {
         parent_id: this.page.parent ? this.page.parent.id : null,
         enabled: this.page.enabled,
         image_file_id: this.page.image ? this.page.image.id : null,
-        collections: this.page.collections,
+        collections: this.page.collections
       });
 
       this.loading = false;
@@ -135,18 +135,18 @@ export default {
       });
       this.$router.push({
         name: "pages-index",
-        query: { updated: true },
+        query: { updated: true }
       });
     },
     onDelete() {
       this.$router.push({
-        name: "pages-index",
+        name: "pages-index"
       });
-    },
+    }
   },
   created() {
     this.fetchPage();
-  },
+  }
 };
 </script>
 

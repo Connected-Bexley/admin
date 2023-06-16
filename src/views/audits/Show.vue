@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       loading: false,
-      audit: null,
+      audit: null
     };
   },
   methods: {
@@ -39,10 +39,10 @@ export default {
       );
       this.audit = data.data;
       this.loading = false;
-    },
+    }
   },
   created() {
     this.fetchAudit();
-  },
+  }
 };
 </script>

@@ -196,9 +196,9 @@
                 :gallery-items-data-uris="
                   form.gallery_items
                     .filter(
-                      (galleryItem) => typeof galleryItem.image !== 'undefined'
+                      galleryItem => typeof galleryItem.image !== 'undefined'
                     )
-                    .map((galleryItem) => galleryItem.image)
+                    .map(galleryItem => galleryItem.image)
                 "
               />
 
@@ -243,7 +243,7 @@ export default {
     EligibilityTab,
     ReferralTab,
     TaxonomiesTab,
-    ServiceDetails,
+    ServiceDetails
   },
   data() {
     return {
@@ -255,19 +255,19 @@ export default {
         { id: "eligibility", heading: "Eligibility", active: false },
         { id: "taxonomies", heading: "Taxonomies", active: false },
         { id: "description", heading: "Description", active: false },
-        { id: "referral", heading: "Referral", active: false },
+        { id: "referral", heading: "Referral", active: false }
       ],
       errors: {},
       service: null,
       loading: false,
-      updateRequest: null,
+      updateRequest: null
     };
   },
   computed: {
     allowedTabs() {
       if (!this.auth.isGlobalAdmin) {
         const taxonomiesTabIndex = this.tabs.findIndex(
-          (tab) => tab.id === "taxonomies"
+          tab => tab.id === "taxonomies"
         );
         const tabs = this.tabs.slice();
         tabs.splice(taxonomiesTabIndex, 1);
@@ -279,7 +279,7 @@ export default {
     },
     updateButtonText() {
       return this.auth.isGlobalAdmin ? "Update" : "Request update";
-    },
+    }
   },
   methods: {
     async fetchService() {
@@ -317,19 +317,19 @@ export default {
         ends_at: (this.service.ends_at || "").substring(0, 10),
         useful_infos: this.service.useful_infos,
         offerings: this.service.offerings,
-        gallery_items: this.service.gallery_items.map((galleryItem) => ({
+        gallery_items: this.service.gallery_items.map(galleryItem => ({
           file_id: galleryItem.file_id,
-          image: null,
+          image: null
         })),
         tags: this.service.tags,
         category_taxonomies: this.service.category_taxonomies.map(
-          (taxonomy) => taxonomy.id
+          taxonomy => taxonomy.id
         ),
         eligibility_types: JSON.parse(
           JSON.stringify(this.service.eligibility_types)
         ),
         logo_file_id: null,
-        logo: null,
+        logo: null
       });
 
       this.loading = false;
@@ -446,7 +446,7 @@ export default {
           if (
             JSON.stringify(data.category_taxonomies) ===
             JSON.stringify(
-              this.service.category_taxonomies.map((taxonomy) => taxonomy.id)
+              this.service.category_taxonomies.map(taxonomy => taxonomy.id)
             )
           ) {
             delete data.category_taxonomies;
@@ -474,13 +474,13 @@ export default {
           // Remove the gallery items from the request if null, or delete if false.
           if (
             JSON.stringify(
-              data.gallery_items.map((galleryItem) => ({
-                file_id: galleryItem.file_id,
+              data.gallery_items.map(galleryItem => ({
+                file_id: galleryItem.file_id
               }))
             ) ===
             JSON.stringify(
-              this.service.gallery_items.map((galleryItem) => ({
-                file_id: galleryItem.file_id,
+              this.service.gallery_items.map(galleryItem => ({
+                file_id: galleryItem.file_id
               }))
             )
           ) {
@@ -498,7 +498,7 @@ export default {
       const updateRequestId = response.id;
       let next = {
         name: "services-updated",
-        params: { service: this.service.id },
+        params: { service: this.service.id }
       };
 
       if (this.auth.isGlobalAdmin) {
@@ -520,30 +520,30 @@ export default {
       this.updateRequest = await this.onSubmit(true);
     },
     onTabChange({ index }) {
-      this.tabs.forEach((tab) => (tab.active = false));
+      this.tabs.forEach(tab => (tab.active = false));
       const tabId = this.allowedTabs[index].id;
-      this.tabs.find((tab) => tab.id === tabId).active = true;
+      this.tabs.find(tab => tab.id === tabId).active = true;
     },
     onNext() {
       const currentTabIndex = this.allowedTabs.findIndex(
-        (tab) => tab.active === true
+        tab => tab.active === true
       );
-      this.tabs.forEach((tab) => (tab.active = false));
+      this.tabs.forEach(tab => (tab.active = false));
       const newTabId = this.allowedTabs[currentTabIndex + 1].id;
-      this.tabs.find((tab) => tab.id === newTabId).active = true;
+      this.tabs.find(tab => tab.id === newTabId).active = true;
       this.scrollToTop();
     },
     scrollToTop() {
       document.getElementById("main-content").scrollIntoView();
     },
     isTabActive(id) {
-      const tab = this.allowedTabs.find((tab) => tab.id === id);
+      const tab = this.allowedTabs.find(tab => tab.id === id);
 
       return tab === undefined ? false : tab.active;
-    },
+    }
   },
   created() {
     this.fetchService();
-  },
+  }
 };
 </script>

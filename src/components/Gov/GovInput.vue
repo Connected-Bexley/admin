@@ -20,31 +20,31 @@ export default {
   props: {
     value: {
       type: String,
-      required: true,
+      required: true
     },
     id: {
       type: String,
-      required: true,
+      required: true
     },
     name: {
       type: String,
-      required: true,
+      required: true
     },
     type: {
       type: String,
       required: false,
-      default: "text",
+      default: "text"
     },
     width: {
       type: Number,
-      required: false,
+      required: false
     },
     min: {
-      type: [String, Number],
+      type: [String, Number]
     },
     max: {
-      type: [String, Number],
-    },
+      type: [String, Number]
+    }
   },
   computed: {
     computedClass() {
@@ -52,12 +52,12 @@ export default {
     },
     ariaDescribedBy() {
       return `${this.name}-hint`;
-    },
+    }
   },
   methods: {
     onEnter() {
       this.$emit("enter");
-    },
-  },
+    }
+  }
 };
 </script>
