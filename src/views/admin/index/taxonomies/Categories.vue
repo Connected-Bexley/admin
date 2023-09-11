@@ -6,11 +6,7 @@
 
         <gov-body>
           Taxonomies are the 'tags' that we assign to services, in order for
-          them to appear within search results and categories. They are pulled
-          from the
-          <gov-link href="https://about.auntbertha.com/openeligibility"
-            >Aunt Bertha Open Eligibility Standard</gov-link
-          >.
+          them to appear within search results and categories.
         </gov-body>
 
         <gov-body>
@@ -32,7 +28,7 @@
     <gov-section-break size="l" />
 
     <!-- Loop through each taxonomy -->
-    <ck-loader v-if="loading" />
+    <ck-loader v-if="loading"></ck-loader>
     <div v-else v-for="(taxonomy, index) in taxonomies" :key="index">
       <gov-grid-row>
         <gov-grid-column width="two-thirds">
@@ -43,7 +39,7 @@
               v-if="auth.isGlobalAdmin"
               :to="{
                 name: 'taxonomies-categories-edit',
-                params: { taxonomy: taxonomy.id },
+                params: { taxonomy: taxonomy.id }
               }"
             >
               Edit
@@ -58,7 +54,7 @@
                 v-if="auth.isGlobalAdmin"
                 :to="{
                   name: 'taxonomies-categories-edit',
-                  params: { taxonomy: taxonomy.id },
+                  params: { taxonomy: taxonomy.id }
                 }"
               >
                 Edit
@@ -72,7 +68,7 @@
                     v-if="auth.isGlobalAdmin"
                     :to="{
                       name: 'taxonomies-categories-edit',
-                      params: { taxonomy: taxonomy.id },
+                      params: { taxonomy: taxonomy.id }
                     }"
                   >
                     Edit
@@ -89,7 +85,7 @@
                         v-if="auth.isGlobalAdmin"
                         :to="{
                           name: 'taxonomies-categories-edit',
-                          params: { taxonomy: taxonomy.id },
+                          params: { taxonomy: taxonomy.id }
                         }"
                       >
                         Edit
@@ -106,7 +102,7 @@
                             v-if="auth.isGlobalAdmin"
                             :to="{
                               name: 'taxonomies-categories-edit',
-                              params: { taxonomy: taxonomy.id },
+                              params: { taxonomy: taxonomy.id }
                             }"
                           >
                             Edit
@@ -123,7 +119,7 @@
                                 v-if="auth.isGlobalAdmin"
                                 :to="{
                                   name: 'taxonomies-categories-edit',
-                                  params: { taxonomy: taxonomy.id },
+                                  params: { taxonomy: taxonomy.id }
                                 }"
                               >
                                 Edit
@@ -143,7 +139,7 @@
                                     v-if="auth.isGlobalAdmin"
                                     :to="{
                                       name: 'taxonomies-categories-edit',
-                                      params: { taxonomy: taxonomy.id },
+                                      params: { taxonomy: taxonomy.id }
                                     }"
                                   >
                                     Edit
@@ -185,7 +181,7 @@ export default {
   data() {
     return {
       loading: false,
-      taxonomies: [],
+      taxonomies: []
     };
   },
   methods: {
@@ -196,10 +192,10 @@ export default {
       this.taxonomies = data.data;
 
       this.loading = false;
-    },
+    }
   },
   created() {
     this.fetchTaxonomies();
-  },
+  }
 };
 </script>

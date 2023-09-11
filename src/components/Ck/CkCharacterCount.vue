@@ -9,14 +9,14 @@ export default {
   props: {
     count: {
       type: Number,
-      required: true,
+      required: true
     },
 
     maxLength: {
       type: Number,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>
 

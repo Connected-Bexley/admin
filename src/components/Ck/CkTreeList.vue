@@ -3,12 +3,13 @@
     <li v-for="node in nodes" :key="node.id">
       <slot name="label" :node="node">{{ node.label }}</slot
       >&nbsp;
-      <span v-if="canEdit">
+      <span>
         <slot name="edit" :node="node">
           <gov-link
+            v-if="canEdit"
             :to="{
               name: edit,
-              params: { [nodeType]: node.id },
+              params: { [nodeType]: node.id }
             }"
           >
             Edit
@@ -59,30 +60,26 @@ export default {
   props: {
     nodes: {
       required: true,
-      type: Array,
+      type: Array
     },
     nodeType: {
       type: String,
-      default: "",
+      default: ""
     },
     edit: {
       type: String,
-      default: "",
+      default: ""
     },
     bullet: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   computed: {
     canEdit() {
-      return (
-        this.edit.length > 0 &&
-        this.nodeType.length > 0 &&
-        this.auth.isGlobalAdmin
-      );
-    },
-  },
+      return this.edit.length > 0 && this.nodeType.length > 0;
+    }
+  }
 };
 </script>
 

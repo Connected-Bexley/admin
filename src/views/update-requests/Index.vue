@@ -32,33 +32,33 @@
             :columns="[
               {
                 heading: 'User',
-                render: (updateRequest) =>
+                render: updateRequest =>
                   updateRequest.user
                     ? `${updateRequest.user.first_name} ${updateRequest.user.last_name}`
-                    : 'N/A',
+                    : 'N/A'
               },
               {
                 heading: 'Type',
-                render: (updateRequest) =>
-                  displayType(updateRequest.updateable_type),
+                render: updateRequest =>
+                  displayType(updateRequest.updateable_type)
               },
               {
                 heading: 'Entry',
                 sort: 'entry',
-                render: (updateRequest) => updateRequest.entry,
+                render: updateRequest => updateRequest.entry
               },
               {
                 heading: 'Date / Time',
                 sort: 'created_at',
-                render: (updateRequest) =>
-                  formatDateTime(updateRequest.created_at),
-              },
+                render: updateRequest =>
+                  formatDateTime(updateRequest.created_at)
+              }
             ]"
             :view-route="
-              (updateRequest) => {
+              updateRequest => {
                 return {
                   name: 'update-requests-show',
-                  params: { updateRequest: updateRequest.id },
+                  params: { updateRequest: updateRequest.id }
                 };
               }
             "
@@ -79,14 +79,14 @@ export default {
   data() {
     return {
       filters: {
-        entry: "",
-      },
+        entry: ""
+      }
     };
   },
   computed: {
     params() {
       const params = {
-        include: "user",
+        include: "user"
       };
 
       if (this.filters.entry !== "") {
@@ -94,7 +94,7 @@ export default {
       }
 
       return params;
-    },
+    }
   },
   methods: {
     onSearch() {
@@ -122,7 +122,7 @@ export default {
         default:
           return "Invalid type";
       }
-    },
-  },
+    }
+  }
 };
 </script>

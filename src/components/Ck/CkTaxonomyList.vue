@@ -6,7 +6,7 @@
         <gov-link
           :to="{
             name: edit,
-            params: { taxonomy: taxonomy.id },
+            params: { taxonomy: taxonomy.id }
           }"
         >
           Edit </gov-link
@@ -44,39 +44,39 @@ export default {
   props: {
     taxonomies: {
       required: true,
-      type: Array,
+      type: Array
     },
     filteredTaxonomyIds: {
       type: [Array, Boolean],
       default() {
         return [];
-      },
+      }
     },
     taxonomyCollections: {
       type: Object,
       default() {
         return {};
-      },
+      }
     },
     edit: {
       type: String,
-      default: "",
+      default: ""
     },
     bullet: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   computed: {
     filteredTaxonomies() {
       return Array.isArray(this.filteredTaxonomyIds)
-        ? this.taxonomies.filter((taxonomy) => {
+        ? this.taxonomies.filter(taxonomy => {
             return this.filteredTaxonomyIds.includes(taxonomy.id);
           })
         : this.taxonomies;
-    },
-  },
+    }
+  }
 };
 </script>
 

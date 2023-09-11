@@ -57,41 +57,41 @@ export default {
   name: "CkFileInput",
   props: {
     value: {
-      required: true,
+      required: true
     },
     label: {
       required: true,
-      type: String,
+      type: String
     },
     hint: {
       required: false,
-      type: String,
+      type: String
     },
     error: {
-      required: true,
+      required: true
     },
     accept: {
       required: false,
-      default: null,
+      default: null
     },
     id: {
       required: true,
-      type: String,
+      type: String
     },
     existingUrl: {
       required: false,
-      type: String,
+      type: String
     },
     image: {
       required: false,
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   data() {
     return {
-      removeExisting: false,
+      removeExisting: false
     };
   },
 
@@ -107,7 +107,7 @@ export default {
       // For existing file.
       this.removeExisting = true;
       this.$emit("input", false);
-    },
-  },
+    }
+  }
 };
 </script>

@@ -13,7 +13,7 @@
         hint="Banner configuration will be shown when enabled"
         :options="[
           { value: false, label: 'Disabled' },
-          { value: true, label: 'Enabled' },
+          { value: true, label: 'Enabled' }
         ]"
         :error="null"
       />
@@ -36,24 +36,24 @@ export default {
   name: "CmsFrontendBanner",
 
   components: {
-    CkBannerInput,
+    CkBannerInput
   },
 
   model: {
     prop: "frontend",
-    event: "input",
+    event: "input"
   },
 
   props: {
     frontend: {
       type: Object,
-      required: true,
+      required: true
     },
 
     errors: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
 
   methods: {
@@ -64,7 +64,7 @@ export default {
 
       this.$emit("input", frontend);
       this.$emit("clear", `frontend.banner.${field}`);
-    },
-  },
+    }
+  }
 };
 </script>

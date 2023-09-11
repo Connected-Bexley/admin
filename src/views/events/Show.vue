@@ -59,14 +59,14 @@ export default {
   name: "OrganisationEventShow",
 
   components: {
-    EventDetails,
+    EventDetails
   },
 
   data() {
     return {
       loading: false,
       event: null,
-      updated: false,
+      updated: false
     };
   },
 
@@ -88,12 +88,12 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "events-index" });
-    },
+    }
   },
   created() {
     this.updated = this.$route.query.updated || false;
     this.fetchEvent();
-  },
+  }
 };
 </script>
 

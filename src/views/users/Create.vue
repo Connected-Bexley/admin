@@ -11,9 +11,9 @@
           <gov-heading size="m">Add user</gov-heading>
 
           <gov-body
-            >Create users to be able to acces the back-end of the Hounslow
-            Connect service (deciding their permissions in what they have access
-            to)</gov-body
+            >Create users to be able to acces the back-end of the
+            {{ appName }} service (deciding their permissions in what they have
+            access to)</gov-body
           >
 
           <user-form
@@ -55,8 +55,8 @@ export default {
         email: "",
         phone: "",
         password: "",
-        roles: [],
-      }),
+        roles: []
+      })
     };
   },
   methods: {
@@ -65,11 +65,12 @@ export default {
         // Strip spaces from the phone number.
         data.phone = data.phone.replace(/\s/g, "");
 
-        data.roles.forEach((role) => {
+        data.roles.forEach(role => {
           switch (role.role) {
             // Delete the organisation and service IDs instead of sending null values.
             case "Super Admin":
             case "Global Admin":
+            case "Content Admin":
               delete role.organisation_id;
               delete role.service_id;
               break;
@@ -82,9 +83,9 @@ export default {
 
       this.$router.push({
         name: "users-show",
-        params: { user: data.data.id },
+        params: { user: data.data.id }
       });
-    },
-  },
+    }
+  }
 };
 </script>

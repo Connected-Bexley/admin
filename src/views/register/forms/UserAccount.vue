@@ -42,7 +42,7 @@
     <ck-text-input
       v-model="form.user.phone"
       id="phone"
-      label="Phone"
+      label="Mobile Phone"
       type="tel"
       :error="errors.get('user.phone')"
     />
@@ -62,13 +62,13 @@ export default {
   props: {
     form: {
       type: Object,
-      required: true,
+      required: true
     },
 
     errors: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
 
   computed: {
@@ -77,8 +77,8 @@ export default {
     },
     privacyPolicyUrl() {
       return `${this.appFrontendUri}/privacy-policy`;
-    },
-  },
+    }
+  }
 };
 </script>
 

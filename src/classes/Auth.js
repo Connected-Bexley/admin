@@ -9,7 +9,7 @@ class Auth {
     this.appUri = process.env.VUE_APP_URI;
     this.appApiClientId = process.env.VUE_APP_API_CLIENT_ID;
     this.http = axios.create({
-      baseURL: this.appApiUri,
+      baseURL: this.appApiUri
     });
   }
 
@@ -31,7 +31,7 @@ class Auth {
     let e,
       a = /\+/g, // Regex for replacing addition symbol with a space
       r = /([^&;=]+)=?([^&;]*)/g,
-      d = function (s) {
+      d = function(s) {
         return decodeURIComponent(s.replace(a, " "));
       },
       q = query,
@@ -64,7 +64,7 @@ class Auth {
       "oauth",
       JSON.stringify({
         expires_at: expiresIn * 1000 + new Date().setHours(24, 0, 0, 0),
-        access_token: accessToken,
+        access_token: accessToken
       })
     );
 
@@ -80,8 +80,8 @@ class Auth {
       params: { include: "user-roles" },
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.accessToken}`,
-      },
+        Authorization: `Bearer ${this.accessToken}`
+      }
     });
 
     localStorage.setItem("user", JSON.stringify(data.data));
@@ -105,8 +105,8 @@ class Auth {
     await this.http.delete("/core/v1/users/user/sessions", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.accessToken}`,
-      },
+        Authorization: `Bearer ${this.accessToken}`
+      }
     });
   }
 
@@ -184,6 +184,20 @@ class Auth {
   }
 
   /**
+   * @returns {array}
+   */
+  get roles() {
+    return [
+      { text: "Super admin", value: "Super Admin" },
+      { text: "Global admin", value: "Global Admin" },
+      { text: "Content admin", value: "Content Admin" },
+      { text: "Organisation admin", value: "Organisation Admin" },
+      { text: "Service admin", value: "Service Admin" },
+      { text: "Service worker", value: "Service Worker" }
+    ];
+  }
+
+  /**
    * @param {string} roleName
    * @param {object} service
    * @param {object} organisation
@@ -195,7 +209,7 @@ class Auth {
     }
 
     return (
-      this.user.roles.find((role) => {
+      this.user.roles.find(role => {
         if (role.role !== roleName) {
           return false;
         }
@@ -230,6 +244,20 @@ class Auth {
   /**
    * @returns {boolean}
    */
+  get isContentAdmin() {
+    return this.hasRole("Content Admin") || this.isSuperAdmin;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  get isOnlyContentAdmin() {
+    return this.hasRole("Content Admin") && this.user.roles.length === 1;
+  }
+
+  /**
+   * @returns {boolean}
+   */
   isOrganisationAdmin(organisation = null) {
     return (
       this.hasRole("Organisation Admin", null, organisation) ||
@@ -254,6 +282,21 @@ class Auth {
     return (
       this.hasRole("Service Worker", service) || this.isServiceAdmin(service)
     );
+  }
+
+  /**
+   *
+   * @param {array} roles
+   * @returns {string}
+   */
+  displayHighestRole(userRoles) {
+    const roleNames = this.roles.map(role => role.value);
+
+    const highestRole = roleNames.find(
+      roleName => userRoles.find(role => role.role === roleName) !== undefined
+    );
+
+    return highestRole || "None";
   }
 }
 

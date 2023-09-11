@@ -17,7 +17,7 @@
         :large="large"
         :extensions="extensions"
       />
-      <ck-character-count
+      <ck-character-count-bar
         v-if="maxlength"
         :count="count"
         :max-length="maxlength"
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import CkCharacterCount from "@/components/Ck/CkCharacterCount.vue";
+import CkCharacterCountBar from "@/components/Ck/CkCharacterCountBar.vue";
 import CkCharacterCountGroup from "@/components/Ck/CkCharacterCountGroup.vue";
 import {
   Blockquote,
@@ -41,40 +41,40 @@ import {
   ListItem,
   Bold,
   Italic,
-  Link,
+  Link
 } from "tiptap-extensions";
 
 export default {
   name: "CkWysiwygInput",
-  components: { CkCharacterCount, CkCharacterCountGroup },
+  components: { CkCharacterCountBar, CkCharacterCountGroup },
   props: {
     value: {
       required: true,
-      type: String,
+      type: String
     },
     label: {
       required: true,
-      type: String,
+      type: String
     },
     hint: {
       required: false,
-      type: String,
+      type: String
     },
     error: {
-      required: true,
+      required: true
     },
     id: {
       required: true,
-      type: String,
+      type: String
     },
     large: {
       required: false,
       type: Boolean,
-      deafult: false,
+      deafult: false
     },
     maxlength: {
       required: false,
-      type: Number,
+      type: Number
     },
     extensions: {
       required: false,
@@ -88,20 +88,20 @@ export default {
           new ListItem(),
           new Bold(),
           new Italic(),
-          new Link(),
+          new Link()
         ];
-      },
-    },
+      }
+    }
   },
   data() {
     return {
-      count: 0,
+      count: 0
     };
   },
   methods: {
     onCount(count) {
       this.count = count;
-    },
-  },
+    }
+  }
 };
 </script>

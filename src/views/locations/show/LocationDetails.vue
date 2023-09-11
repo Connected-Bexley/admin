@@ -89,8 +89,8 @@ export default {
   props: {
     location: {
       required: true,
-      type: Object,
-    },
-  },
+      type: Object
+    }
+  }
 };
 </script>

@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       loading: false,
-      user: null,
+      user: null
     };
   },
   methods: {
@@ -59,8 +59,8 @@ export default {
       http
         .get(`/users/${this.$route.params.user}`, {
           params: {
-            include: "user-roles.organisation,user-roles.service",
-          },
+            include: "user-roles.organisation,user-roles.service"
+          }
         })
         .then(({ data }) => {
           this.user = data.data;
@@ -72,10 +72,10 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "users-index" });
-    },
+    }
   },
   created() {
     this.fetchUser();
-  },
+  }
 };
 </script>

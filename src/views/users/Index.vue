@@ -112,25 +112,25 @@
               {
                 heading: 'First name',
                 sort: 'first_name',
-                render: (user) => user.first_name,
+                render: user => user.first_name
               },
               {
                 heading: 'Last name',
                 sort: 'last_name',
-                render: (user) => user.last_name,
+                render: user => user.last_name
               },
               {
                 heading: 'Highest permission level',
                 sort: 'highest_role',
-                render: (user) => displayHighestRole(user.roles),
+                render: user => auth.displayHighestRole(user.roles)
               },
-              { heading: 'Phone number', render: (user) => user.phone },
+              { heading: 'Phone number', render: user => user.phone }
             ]"
             :view-route="
-              (user) => {
+              user => {
                 return {
                   name: 'users-show',
-                  params: { user: user.id },
+                  params: { user: user.id }
                 };
               }
             "
@@ -142,6 +142,7 @@
 </template>
 
 <script>
+import Auth from "@/classes/Auth";
 import CkResourceListingTable from "@/components/Ck/CkResourceListingTable.vue";
 import CkTableFilters from "@/components/Ck/CkTableFilters.vue";
 
@@ -150,6 +151,7 @@ export default {
   components: { CkResourceListingTable, CkTableFilters },
   data() {
     return {
+      auth: Auth,
       filters: {
         first_name: "",
         last_name: "",
@@ -157,27 +159,22 @@ export default {
         phone: "",
         highest_role: "",
         at_organisation: "",
-        at_service: "",
+        at_service: ""
       },
-      roles: [
-        { value: "", text: "All" },
-        { value: "Super Admin", text: "Super Admin" },
-        { value: "Global Admin", text: "Global Admin" },
-        { value: "Organisation Admin", text: "Organisation Admin" },
-        { value: "Service Admin", text: "Service Admin" },
-        { value: "Service Worker", text: "Service Worker" },
-      ],
       loadingOrganisations: false,
       organisations: [],
       loadingServices: false,
-      services: [{ value: "", text: "First select an organisation..." }],
+      services: [{ value: "", text: "First select an organisation..." }]
     };
   },
   computed: {
+    roles() {
+      return Auth.roles.slice().unshift({ value: "", text: "All" });
+    },
     params() {
       const params = {
         include: "user-roles",
-        "filter[has_permission]": true,
+        "filter[has_permission]": true
       };
 
       if (this.filters.first_name !== "") {
@@ -210,7 +207,7 @@ export default {
       }
 
       return params;
-    },
+    }
   },
   watch: {
     "filters.at_organisation"(organisationId) {
@@ -218,12 +215,12 @@ export default {
 
       if (organisationId === "") {
         this.services = [
-          { value: "", text: "First select an organisation..." },
+          { value: "", text: "First select an organisation..." }
         ];
       } else {
         this.fetchServices(organisationId);
       }
-    },
+    }
   },
   methods: {
     onSearch() {
@@ -233,47 +230,14 @@ export default {
     onAddUser() {
       this.$router.push({ name: "users-create" });
     },
-    displayHighestRole(roles) {
-      const isSuperAdmin =
-        roles.find((role) => role.role === "Super Admin") !== undefined;
-      if (isSuperAdmin) {
-        return "Super Admin";
-      }
-
-      const isGlobalAdmin =
-        roles.find((role) => role.role === "Global Admin") !== undefined;
-      if (isGlobalAdmin) {
-        return "Global Admin";
-      }
-
-      const isOrganisationAdmin =
-        roles.find((role) => role.role === "Organisation Admin") !== undefined;
-      if (isOrganisationAdmin) {
-        return "Organisation Admin";
-      }
-
-      const isServiceAdmin =
-        roles.find((role) => role.role === "Service Admin") !== undefined;
-      if (isServiceAdmin) {
-        return "Service Admin";
-      }
-
-      const isServiceWorker =
-        roles.find((role) => role.role === "Service Worker") !== undefined;
-      if (isServiceWorker) {
-        return "Service Worker";
-      }
-
-      return "None";
-    },
     async fetchOrganisations() {
       this.loadingOrganisations = true;
 
       let organisation = await this.fetchAll("/organisations");
-      organisation = organisation.map((organisation) => {
+      organisation = organisation.map(organisation => {
         return {
           value: organisation.id,
-          text: organisation.name,
+          text: organisation.name
         };
       });
       organisation.unshift({ value: "", text: "All" });
@@ -286,12 +250,12 @@ export default {
       this.loadingServices = true;
 
       let services = await this.fetchAll("/services", {
-        "filter[organisation_id]": organisationId,
+        "filter[organisation_id]": organisationId
       });
-      services = services.map((service) => {
+      services = services.map(service => {
         return {
           value: service.id,
-          text: service.name,
+          text: service.name
         };
       });
       services.unshift({ value: "", text: "All" });
@@ -299,10 +263,10 @@ export default {
       this.services = services;
 
       this.loadingServices = false;
-    },
+    }
   },
   created() {
     this.fetchOrganisations();
-  },
+  }
 };
 </script>

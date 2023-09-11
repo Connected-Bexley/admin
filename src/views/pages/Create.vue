@@ -1,15 +1,15 @@
 <template>
   <gov-width-container>
-    <vue-headful title="Help Yourself Sutton - Add Page" />
+    <vue-headful :title="`${appName} - Add Page`" />
 
     <gov-back-link :to="{ name: 'pages-index' }">Back to pages</gov-back-link>
     <gov-main-wrapper>
       <page-form
         :errors="form.$errors"
-        :is-new="true"
         :page_type.sync="form.page_type"
         :parent_id.sync="form.parent_id"
-        :title.sync="form.title"
+        @update:title="onUpdateTitle"
+        :title="form.title"
         :slug.sync="form.slug"
         :excerpt.sync="form.excerpt"
         :content.sync="form.content"
@@ -38,14 +38,14 @@ export default {
   name: "CreatePage",
 
   components: {
-    PageForm,
+    PageForm
   },
 
   props: {
     type: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
@@ -59,7 +59,7 @@ export default {
         page_type: this.type,
         image_file_id: null,
         collections: [],
-        enabled: false,
+        enabled: false
       }),
 
       contentTypes: {
@@ -71,9 +71,9 @@ export default {
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
+                value: ""
+              }
+            ]
           },
           about: {
             order: 2,
@@ -82,9 +82,9 @@ export default {
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
+                value: ""
+              }
+            ]
           },
           info_pages: {
             order: 3,
@@ -94,9 +94,9 @@ export default {
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
+                value: ""
+              }
+            ]
           },
           collections: {
             order: 4,
@@ -106,25 +106,26 @@ export default {
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
-          },
+                value: ""
+              }
+            ]
+          }
         },
         information: {
           introduction: {
             order: 1,
             label: "Page content",
-            hint: "This is the largest content of the page. Use formatting to improve readability and impact.",
+            hint:
+              "This is the largest content of the page. Use formatting to improve readability and impact.",
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
-          },
-        },
-      },
+                value: ""
+              }
+            ]
+          }
+        }
+      }
     };
   },
 
@@ -133,11 +134,15 @@ export default {
       await this.form.post("/pages");
       this.$router.push({ name: "pages-index" });
     },
+    onUpdateTitle(title) {
+      this.form.title = title;
+      this.form.slug = this.slugify(title);
+    }
   },
 
   created() {
     this.form.content = this.contentTypes[this.form.page_type];
-  },
+  }
 };
 </script>
 

@@ -7,7 +7,7 @@
       :hint="hint"
       :options="[
         { value: false, label: 'No specific requirement' },
-        { value: true, label: 'Other' },
+        { value: true, label: 'Other' }
       ]"
       :error="error"
     />
@@ -32,28 +32,28 @@ export default {
   props: {
     value: {
       type: String,
-      required: true,
+      required: true
     },
     error: {
-      required: true,
+      required: true
     },
     id: {
       type: String,
-      required: true,
+      required: true
     },
     label: {
       type: String,
-      required: true,
+      required: true
     },
     hint: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       enabled: this.value !== "",
-      maxLength: 150,
+      maxLength: 150
     };
   },
   watch: {
@@ -61,7 +61,7 @@ export default {
       if (!enabled) {
         this.$emit("input", "");
       }
-    },
-  },
+    }
+  }
 };
 </script>

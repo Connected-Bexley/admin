@@ -3,7 +3,9 @@
     <ck-loader v-if="loading" />
     <template v-else>
       <vue-headful
-        :title="`${appName} - Edit Service Eligibility: ${serviceEligibility.name}`"
+        :title="
+          `${appName} - Edit Service Eligibility: ${serviceEligibility.name}`
+        "
       />
 
       <gov-back-link
@@ -44,7 +46,9 @@
 
             <ck-delete-button
               resource="category"
-              :endpoint="`/taxonomies/service-eligibilities/${this.serviceEligibility.id}`"
+              :endpoint="
+                `/taxonomies/service-eligibilities/${this.serviceEligibility.id}`
+              "
               @deleted="onDelete"
             />
           </gov-grid-column>
@@ -66,7 +70,7 @@ export default {
     return {
       loading: false,
       serviceEligibility: null,
-      form: null,
+      form: null
     };
   },
   methods: {
@@ -80,7 +84,7 @@ export default {
       this.form = new Form({
         parent_id: this.serviceEligibility.parent_id,
         name: this.serviceEligibility.name,
-        order: this.serviceEligibility.order,
+        order: this.serviceEligibility.order
       });
 
       this.loading = false;
@@ -90,17 +94,17 @@ export default {
         `/taxonomies/service-eligibilities/${this.serviceEligibility.id}`
       );
       this.$router.push({
-        name: "admin-index-taxonomies-service-eligibilities",
+        name: "admin-index-taxonomies-service-eligibilities"
       });
     },
     onDelete() {
       this.$router.push({
-        name: "admin-index-taxonomies-service-eligibilities",
+        name: "admin-index-taxonomies-service-eligibilities"
       });
-    },
+    }
   },
   created() {
     this.fetchServiceEligibility();
-  },
+  }
 };
 </script>

@@ -2,14 +2,13 @@
   <gov-width-container>
     <ck-loader v-if="loading" />
     <template v-else>
-      <vue-headful :title="`Help Yourself Sutton - Edit Page ${page.title}`" />
+      <vue-headful :title="`${appName} - Edit Page ${page.title}`" />
 
       <gov-back-link :to="{ name: 'pages-index' }">Back to pages</gov-back-link>
       <gov-main-wrapper>
         <page-form
           :page="page"
           :errors="form.$errors"
-          :is-new="false"
           :parent_id.sync="form.parent_id"
           :page_type.sync="form.page_type"
           :title.sync="form.title"
@@ -53,23 +52,23 @@ export default {
   name: "EditPage",
 
   components: {
-    PageForm,
+    PageForm
   },
 
   data() {
     return {
       loading: false,
       page: null,
-      form: null,
+      form: null
     };
   },
   computed: {
     updateButtonText() {
-      return this.auth.isGlobalAdmin ? "Update" : "Request update";
+      return this.auth.isContentAdmin ? "Update" : "Request update";
     },
     canDelete() {
-      return this.auth.isGlobalAdmin && this.page.children.length === 0;
-    },
+      return this.auth.isContentAdmin && this.page.children.length === 0;
+    }
   },
   methods: {
     async fetchPage() {
@@ -86,7 +85,7 @@ export default {
         parent_id: this.page.parent ? this.page.parent.id : null,
         enabled: this.page.enabled,
         image_file_id: this.page.image ? this.page.image.id : null,
-        collections: this.page.collections,
+        collections: this.page.collections
       });
 
       this.loading = false;
@@ -135,18 +134,18 @@ export default {
       });
       this.$router.push({
         name: "pages-index",
-        query: { updated: true },
+        query: { updated: true }
       });
     },
     onDelete() {
       this.$router.push({
-        name: "pages-index",
+        name: "pages-index"
       });
-    },
+    }
   },
   created() {
     this.fetchPage();
-  },
+  }
 };
 </script>
 

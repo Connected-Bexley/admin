@@ -9,7 +9,7 @@
       <gov-back-link
         :to="{
           name: 'organisations-show',
-          params: { organisation: organisation.id },
+          params: { organisation: organisation.id }
         }"
         >Back to organisation</gov-back-link
       >
@@ -127,14 +127,14 @@ export default {
       form: null,
       tabs: [
         { id: "details", heading: "Details", active: true },
-        { id: "taxonomies", heading: "Taxonomies", active: false },
-      ],
+        { id: "taxonomies", heading: "Taxonomies", active: false }
+      ]
     };
   },
   computed: {
     updateButtonText() {
       return this.auth.isGlobalAdmin ? "Update" : "Request update";
-    },
+    }
   },
   methods: {
     async fetchOrganisation() {
@@ -154,8 +154,8 @@ export default {
         logo_file_id: null,
         social_medias: this.organisation.social_medias,
         category_taxonomies: this.organisation.category_taxonomies.map(
-          (taxonomy) => taxonomy.id
-        ),
+          taxonomy => taxonomy.id
+        )
       });
 
       this.loading = false;
@@ -201,9 +201,7 @@ export default {
           if (
             JSON.stringify(data.category_taxonomies) ===
             JSON.stringify(
-              this.organisation.category_taxonomies.map(
-                (taxonomy) => taxonomy.id
-              )
+              this.organisation.category_taxonomies.map(taxonomy => taxonomy.id)
             )
           ) {
             delete data.category_taxonomies;
@@ -213,7 +211,7 @@ export default {
       const updateRequestId = response.id;
       let next = {
         name: "organisations-updated",
-        params: { organisation: this.organisation.id },
+        params: { organisation: this.organisation.id }
       };
 
       if (this.auth.isGlobalAdmin) {
@@ -233,18 +231,18 @@ export default {
       this.$router.push(next);
     },
     onTabChange({ index }) {
-      this.tabs.forEach((tab) => (tab.active = false));
+      this.tabs.forEach(tab => (tab.active = false));
       const tabId = this.tabs[index].id;
-      this.tabs.find((tab) => tab.id === tabId).active = true;
+      this.tabs.find(tab => tab.id === tabId).active = true;
     },
     isTabActive(id) {
-      const tab = this.tabs.find((tab) => tab.id === id);
+      const tab = this.tabs.find(tab => tab.id === id);
 
       return tab === undefined ? false : tab.active;
-    },
+    }
   },
   created() {
     this.fetchOrganisation();
-  },
+  }
 };
 </script>

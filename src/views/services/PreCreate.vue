@@ -12,8 +12,8 @@
           <gov-heading size="xl">Add a new Service Page</gov-heading>
 
           <gov-body>
-            You’re about to add a service/club/activity/group to Hounslow
-            Connect. Here are some things you should know:
+            You're about to add a service/club/activity/group to {{ appName }}.
+            Here are some things you should know:
           </gov-body>
 
           <gov-list bullet>

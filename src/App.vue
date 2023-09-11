@@ -37,63 +37,89 @@ export default {
       bodyClasses: ["js-enabled"],
       mainClasses: [],
       headerNav: [],
-      logoutInterval: null,
+      logoutInterval: null
     };
   },
   computed: {
     headAttributes() {
       return {
         "meta[name=theme-color]": {
-          content: this.themeColor,
+          content: this.themeColor
         },
-        "meta[name=robots]": { content: "noindex" },
+        "meta[name=robots]": { content: "noindex" }
       };
     },
     htmlAttributes() {
       return {
         body: {
-          class: [document.body.className, ...this.bodyClasses].join(" "),
-        },
+          class: [document.body.className, ...this.bodyClasses].join(" ")
+        }
       };
     },
     loggedInItems() {
       return [
-        { text: "Services", to: { name: "services-index" } },
-        { text: "Locations", to: { name: "locations-index" } },
-        { text: "Referrals", to: { name: "referrals-index" } },
-        { text: "Organisations", to: { name: "organisations-index" } },
-        { text: "Pages", to: { name: "pages-index" } },
+        {
+          text: "Services",
+          to: { name: "services-index" },
+          hide: Auth.isOnlyContentAdmin
+        },
+        {
+          text: "Locations",
+          to: { name: "locations-index" },
+          hide: Auth.isOnlyContentAdmin
+        },
+        {
+          text: "Referrals",
+          to: { name: "referrals-index" },
+          hide: Auth.isOnlyContentAdmin
+        },
+        {
+          text: "Organisations",
+          to: { name: "organisations-index" },
+          hide: !Auth.isOrganisationAdmin()
+        },
+        {
+          text: "Events",
+          to: { name: "events-index" },
+          hide: Auth.isOnlyContentAdmin
+        },
+        {
+          text: "Pages",
+          to: { name: "pages-index" },
+          hide: !Auth.isContentAdmin
+        },
         {
           text: "Users",
           to: { name: "users-index" },
+          hide: Auth.isOnlyContentAdmin
         },
         {
           text: "Reports",
           to: { name: "reports-index" },
-          hide: !Auth.isGlobalAdmin,
+          hide: !Auth.isGlobalAdmin
         },
         {
           text: "Admin",
           to: { name: "admin-index" },
-          hide: !Auth.isGlobalAdmin,
+          hide: !Auth.isGlobalAdmin
         },
         {
           text: "Update requests",
           to: { name: "update-requests-index" },
-          hide: !Auth.isGlobalAdmin,
+          hide: !Auth.isGlobalAdmin
         },
         {
           text: "Help",
-          to: { name: "help-index" },
-        },
+          to: { name: "help-index" }
+        }
       ];
     },
     loggedOutItems() {
       return [
         { text: "Register", to: { name: "register-index" } },
-        { text: "Login", href: Auth.authorizeUrl },
+        { text: "Login", href: Auth.authorizeUrl }
       ];
-    },
+    }
   },
   methods: {
     setHeaderItems() {
@@ -122,7 +148,7 @@ export default {
     endAutoLogoutInterval() {
       clearInterval(this.logoutInterval);
       this.logoutInterval = null;
-    },
+    }
   },
 
   created() {
@@ -138,6 +164,6 @@ export default {
 
   destroyed() {
     this.endAutoLogoutInterval();
-  },
+  }
 };
 </script>

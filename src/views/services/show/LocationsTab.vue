@@ -13,7 +13,7 @@
         <gov-button
           :to="{
             name: 'service-locations-create',
-            params: { service: service.id },
+            params: { service: service.id }
           }"
           success
           expand
@@ -35,8 +35,8 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>

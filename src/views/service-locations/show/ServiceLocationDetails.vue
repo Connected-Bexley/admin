@@ -72,9 +72,8 @@
         <gov-table-cell>
           <gov-list>
             <li
-              v-for="(
-                regularOpeningHour, index
-              ) in serviceLocation.regular_opening_hours"
+              v-for="(regularOpeningHour,
+              index) in serviceLocation.regular_opening_hours"
               :key="index"
               v-text="formatRegularOpeningHour(regularOpeningHour)"
             />
@@ -92,9 +91,8 @@
         <gov-table-cell>
           <gov-list>
             <li
-              v-for="(
-                holidayOpeningHour, index
-              ) in serviceLocation.holiday_opening_hours"
+              v-for="(holidayOpeningHour,
+              index) in serviceLocation.holiday_opening_hours"
               :key="index"
               v-text="formatHolidayOpeningHour(holidayOpeningHour)"
             />
@@ -126,7 +124,7 @@
           <gmap-map
             :center="{
               lat: serviceLocation.location.lat,
-              lng: serviceLocation.location.lon,
+              lng: serviceLocation.location.lon
             }"
             :zoom="13"
             map-type-id="roadmap"
@@ -135,7 +133,7 @@
             <GmapMarker
               :position="{
                 lat: serviceLocation.location.lat,
-                lng: serviceLocation.location.lon,
+                lng: serviceLocation.location.lon
               }"
               :clickable="false"
               :draggable="false"
@@ -155,8 +153,8 @@ export default {
   props: {
     serviceLocation: {
       required: true,
-      type: Object,
-    },
+      type: Object
+    }
   },
   methods: {
     formatRegularOpeningHour(openingHour) {
@@ -218,7 +216,7 @@ export default {
       const remainingDays = Math.abs(diffInDays % daysInFortnight);
 
       return remainingDays > 6 ? "next calendar week" : "this calendar week";
-    },
-  },
+    }
+  }
 };
 </script>
