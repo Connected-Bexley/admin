@@ -122,7 +122,7 @@
               {
                 heading: 'Highest permission level',
                 sort: 'highest_role',
-                render: user => displayHighestRole(user.roles)
+                render: user => auth.displayHighestRole(user.roles)
               },
               { heading: 'Phone number', render: user => user.phone }
             ]"
@@ -142,6 +142,7 @@
 </template>
 
 <script>
+import Auth from "@/classes/Auth";
 import CkResourceListingTable from "@/components/Ck/CkResourceListingTable.vue";
 import CkTableFilters from "@/components/Ck/CkTableFilters.vue";
 
@@ -150,6 +151,7 @@ export default {
   components: { CkResourceListingTable, CkTableFilters },
   data() {
     return {
+      auth: Auth,
       filters: {
         first_name: "",
         last_name: "",
@@ -159,14 +161,6 @@ export default {
         at_organisation: "",
         at_service: ""
       },
-      roles: [
-        { value: "", text: "All" },
-        { value: "Super Admin", text: "Super Admin" },
-        { value: "Global Admin", text: "Global Admin" },
-        { value: "Organisation Admin", text: "Organisation Admin" },
-        { value: "Service Admin", text: "Service Admin" },
-        { value: "Service Worker", text: "Service Worker" }
-      ],
       loadingOrganisations: false,
       organisations: [],
       loadingServices: false,
@@ -174,6 +168,9 @@ export default {
     };
   },
   computed: {
+    roles() {
+      return Auth.roles.slice().unshift({ value: "", text: "All" });
+    },
     params() {
       const params = {
         include: "user-roles",
@@ -232,39 +229,6 @@ export default {
     },
     onAddUser() {
       this.$router.push({ name: "users-create" });
-    },
-    displayHighestRole(roles) {
-      const isSuperAdmin =
-        roles.find(role => role.role === "Super Admin") !== undefined;
-      if (isSuperAdmin) {
-        return "Super Admin";
-      }
-
-      const isGlobalAdmin =
-        roles.find(role => role.role === "Global Admin") !== undefined;
-      if (isGlobalAdmin) {
-        return "Global Admin";
-      }
-
-      const isOrganisationAdmin =
-        roles.find(role => role.role === "Organisation Admin") !== undefined;
-      if (isOrganisationAdmin) {
-        return "Organisation Admin";
-      }
-
-      const isServiceAdmin =
-        roles.find(role => role.role === "Service Admin") !== undefined;
-      if (isServiceAdmin) {
-        return "Service Admin";
-      }
-
-      const isServiceWorker =
-        roles.find(role => role.role === "Service Worker") !== undefined;
-      if (isServiceWorker) {
-        return "Service Worker";
-      }
-
-      return "None";
     },
     async fetchOrganisations() {
       this.loadingOrganisations = true;

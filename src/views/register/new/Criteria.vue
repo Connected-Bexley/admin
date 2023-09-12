@@ -34,7 +34,7 @@
           :value="form.organisation_types.includes('council')"
           id="organisation_types.council"
           name="organisation_types"
-          label="A Council or other statutory service, e.g. services delivered by the NHS or Hounslow CCG)"
+          label="A Council or other statutory service, e.g. services delivered by the NHS or local CCG)"
           @input="onInput('council')"
         />
 
@@ -42,7 +42,7 @@
           :value="form.organisation_types.includes('commercial')"
           id="organisation_types.commercial"
           name="organisation_types"
-          label="A commercial provider offering services to Hounslow residents that support health, wellbeing and/or community for free or a reasonable charge"
+          label="A commercial provider offering services to local residents that support health, wellbeing and/or community for free or a reasonable charge"
           @input="onInput('commercial')"
         />
 
@@ -50,7 +50,7 @@
           :value="form.organisation_types.includes('commercial_contracted')"
           id="organisation_types.commercial_contracted"
           name="organisation_types"
-          label="A commercial service that is contracted or spot purchased under a commissioning arrangement with Hounslow Council, intended to improve the health, wellbeing or independence of Hounslow residents"
+          label="A commercial service that is contracted or spot purchased under a commissioning arrangement with the local Council, intended to improve the health, wellbeing or independence of local residents"
           @input="onInput('commercial_contracted')"
         />
       </gov-checkboxes>

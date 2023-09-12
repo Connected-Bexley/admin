@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-headful title="Help Yourself Sutton - Pages" />
+    <vue-headful :title="`${appName} - Pages`" />
 
     <gov-grid-row>
       <gov-grid-column width="two-thirds">
@@ -42,7 +42,7 @@
           </template>
         </ck-table-filters>
       </gov-grid-column>
-      <gov-grid-column v-if="auth.isGlobalAdmin" width="one-third">
+      <gov-grid-column v-if="auth.isContentAdmin" width="one-third">
         <gov-button :to="{ name: 'pages-create-landing' }" success expand
           >Add a new Landing page</gov-button
         >
@@ -58,7 +58,7 @@
         <gov-list v-if="searching" :bullet="true">
           <li v-for="page in pages" :key="page.id">
             {{ page.title }}
-            <span v-if="auth.isGlobalAdmin">
+            <span v-if="showEdit">
               <gov-link
                 :to="{
                   name: 'pages-edit',
@@ -85,7 +85,7 @@
           @move-up="onMoveUp"
           @move-down="onMoveDown"
         >
-          <template slot="edit" slot-scope="editProps">
+          <template v-if="showEdit" slot="edit" slot-scope="editProps">
             <gov-link
               :to="{
                 name: 'pages-edit',
@@ -154,6 +154,9 @@ export default {
         params["filter[page_type]"] = this.filters.page_type;
       }
       return params;
+    },
+    showEdit() {
+      return this.auth.isContentAdmin;
     }
   },
   methods: {

@@ -184,6 +184,20 @@ class Auth {
   }
 
   /**
+   * @returns {array}
+   */
+  get roles() {
+    return [
+      { text: "Super admin", value: "Super Admin" },
+      { text: "Global admin", value: "Global Admin" },
+      { text: "Content admin", value: "Content Admin" },
+      { text: "Organisation admin", value: "Organisation Admin" },
+      { text: "Service admin", value: "Service Admin" },
+      { text: "Service worker", value: "Service Worker" }
+    ];
+  }
+
+  /**
    * @param {string} roleName
    * @param {object} service
    * @param {object} organisation
@@ -230,6 +244,20 @@ class Auth {
   /**
    * @returns {boolean}
    */
+  get isContentAdmin() {
+    return this.hasRole("Content Admin") || this.isSuperAdmin;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  get isOnlyContentAdmin() {
+    return this.hasRole("Content Admin") && this.user.roles.length === 1;
+  }
+
+  /**
+   * @returns {boolean}
+   */
   isOrganisationAdmin(organisation = null) {
     return (
       this.hasRole("Organisation Admin", null, organisation) ||
@@ -254,6 +282,21 @@ class Auth {
     return (
       this.hasRole("Service Worker", service) || this.isServiceAdmin(service)
     );
+  }
+
+  /**
+   *
+   * @param {array} roles
+   * @returns {string}
+   */
+  displayHighestRole(userRoles) {
+    const roleNames = this.roles.map(role => role.value);
+
+    const highestRole = roleNames.find(
+      roleName => userRoles.find(role => role.role === roleName) !== undefined
+    );
+
+    return highestRole || "None";
   }
 }
 

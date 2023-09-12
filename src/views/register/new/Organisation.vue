@@ -20,7 +20,7 @@
       <gov-hint slot="hint" for="name">
         The name of your organisation must be unique. The URL of your page will
         be: <br />
-        hounslowconnect.com/organisations/{{ form.organisation.slug }}
+        {{ appUri }}/organisations/{{ form.organisation.slug }}
       </gov-hint>
     </ck-text-input>
 
@@ -36,7 +36,7 @@
       v-model="form.organisation.url"
       id="url"
       label="Organisation website address"
-      hint="This must start with ‘http://’ or ‘https://’."
+      hint="This must start with 'http://'' or 'https://''."
       type="url"
       :error="errors.get('organisation.url')"
     />

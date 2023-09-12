@@ -42,7 +42,7 @@
     <ck-text-input
       v-model="form.user.phone"
       id="phone"
-      label="Phone"
+      label="Mobile Phone"
       type="tel"
       :error="errors.get('user.phone')"
     />

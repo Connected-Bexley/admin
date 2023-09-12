@@ -458,6 +458,14 @@ let router = new Router({
                 import("@/views/admin/index/cms/frontend/PrivacyPolicy")
             },
             {
+              path: "frontend/accessibility-statement",
+              name: "admin-index-cms-frontend-accessibility-statement",
+              component: () =>
+                import(
+                  "@/views/admin/index/cms/frontend/AccessibilityStatement"
+                )
+            },
+            {
               path: "frontend/about",
               name: "admin-index-cms-frontend-about",
               component: () => import("@/views/admin/index/cms/frontend/About")

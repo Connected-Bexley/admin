@@ -32,7 +32,7 @@
           <gov-hint slot="hint" for="name">
             The name of your {{ service.type }} must be unique. The URL of your
             page will be: <br />
-            hounslowconnect.com/services/{{ service.slug }}
+            {{ appUri }}/services/{{ service.slug }}
           </gov-hint>
         </ck-text-input>
 
@@ -42,7 +42,7 @@
           id="url"
           :label="`What is the web address of your ${service.type}?`"
           :hint="
-            `This must start with ‘http://’ or ‘https://’. You can use your organisation’s website address if the ${service.type} doesn’t have its own.`
+            `This must start with 'http://' or 'https://'. You can use your organisation's website address if the ${service.type} doesn't have its own.`
           "
           type="url"
           :error="errors.get('service.url')"

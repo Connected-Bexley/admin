@@ -155,6 +155,7 @@ export default {
             // Delete the organisation and service IDs instead of sending null values.
             case "Super Admin":
             case "Global Admin":
+            case "Content Admin":
               delete role.organisation_id;
               delete role.service_id;
               break;

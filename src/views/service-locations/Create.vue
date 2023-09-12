@@ -34,6 +34,7 @@
               :country.sync="locationForm.country"
               :has_induction_loop.sync="locationForm.has_induction_loop"
               :has_wheelchair_access.sync="locationForm.has_wheelchair_access"
+              :has_accessible_toilet.sync="locationForm.has_accessible_toilet"
               :regular_opening_hours.sync="form.regular_opening_hours"
               :holiday_opening_hours.sync="form.holiday_opening_hours"
               @update:image_file_id="form.image_file_id = $event"
@@ -88,7 +89,8 @@ export default {
         country: "United Kingdom",
         accessibility_info: "",
         has_wheelchair_access: false,
-        has_induction_loop: false
+        has_induction_loop: false,
+        has_accessible_toilet: false
       }),
       service: null,
       loading: false,

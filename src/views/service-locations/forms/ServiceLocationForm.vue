@@ -48,6 +48,7 @@
           :country="country"
           :has_induction_loop="has_induction_loop"
           :has_wheelchair_access="has_wheelchair_access"
+          :has_accessible_toilet="has_accessible_toilet"
           @update:address_line_1="
             onLocationInput({ field: 'address_line_1', value: $event })
           "
@@ -369,6 +370,10 @@ export default {
       required: false,
       type: Boolean
     },
+    has_accessible_toilet: {
+      required: false,
+      type: Boolean
+    },
     id: {
       required: false,
       type: String
@@ -560,6 +565,7 @@ export default {
         this.$emit("update:country", "United Kingdom");
         this.$emit("update:has_wheelchair_access", false);
         this.$emit("update:has_induction_loop", false);
+        this.$emit("update:has_accessible_toilet", false);
       }
     },
     regular_opening_hours(newValue, oldValue) {

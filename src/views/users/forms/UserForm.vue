@@ -31,7 +31,7 @@
       :value="phone"
       @input="onInput('phone', $event)"
       id="phone"
-      label="Phone"
+      label="Mobile Phone"
       type="tel"
       :error="errors.get('phone')"
     />
@@ -50,6 +50,10 @@
     <gov-heading size="m">Permissions</gov-heading>
 
     <gov-list bullet>
+      <li>
+        <strong>Content admins:</strong>
+        Add pages, edit pages and remove pages
+      </li>
       <li>
         <strong>Organisation admins:</strong>
         Add services, add users, edit services, edit users, manage referrals

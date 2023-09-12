@@ -160,11 +160,9 @@ export default {
 
   methods: {
     onEdit(html) {
-      const div = document.createElement("div");
-      div.innerHTML = html;
-      this.$emit("count", div.textContent.length);
-
       const markdown = this.toMarkdown(html);
+      this.$emit("count", markdown.length);
+
       this.$emit("input", markdown);
     },
 
@@ -176,7 +174,8 @@ export default {
   mounted() {
     const element = document.createElement("div");
     element.innerHTML = this.editor.getHTML();
-    this.$emit("count", element.textContent.length);
+    const markdown = this.toMarkdown(this.editor.getHTML());
+    this.$emit("count", markdown.length);
   },
 
   beforeDestroy() {

@@ -30,7 +30,7 @@
       label="Unique slug"
       type="text"
       :error="errors.get('slug')"
-      v-if="auth.isGlobalAdmin"
+      v-if="auth.isContentAdmin"
     >
       <gov-hint slot="hint" for="slug">
         This will be used to access the page.<br />
@@ -103,11 +103,6 @@ export default {
     errors: {
       type: Object,
       required: true
-    },
-    isNew: {
-      required: false,
-      type: Boolean,
-      default: false
     },
     parent_id: {
       required: true
@@ -213,11 +208,6 @@ export default {
     onInput(field, value) {
       this.$emit(`update:${field}`, value);
       this.$emit("clear", field);
-
-      if (this.auth.isGlobalAdmin && field === "title" && this.isNew) {
-        this.$emit("update:slug", this.slugify(value));
-        this.$emit("clear", "slug");
-      }
     },
     async fetchPages() {
       this.loading = true;

@@ -23,6 +23,7 @@
           <gov-list>
             <li>Super admin: {{ superAdmin ? "Yes" : "No" }}</li>
             <li>Global admin: {{ globalAdmin ? "Yes" : "No" }}</li>
+            <li>Content admin: {{ contentAdmin ? "Yes" : "No" }}</li>
             <li>
               <template v-if="organisationAdmin.length === 0"
                 >Organisation admin: No</template
@@ -103,6 +104,7 @@ export default {
     return {
       superAdmin: false,
       globalAdmin: false,
+      contentAdmin: false,
       organisationAdmin: [],
       serviceAdmin: [],
       serviceWorker: []
@@ -121,6 +123,8 @@ export default {
           this.superAdmin = true;
         } else if (role.role === "Global Admin") {
           this.globalAdmin = true;
+        } else if (role.role === "Content Admin") {
+          this.contentAdmin = true;
         } else if (role.hasOwnProperty("organisation_id")) {
           this.organisationAdmin.push(role);
         } else if (

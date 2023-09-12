@@ -11,9 +11,9 @@
           <gov-heading size="m">Add user</gov-heading>
 
           <gov-body
-            >Create users to be able to acces the back-end of the Hounslow
-            Connect service (deciding their permissions in what they have access
-            to)</gov-body
+            >Create users to be able to acces the back-end of the
+            {{ appName }} service (deciding their permissions in what they have
+            access to)</gov-body
           >
 
           <user-form
@@ -70,6 +70,7 @@ export default {
             // Delete the organisation and service IDs instead of sending null values.
             case "Super Admin":
             case "Global Admin":
+            case "Content Admin":
               delete role.organisation_id;
               delete role.service_id;
               break;

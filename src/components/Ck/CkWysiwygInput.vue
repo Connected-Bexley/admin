@@ -17,7 +17,7 @@
         :large="large"
         :extensions="extensions"
       />
-      <ck-character-count
+      <ck-character-count-bar
         v-if="maxlength"
         :count="count"
         :max-length="maxlength"
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import CkCharacterCount from "@/components/Ck/CkCharacterCount.vue";
+import CkCharacterCountBar from "@/components/Ck/CkCharacterCountBar.vue";
 import CkCharacterCountGroup from "@/components/Ck/CkCharacterCountGroup.vue";
 import {
   Blockquote,
@@ -46,7 +46,7 @@ import {
 
 export default {
   name: "CkWysiwygInput",
-  components: { CkCharacterCount, CkCharacterCountGroup },
+  components: { CkCharacterCountBar, CkCharacterCountGroup },
   props: {
     value: {
       required: true,

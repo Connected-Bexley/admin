@@ -4,8 +4,8 @@
     <gov-grid-row>
       <gov-grid-column width="one-half">
         <gov-body>
-          Your {{ type }} can be set up to accept referrals through Hounslow
-          Connect. These referrals directly connect your {{ type }} to
+          Your {{ type }} can be set up to accept referrals through
+          {{ appName }}. These referrals directly connect your {{ type }} to
           residents.
         </gov-body>
         <gov-body>

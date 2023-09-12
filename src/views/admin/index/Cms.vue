@@ -60,6 +60,10 @@ export default {
           to: { name: "admin-index-cms-frontend-privacy-policy" }
         },
         {
+          heading: "Accessibility Statement",
+          to: { name: "admin-index-cms-frontend-accessibility-statement" }
+        },
+        {
           heading: "About",
           to: { name: "admin-index-cms-frontend-about" }
         },

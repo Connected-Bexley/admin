@@ -58,14 +58,40 @@ export default {
     },
     loggedInItems() {
       return [
-        { text: "Services", to: { name: "services-index" } },
-        { text: "Locations", to: { name: "locations-index" } },
-        { text: "Referrals", to: { name: "referrals-index" } },
-        { text: "Organisations", to: { name: "organisations-index" } },
-        { text: "Pages", to: { name: "pages-index" } },
+        {
+          text: "Services",
+          to: { name: "services-index" },
+          hide: Auth.isOnlyContentAdmin
+        },
+        {
+          text: "Locations",
+          to: { name: "locations-index" },
+          hide: Auth.isOnlyContentAdmin
+        },
+        {
+          text: "Referrals",
+          to: { name: "referrals-index" },
+          hide: Auth.isOnlyContentAdmin
+        },
+        {
+          text: "Organisations",
+          to: { name: "organisations-index" },
+          hide: !Auth.isOrganisationAdmin()
+        },
+        {
+          text: "Events",
+          to: { name: "events-index" },
+          hide: Auth.isOnlyContentAdmin
+        },
+        {
+          text: "Pages",
+          to: { name: "pages-index" },
+          hide: !Auth.isContentAdmin
+        },
         {
           text: "Users",
-          to: { name: "users-index" }
+          to: { name: "users-index" },
+          hide: Auth.isOnlyContentAdmin
         },
         {
           text: "Reports",
