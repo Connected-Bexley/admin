@@ -22,7 +22,10 @@
                 </gov-form-group>
               </ck-table-filters>
             </gov-grid-column>
-            <gov-grid-column v-if="auth.isGlobalAdmin" width="one-third">
+            <gov-grid-column
+              v-if="auth.canAdd('organisation')"
+              width="one-third"
+            >
               <gov-button
                 @click="onAddOrganisation"
                 type="submit"
@@ -31,7 +34,7 @@
                 >Add organisation</gov-button
               >
               <gov-button
-                v-if="auth.isSuperAdmin"
+                v-if="auth.canImport('organisations')"
                 :to="{ name: 'organisations-import' }"
                 type="submit"
                 success
@@ -50,26 +53,26 @@
               {
                 heading: 'Organisation name',
                 sort: 'name',
-                render: organisation => organisation.name
+                render: (organisation) => organisation.name,
               },
               {
                 heading: 'Web address URL',
-                render: organisation => organisation.url
+                render: (organisation) => organisation.url,
               },
               {
                 heading: 'Phone number',
-                render: organisation => organisation.phone || '-'
+                render: (organisation) => organisation.phone || '-',
               },
               {
                 heading: 'Email',
-                render: organisation => organisation.email || '-'
-              }
+                render: (organisation) => organisation.email || '-',
+              },
             ]"
             :view-route="
-              organisation => {
+              (organisation) => {
                 return {
                   name: 'organisations-show',
-                  params: { organisation: organisation.id }
+                  params: { organisation: organisation.id },
                 };
               }
             "
@@ -90,14 +93,14 @@ export default {
   data() {
     return {
       filters: {
-        name: ""
-      }
+        name: "",
+      },
     };
   },
   computed: {
     params() {
       const params = {
-        "filter[has_permission]": true
+        "filter[has_permission]": true,
       };
 
       if (this.filters.name !== "") {
@@ -105,7 +108,7 @@ export default {
       }
 
       return params;
-    }
+    },
   },
   methods: {
     onSearch() {
@@ -114,7 +117,7 @@ export default {
     },
     onAddOrganisation() {
       this.$router.push({ name: "organisations-create" });
-    }
-  }
+    },
+  },
 };
 </script>

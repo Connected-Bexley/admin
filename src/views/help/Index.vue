@@ -42,7 +42,7 @@ export default {
   name: "Help",
 
   components: {
-    VideoIframe
+    VideoIframe,
   },
 
   data() {
@@ -52,27 +52,28 @@ export default {
           height: 315,
           width: 560,
           src: "https://www.youtube.com/embed/HALo2I-gdXs",
-          title: "Introduction the to video training series"
+          title: "Introduction the to video training series",
         },
         {
           height: 315,
           width: 560,
           src: "https://www.youtube.com/embed/RoeMDBZLJQc",
-          title: "How to sign up to the platform"
+          title: "How to sign up to the platform",
         },
         {
           height: 315,
           width: 560,
           src: "https://www.youtube.com/embed/p3-4mlY1pOQ",
-          title: "Your first login, managing your organisation and adding users"
+          title:
+            "Your first login, managing your organisation and adding users",
         },
         {
           height: 315,
           width: 560,
           src: "https://www.youtube.com/embed/Qf421buT6zs",
-          title: "Adding your service"
-        }
-      ]
+          title: "Adding your service",
+        },
+      ],
     };
   },
 
@@ -89,8 +90,8 @@ export default {
         }
       });
       return pairedVideos;
-    }
-  }
+    },
+  },
 };
 </script>
 

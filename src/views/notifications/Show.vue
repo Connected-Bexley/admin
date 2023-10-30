@@ -7,12 +7,10 @@
       <ck-loader v-if="loading" />
       <gov-grid-row v-else>
         <vue-headful
-          :title="
-            `${appName} - Notification: ${notification.message.substr(
-              0,
-              10
-            )}...`
-          "
+          :title="`${appName} - Notification: ${notification.message.substr(
+            0,
+            10
+          )}...`"
         />
 
         <gov-grid-column width="two-thirds">
@@ -35,7 +33,7 @@ export default {
   data() {
     return {
       loading: false,
-      notification: null
+      notification: null,
     };
   },
   methods: {
@@ -46,10 +44,10 @@ export default {
       );
       this.notification = data.data;
       this.loading = false;
-    }
+    },
   },
   created() {
     this.fetchNotification();
-  }
+  },
 };
 </script>

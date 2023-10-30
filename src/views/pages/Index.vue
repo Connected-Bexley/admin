@@ -1,14 +1,10 @@
 <template>
   <gov-width-container>
-    <vue-headful :title="`${appName}  - Pages`" />
-
     <gov-back-link :to="{ name: 'dashboard' }">Back to dashboard</gov-back-link>
 
     <gov-main-wrapper>
       <gov-grid-row>
         <gov-grid-column width="full">
-          <gov-heading size="xl">Pages</gov-heading>
-          <gov-section-break size="m" />
           <router-view />
         </gov-grid-column>
       </gov-grid-row>
@@ -18,7 +14,7 @@
 
 <script>
 export default {
-  name: "Pages"
+  name: "Pages",
 };
 </script>
 

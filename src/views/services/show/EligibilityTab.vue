@@ -35,20 +35,20 @@ export default {
   name: "EligibilityTab",
 
   components: {
-    CkTaxonomyList
+    CkTaxonomyList,
   },
 
   props: {
     service: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       loading: false,
-      eligibilityTypes: []
+      eligibilityTypes: [],
     };
   },
 
@@ -70,7 +70,7 @@ export default {
     },
     serviceHasEligibilityCriteria(taxonomy) {
       return (
-        taxonomy.children.some(childTaxonomy => {
+        taxonomy.children.some((childTaxonomy) => {
           return this.service.eligibility_types.taxonomies.includes(
             childTaxonomy.id
           );
@@ -79,11 +79,11 @@ export default {
     },
     slugify(name) {
       return name.toLowerCase().replaceAll(" ", "_");
-    }
+    },
   },
 
   created() {
     this.fetchServiceEligibilites();
-  }
+  },
 };
 </script>

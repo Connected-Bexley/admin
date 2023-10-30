@@ -2,13 +2,19 @@
   <div>
     <vue-headful :title="`${appName} - Pages`" />
 
+    <gov-heading size="xl">Pages</gov-heading>
+    <gov-section-break size="m" />
+
+    <gov-inset-text v-if="updated"
+      >page {{ updatedPage.title }} has been updated</gov-inset-text
+    >
+
+    <gov-inset-text v-if="orderChangedMessage">{{
+      orderChangedMessage
+    }}</gov-inset-text>
+
     <gov-grid-row>
       <gov-grid-column width="two-thirds">
-        <gov-heading size="l">Pages</gov-heading>
-        <gov-body>
-          From this page, you can edit the pages available, as well as add new
-          ones.
-        </gov-body>
         <ck-table-filters @search="onSearch">
           <gov-form-group>
             <gov-label for="filter[title]">Page title</gov-label>
@@ -42,7 +48,7 @@
           </template>
         </ck-table-filters>
       </gov-grid-column>
-      <gov-grid-column v-if="auth.isContentAdmin" width="one-third">
+      <gov-grid-column v-if="auth.canAdd('page')" width="one-third">
         <gov-button :to="{ name: 'pages-create-landing' }" success expand
           >Add a new Landing page</gov-button
         >
@@ -58,14 +64,14 @@
         <gov-list v-if="searching" :bullet="true">
           <li v-for="page in pages" :key="page.id">
             {{ page.title }}
-            <span v-if="showEdit">
+            <span v-if="showView">
               <gov-link
                 :to="{
-                  name: 'pages-edit',
-                  params: { page: page.id }
+                  name: 'pages-show',
+                  params: { page: page.id },
                 }"
               >
-                Edit </gov-link
+                View </gov-link
               >&nbsp;
             </span>
             <gov-tag v-if="page.page_type === 'landing'">Landing page</gov-tag
@@ -85,14 +91,14 @@
           @move-up="onMoveUp"
           @move-down="onMoveDown"
         >
-          <template v-if="showEdit" slot="edit" slot-scope="editProps">
+          <template v-if="showView" slot="edit" slot-scope="editProps">
             <gov-link
               :to="{
-                name: 'pages-edit',
-                params: { page: editProps.node.id }
+                name: 'pages-show',
+                params: { page: editProps.node.id },
               }"
             >
-              Edit
+              View
             </gov-link>
           </template>
           <template slot="status" slot-scope="statusProps">
@@ -118,7 +124,7 @@ export default {
   name: "ListPages",
   components: {
     CkTreeList,
-    CkTableFilters
+    CkTableFilters,
   },
   data() {
     return {
@@ -127,20 +133,22 @@ export default {
       pages: [],
       filters: {
         title: "",
-        page_type: null
+        page_type: null,
       },
       minSearchPhraseLength: 3,
       pageTypes: [
         { value: "", text: "All" },
         { value: "information", text: "Information page" },
-        { value: "landing", text: "Landing page" }
-      ]
+        { value: "landing", text: "Landing page" },
+      ],
+      updated: false,
+      orderChangedMessage: null,
     };
   },
   computed: {
     pagesTree() {
       return this.buildPagesTree(
-        this.pages.filter(page => {
+        this.pages.filter((page) => {
           return !page.parent;
         })
       );
@@ -155,40 +163,61 @@ export default {
       }
       return params;
     },
-    showEdit() {
-      return this.auth.isContentAdmin;
-    }
+    showView() {
+      return this.auth.canView("pages");
+    },
+    updatedPage() {
+      return this.updated
+        ? this.pages.find((page) => page.id === this.updated)
+        : null;
+    },
   },
   methods: {
     async fetchPages() {
       this.loading = true;
       this.searching = Object.keys(this.params).length > 0;
       const { data } = await http.get("/pages/index", {
-        params: this.params
+        params: this.params,
       });
-      this.pages = data.data.map(page => {
+      this.pages = data.data.map((page) => {
         return {
           label: page.title,
-          ...page
+          ...page,
         };
       });
 
       this.loading = false;
     },
     async onMoveUp(page) {
+      this.orderChangedMessage = null;
+      const orderWas = page.order;
       page.order--;
       await http.put(`/pages/${page.id}`, {
         id: page.id,
-        order: page.order
+        order: page.order,
       });
+      if (!this.auth.isSuperAdmin) {
+        this.orderChangedMessage = this.orderUpdateRequestMessage(
+          orderWas,
+          page
+        );
+      }
       this.fetchPages();
     },
     async onMoveDown(page) {
+      this.orderChangedMessage = null;
+      const orderWas = page.order;
       page.order++;
       await http.put(`/pages/${page.id}`, {
         id: page.id,
-        order: page.order
+        order: page.order,
       });
+      if (!this.auth.isSuperAdmin) {
+        this.orderChangedMessage = this.orderUpdateRequestMessage(
+          orderWas,
+          page
+        );
+      }
       this.fetchPages();
     },
     async onSearch() {
@@ -203,9 +232,9 @@ export default {
         .sort((page1, page2) => {
           return page1.order - page2.order;
         })
-        .forEach(page => {
+        .forEach((page) => {
           page.children = this.pages.filter(
-            child => child.parent && child.parent.id === page.id
+            (child) => child.parent && child.parent.id === page.id
           );
 
           if (depth === 0) {
@@ -218,11 +247,15 @@ export default {
         });
 
       return parsed;
-    }
+    },
+    orderUpdateRequestMessage(orderWas, page) {
+      return `An update request has been created to change the order of page ${page.title} from ${orderWas} to ${page.order}`;
+    },
   },
   created() {
+    this.updated = this.$route.query.updated || false;
     this.fetchPages();
-  }
+  },
 };
 </script>
 

@@ -38,8 +38,8 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     waitTime() {
@@ -61,7 +61,7 @@ export default {
     },
     isFree() {
       return this.service.is_free ? "Yes" : "No";
-    }
-  }
+    },
+  },
 };
 </script>

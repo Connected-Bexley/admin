@@ -215,7 +215,7 @@ export default {
     UsefulInfoTab,
     EligibilityTab,
     ReferralTab,
-    TaxonomiesTab
+    TaxonomiesTab,
   },
   data() {
     return {
@@ -254,14 +254,14 @@ export default {
           housing: "",
           income: "",
           language: "",
-          other: ""
+          other: "",
         },
         useful_infos: [
           {
             title: "",
             description: "",
-            order: 1
-          }
+            order: 1,
+          },
         ],
         offerings: [],
         gallery_items: [],
@@ -269,9 +269,9 @@ export default {
         category_taxonomies: [],
         eligibility_types: {
           taxonomies: [],
-          custom: {}
+          custom: {},
         },
-        logo_file_id: null
+        logo_file_id: null,
       }),
       errors: {},
       tabs: [
@@ -281,17 +281,17 @@ export default {
         { id: "eligibility", heading: "Eligibility", active: false },
         { id: "taxonomies", heading: "Taxonomies", active: false },
         { id: "description", heading: "Description", active: false },
-        { id: "referral", heading: "Referral", active: false }
+        { id: "referral", heading: "Referral", active: false },
       ],
       updateRequestCreated: false,
-      updateRequestMessage: null
+      updateRequestMessage: null,
     };
   },
   computed: {
     allowedTabs() {
       if (!this.auth.isGlobalAdmin) {
         const taxonomiesTabIndex = this.tabs.findIndex(
-          tab => tab.id === "taxonomies"
+          (tab) => tab.id === "taxonomies"
         );
         const tabs = this.tabs.slice();
         tabs.splice(taxonomiesTabIndex, 1);
@@ -300,7 +300,7 @@ export default {
       }
 
       return this.tabs;
-    }
+    },
   },
   methods: {
     async onSubmit() {
@@ -336,7 +336,7 @@ export default {
       if (this.auth.isGlobalAdmin && serviceId) {
         this.$router.push({
           name: "services-post-create",
-          params: { service: serviceId }
+          params: { service: serviceId },
         });
       } else if (!this.form.$errors.any()) {
         this.updateRequestCreated = true;
@@ -344,27 +344,27 @@ export default {
       }
     },
     onTabChange({ index }) {
-      this.tabs.forEach(tab => (tab.active = false));
+      this.tabs.forEach((tab) => (tab.active = false));
       const tabId = this.allowedTabs[index].id;
-      this.tabs.find(tab => tab.id === tabId).active = true;
+      this.tabs.find((tab) => tab.id === tabId).active = true;
     },
     onNext() {
       const currentTabIndex = this.allowedTabs.findIndex(
-        tab => tab.active === true
+        (tab) => tab.active === true
       );
-      this.tabs.forEach(tab => (tab.active = false));
+      this.tabs.forEach((tab) => (tab.active = false));
       const newTabId = this.allowedTabs[currentTabIndex + 1].id;
-      this.tabs.find(tab => tab.id === newTabId).active = true;
+      this.tabs.find((tab) => tab.id === newTabId).active = true;
       this.scrollToTop();
     },
     scrollToTop() {
       document.getElementById("main-content").scrollIntoView();
     },
     isTabActive(id) {
-      const tab = this.allowedTabs.find(tab => tab.id === id);
+      const tab = this.allowedTabs.find((tab) => tab.id === id);
 
       return tab === undefined ? false : tab.active;
-    }
-  }
+    },
+  },
 };
 </script>

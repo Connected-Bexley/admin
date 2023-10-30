@@ -21,7 +21,7 @@
             <gov-button
               :to="{
                 name: 'services-show',
-                params: { service: this.$route.params.service }
+                params: { service: this.$route.params.service },
               }"
               >Back to {{ service.type }}</gov-button
             >
@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       loading: false,
-      service: null
+      service: null,
     };
   },
   methods: {
@@ -51,10 +51,10 @@ export default {
       );
       this.service = response.data.data;
       this.loading = false;
-    }
+    },
   },
   created() {
     this.fetchService();
-  }
+  },
 };
 </script>

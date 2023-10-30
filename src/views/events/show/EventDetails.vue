@@ -124,14 +124,14 @@ export default {
   name: "OrganisationEventDetails",
 
   components: {
-    LocationDetails
+    LocationDetails,
   },
 
   props: {
     event: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
 
   computed: {
@@ -161,8 +161,8 @@ export default {
       ).padStart(2, "0")}/${endDate.getFullYear()} ${String(
         endDate.getHours()
       ).padStart(2, "0")}:${String(endDate.getMinutes()).padStart(2, "0")}`;
-    }
-  }
+    },
+  },
 };
 </script>
 

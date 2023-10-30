@@ -29,9 +29,7 @@
       @input="onUpdateCustom"
       id="custom"
       label="Custom value"
-      :hint="
-        `If the service eligibility does not fit into the ${eligibilityTaxonomy.name} taxonomies, enter a custom value here`
-      "
+      :hint="`If the service eligibility does not fit into the ${eligibilityTaxonomy.name} taxonomies, enter a custom value here`"
       :error="errors.get('custom')"
     />
   </gov-form-group>
@@ -42,7 +40,7 @@ import CkTaxonomyTree from "@/components/Ck/CkTaxonomyTree";
 
 export default {
   components: {
-    CkTaxonomyTree
+    CkTaxonomyTree,
   },
 
   data() {
@@ -50,27 +48,27 @@ export default {
       access: "all",
       accessOptions: [
         { label: "Access for all", value: "all" },
-        { label: "Access for some", value: "some" }
-      ]
+        { label: "Access for some", value: "some" },
+      ],
     };
   },
 
   props: {
     eligibilityTaxonomy: {
       required: true,
-      type: Object
+      type: Object,
     },
     serviceEligibilityTypes: {
       required: true,
-      type: Object
+      type: Object,
     },
     customEligibility: {
       type: String,
-      default: ""
+      default: "",
     },
     errors: {
-      required: true
-    }
+      required: true,
+    },
   },
 
   computed: {
@@ -84,10 +82,10 @@ export default {
       );
     },
     checkedEligibilities() {
-      return this.eligibilityTaxonomy.children.filter(taxonomy => {
+      return this.eligibilityTaxonomy.children.filter((taxonomy) => {
         return this.serviceEligibilityTypes.taxonomies.includes(taxonomy.id);
       });
-    }
+    },
   },
 
   methods: {
@@ -99,7 +97,7 @@ export default {
     onUpdateCustom(customEligibity) {
       this.$emit("update:custom", {
         customTaxonomy: this.customEligibilitySlug,
-        customValue: customEligibity
+        customValue: customEligibity,
       });
       this.$emit("clear");
     },
@@ -107,24 +105,25 @@ export default {
       this.access = access;
 
       if (this.access === "all") {
-        this.checkedEligibilities.forEach(taxonomy => {
+        this.checkedEligibilities.forEach((taxonomy) => {
           this.$emit("update:taxonomies", { taxonomy, enabled: false });
           this.$emit("update:custom", {
             customTaxonomy: this.customEligibilitySlug,
-            customValue: null
+            customValue: null,
           });
           this.$emit("clear");
         });
       }
-    }
+    },
   },
   created() {
-    this.serviceEligibilityTaxonomies = this.serviceEligibilityTypes.taxonomies.slice();
+    this.serviceEligibilityTaxonomies =
+      this.serviceEligibilityTypes.taxonomies.slice();
     this.access =
       this.checkedEligibilities.length || this.customEligibilityValue
         ? "some"
         : "all";
-  }
+  },
 };
 </script>
 

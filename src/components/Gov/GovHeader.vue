@@ -82,22 +82,22 @@ export default {
   props: {
     serviceName: {
       type: String,
-      required: true
+      required: true,
     },
     navigation: {
       type: Array,
       required: false,
       default() {
         return [];
-      }
-    }
+      },
+    },
   },
   components: {
-    CkEnvironmentWarning
+    CkEnvironmentWarning,
   },
   data() {
     return {
-      navExpanded: false
+      navExpanded: false,
     };
   },
   methods: {
@@ -106,8 +106,8 @@ export default {
     },
     onToggleMenu() {
       this.navExpanded = !this.navExpanded;
-    }
-  }
+    },
+  },
 };
 </script>
 

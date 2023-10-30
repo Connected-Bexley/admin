@@ -33,17 +33,17 @@ export default {
   props: {
     resource: {
       required: true,
-      type: String
+      type: String,
     },
     endpoint: {
       required: true,
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
       form: new Form({}),
-      showConfirm: false
+      showConfirm: false,
     };
   },
   methods: {
@@ -56,7 +56,7 @@ export default {
     },
     onCancel() {
       this.showConfirm = false;
-    }
-  }
+    },
+  },
 };
 </script>

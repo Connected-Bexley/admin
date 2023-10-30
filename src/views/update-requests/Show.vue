@@ -33,14 +33,8 @@
           />
 
           <service-details
-            v-else-if="updateRequest.updateable_type === 'services'"
-            :update-request-id="updateRequest.id"
-            :requested-at="updateRequest.created_at"
-            :service="updateRequest.data"
-          />
-
-          <service-details
             v-else-if="
+              updateRequest.updateable_type === 'services' ||
               updateRequest.updateable_type ===
                 'new_service_created_by_org_admin'
             "
@@ -64,14 +58,8 @@
           />
 
           <organisation-event-details
-            v-else-if="updateRequest.updateable_type === 'organisation_events'"
-            :update-request-id="updateRequest.id"
-            :requested-at="updateRequest.created_at"
-            :event="updateRequest.data"
-          />
-
-          <organisation-event-details
             v-else-if="
+              updateRequest.updateable_type === 'organisation_events' ||
               updateRequest.updateable_type ===
                 'new_organisation_event_created_by_org_admin'
             "
@@ -80,41 +68,53 @@
             :event="updateRequest.data"
           />
 
+          <page-details
+            v-else-if="
+              updateRequest.updateable_type === 'pages' ||
+              updateRequest.updateable_type === 'new_page'
+            "
+            :update-request-id="updateRequest.id"
+            :requested-at="updateRequest.created_at"
+            :page="updateRequest.data"
+          />
+
           <gov-body v-else>Update request is invalid</gov-body>
 
           <gov-section-break size="xl" />
 
-          <gov-heading size="m">Do you approve these changes?</gov-heading>
+          <template v-if="auth.canEdit('update request')">
+            <gov-heading size="m">Do you approve these changes?</gov-heading>
 
-          <gov-radios inline>
-            <gov-radio
-              v-model="approve"
-              id="approve"
-              name="approve"
-              label="Approve"
-              :value="true"
-            />
-            <gov-radio
-              v-model="approve"
-              id="reject"
-              name="approve"
-              label="Reject"
-              :value="false"
-            />
-          </gov-radios>
+            <gov-radios inline>
+              <gov-radio
+                v-model="approve"
+                id="approve"
+                name="approve"
+                label="Approve"
+                :value="true"
+              />
+              <gov-radio
+                v-model="approve"
+                id="reject"
+                name="approve"
+                label="Reject"
+                :value="false"
+              />
+            </gov-radios>
 
-          <gov-section-break size="l" />
+            <gov-section-break size="l" />
 
-          <gov-button v-if="submitting" disabled type="submit"
-            >Submitting...</gov-button
-          >
-          <gov-button
-            v-else
-            @click="onSubmit"
-            :disabled="approve === null"
-            type="submit"
-            >Submit</gov-button
-          >
+            <gov-button v-if="submitting" disabled type="submit"
+              >Submitting...</gov-button
+            >
+            <gov-button
+              v-else
+              @click="onSubmit"
+              :disabled="approve === null"
+              type="submit"
+              >Submit</gov-button
+            >
+          </template>
         </gov-grid-column>
       </gov-grid-row>
     </gov-main-wrapper>
@@ -123,29 +123,31 @@
 
 <script>
 import http from "@/http";
+import LocationDetails from "@/views/update-requests/show/LocationDetails";
 import OrganisationDetails from "@/views/update-requests/show/OrganisationDetails";
 import OrganisationEventDetails from "@/views/update-requests/show/OrganisationEventDetails";
 import OrganisationSignUpFormDetails from "@/views/update-requests/show/OrganisationSignUpFormDetails";
+import PageDetails from "@/views/update-requests/show/PageDetails.vue";
 import ServiceDetails from "@/views/update-requests/show/ServiceDetails";
-import LocationDetails from "@/views/update-requests/show/LocationDetails";
 import ServiceLocationDetails from "@/views/update-requests/show/ServiceLocationDetails";
 
 export default {
   name: "ShowUpdateRequest",
   components: {
+    LocationDetails,
     OrganisationDetails,
     OrganisationEventDetails,
     OrganisationSignUpFormDetails,
+    PageDetails,
     ServiceDetails,
-    LocationDetails,
-    ServiceLocationDetails
+    ServiceLocationDetails,
   },
   data() {
     return {
       loading: false,
       updateRequest: null,
       approve: null,
-      submitting: false
+      submitting: false,
     };
   },
   methods: {
@@ -177,7 +179,7 @@ export default {
           this.updateRequest.data.organisation_id ||
           this.updateRequest.data.organisation.id;
         const {
-          data: { data: organisation }
+          data: { data: organisation },
         } = await http.get(`/organisations/${organisationId}`);
         this.updateRequest.data.organisation = organisation;
       }
@@ -195,31 +197,36 @@ export default {
             case "services":
               this.$router.push({
                 name: "services-show",
-                params: { service: this.updateRequest.updateable_id }
+                params: { service: this.updateRequest.updateable_id },
               });
               break;
             case "organisation_events":
               this.$router.push({
                 name: "events-show",
-                params: { event: this.updateRequest.updateable_id }
+                params: { event: this.updateRequest.updateable_id },
+              });
+              break;
+            case "pages":
+              this.$router.push({
+                name: "pages-index",
               });
               break;
             case "organisations":
               this.$router.push({
                 name: "organisations-show",
-                params: { organisation: this.updateRequest.updateable_id }
+                params: { organisation: this.updateRequest.updateable_id },
               });
               break;
             case "locations":
               this.$router.push({
                 name: "locations-show",
-                params: { location: this.updateRequest.updateable_id }
+                params: { location: this.updateRequest.updateable_id },
               });
               break;
             case "service_locations":
               this.$router.push({
                 name: "service-locations-show",
-                params: { serviceLocation: this.updateRequest.updateable_id }
+                params: { serviceLocation: this.updateRequest.updateable_id },
               });
               break;
             default:
@@ -233,10 +240,10 @@ export default {
       } catch (error) {
         this.submitting = false;
       }
-    }
+    },
   },
   created() {
     this.fetchUpdateRequests();
-  }
+  },
 };
 </script>

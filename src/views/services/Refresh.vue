@@ -8,7 +8,7 @@
       <gov-back-link
         :to="{
           name: 'services-show',
-          params: { service: service.id }
+          params: { service: service.id },
         }"
       >
         Back to {{ service.type }}
@@ -52,7 +52,7 @@
               <gov-button
                 :to="{
                   name: 'services-show',
-                  params: { service: service.id }
+                  params: { service: service.id },
                 }"
               >
                 Back to {{ service.type }}
@@ -77,14 +77,14 @@ export default {
       service: null,
       loading: false,
       form: null,
-      refreshed: false
+      refreshed: false,
     };
   },
 
   computed: {
     token() {
       return this.$route.query.token || "";
-    }
+    },
   },
 
   created() {
@@ -100,7 +100,7 @@ export default {
       );
       this.service = response.data.data;
       this.form = new Form({
-        token: this.token
+        token: this.token,
       });
 
       this.loading = false;
@@ -109,7 +109,7 @@ export default {
     async onRefresh() {
       await this.form.put(`/services/${this.$route.params.service}/refresh`);
       this.refreshed = true;
-    }
-  }
+    },
+  },
 };
 </script>

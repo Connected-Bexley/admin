@@ -42,9 +42,7 @@
           @input="$emit('input', { field: 'description', value: $event })"
           id="description"
           label="Long description"
-          :hint="
-            `This is the largest body of text on your page. Fill it with everything else someone should know about your ${service.type}. Use headers, bullets and formatting for the maximum effect.`
-          "
+          :hint="`This is the largest body of text on your page. Fill it with everything else someone should know about your ${service.type}. Use headers, bullets and formatting for the maximum effect.`"
           :error="errors.get('service.description')"
           large
           :maxlength="3000"
@@ -61,19 +59,19 @@ import CkOfferingsInput from "@/views/services/inputs/OfferingsInput.vue";
 
 export default {
   components: {
-    CkOfferingsInput
+    CkOfferingsInput,
   },
 
   props: {
     service: {
       type: Object,
-      required: true
+      required: true,
     },
 
     errors: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>

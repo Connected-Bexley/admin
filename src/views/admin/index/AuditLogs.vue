@@ -65,29 +65,29 @@
         {
           heading: 'Action',
           sort: 'action',
-          render: audit => formatAction(audit.action)
+          render: (audit) => formatAction(audit.action),
         },
         {
           heading: 'Description',
           sort: 'description',
-          render: audit => audit.description
+          render: (audit) => audit.description,
         },
         {
           heading: 'User',
           sort: 'user_full_name',
-          render: audit => formatUserName(audit.user)
+          render: (audit) => formatUserName(audit.user),
         },
         {
           heading: 'Date / Time',
           sort: 'created_at',
-          render: audit => formatDateTime(audit.created_at)
-        }
+          render: (audit) => formatDateTime(audit.created_at),
+        },
       ]"
       :view-route="
-        audit => {
+        (audit) => {
           return {
             name: 'audits-show',
-            params: { audit: audit.id }
+            params: { audit: audit.id },
           };
         }
       "
@@ -111,23 +111,23 @@ export default {
         action: "",
         description: "",
         user_id: "",
-        oauth_client_id: ""
+        oauth_client_id: "",
       },
       actions: [
         { value: "", text: "All" },
         { value: "create", text: "Create" },
         { value: "read", text: "Read" },
         { value: "update", text: "Update" },
-        { value: "delete", text: "Delete" }
+        { value: "delete", text: "Delete" },
       ],
       users: [],
-      oauthClients: []
+      oauthClients: [],
     };
   },
   computed: {
     params() {
       const params = {
-        include: "user"
+        include: "user",
       };
 
       if (this.filters.action !== "") {
@@ -147,17 +147,17 @@ export default {
       }
 
       return params;
-    }
+    },
   },
   methods: {
     async fetchUsers() {
       this.loadingUsers = true;
 
       let users = await this.fetchAll("/users");
-      users = users.map(user => {
+      users = users.map((user) => {
         return {
           value: user.id,
-          text: `${user.first_name} ${user.last_name}`
+          text: `${user.first_name} ${user.last_name}`,
         };
       });
       this.users = [{ value: "", text: "All" }, ...users];
@@ -170,12 +170,12 @@ export default {
       let { data: oauthClients } = await http({
         method: "get",
         url: "/oauth/clients",
-        baseURL: this.appApiUri
+        baseURL: this.appApiUri,
       });
 
-      oauthClients = oauthClients.map(oauthClient => ({
+      oauthClients = oauthClients.map((oauthClient) => ({
         value: oauthClient.id,
-        text: oauthClient.name
+        text: oauthClient.name,
       }));
 
       this.oauthClients = [{ value: "", text: "All" }, ...oauthClients];
@@ -195,11 +195,11 @@ export default {
     },
     formatAction(action) {
       return action.charAt(0).toUpperCase() + action.substr(1);
-    }
+    },
   },
   created() {
     this.fetchUsers();
     this.fetchOauthClients();
-  }
+  },
 };
 </script>

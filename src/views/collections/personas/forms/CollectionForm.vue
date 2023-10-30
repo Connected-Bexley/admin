@@ -105,47 +105,47 @@ export default {
     CollectionHomepageInput,
     CkImageInput,
     CkTaxonomyInput,
-    CkSideboxesInput
+    CkSideboxesInput,
   },
   props: {
     errors: {
       required: true,
-      type: Object
+      type: Object,
     },
     name: {
-      required: true
+      required: true,
     },
     intro: {
-      required: true
+      required: true,
     },
     subtitle: {
-      required: true
+      required: true,
     },
     order: {
-      required: true
+      required: true,
     },
     enabled: {
-      required: true
+      required: true,
     },
     homepage: {
-      required: true
+      required: true,
     },
     sideboxes: {
-      required: true
+      required: true,
     },
     category_taxonomies: {
-      required: true
+      required: true,
     },
     id: {
       required: false,
-      type: String
-    }
+      type: String,
+    },
   },
   methods: {
     onInput(field, value) {
       this.$emit(`update:${field}`, value);
       this.$emit("clear", field);
-    }
-  }
+    },
+  },
 };
 </script>

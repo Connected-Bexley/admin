@@ -4,7 +4,9 @@
     <template v-else>
       <vue-headful :title="`${appName} - Edit Page ${page.title}`" />
 
-      <gov-back-link :to="{ name: 'pages-index' }">Back to pages</gov-back-link>
+      <gov-back-link :to="{ name: 'pages-show', params: { page: page.id } }"
+        >Back to page</gov-back-link
+      >
       <gov-main-wrapper>
         <page-form
           :page="page"
@@ -26,18 +28,11 @@
         <gov-button v-if="form.$submitting" disabled type="submit"
           >Updating...</gov-button
         >
-        <gov-button v-else @click="onSubmit" type="submit">Update</gov-button>
+        <gov-button v-else @click="onSubmit" type="submit">{{
+          updateButtonText
+        }}</gov-button>
 
         <ck-submit-error v-if="form.$errors.any()" />
-
-        <gov-section-break size="l" />
-
-        <ck-delete-button
-          v-if="canDelete"
-          resource="page"
-          :endpoint="`/pages/${this.page.id}`"
-          @deleted="onDelete"
-        />
       </gov-main-wrapper>
     </template>
   </gov-width-container>
@@ -52,23 +47,23 @@ export default {
   name: "EditPage",
 
   components: {
-    PageForm
+    PageForm,
   },
 
   data() {
     return {
       loading: false,
       page: null,
-      form: null
+      form: null,
     };
   },
   computed: {
     updateButtonText() {
-      return this.auth.isContentAdmin ? "Update" : "Request update";
+      return this.auth.isSuperAdmin ? "Update" : "Request update";
     },
     canDelete() {
-      return this.auth.isContentAdmin && this.page.children.length === 0;
-    }
+      return this.auth.canDelete("page") && this.page.children.length === 0;
+    },
   },
   methods: {
     async fetchPage() {
@@ -85,67 +80,82 @@ export default {
         parent_id: this.page.parent ? this.page.parent.id : null,
         enabled: this.page.enabled,
         image_file_id: this.page.image ? this.page.image.id : null,
-        collections: this.page.collections
+        collections: this.page.collections,
       });
 
       this.loading = false;
     },
     async onSubmit() {
-      await this.form.put(`/pages/${this.page.id}`, (config, data) => {
-        // Remove any unchanged values.
-        if (data.title === this.page.title) {
-          delete data.title;
-        }
-        if (data.slug === this.page.slug) {
-          delete data.slug;
-        }
-        if (data.excerpt === this.page.excerpt) {
-          delete data.excerpt;
-        }
-        if (data.content === this.page.content) {
-          delete data.content;
-        }
-        if (data.page_type === this.page.page_type) {
-          delete data.page_type;
-        }
-        if (data.parent_id === this.page.parent_id) {
-          delete data.parent_id;
-        }
-        if (data.enabled === this.page.enabled) {
-          delete data.enabled;
-        }
+      const response = await this.form.put(
+        `/pages/${this.page.id}`,
+        (config, data) => {
+          // Remove any unchanged values.
+          if (data.title === this.page.title) {
+            delete data.title;
+          }
+          if (data.slug === this.page.slug) {
+            delete data.slug;
+          }
+          if (data.excerpt === this.page.excerpt) {
+            delete data.excerpt;
+          }
+          if (data.content === this.page.content) {
+            delete data.content;
+          }
+          if (data.page_type === this.page.page_type) {
+            delete data.page_type;
+          }
+          if (data.parent_id === this.page.parent_id) {
+            delete data.parent_id;
+          }
+          if (data.enabled === this.page.enabled) {
+            delete data.enabled;
+          }
 
-        // Remove the image from the request if unchanged.
-        if (this.page.image && data.image_file_id === this.page.image.id) {
-          delete data.image_file_id;
-        }
+          // Remove the image from the request if unchanged.
+          if (this.page.image && data.image_file_id === this.page.image.id) {
+            delete data.image_file_id;
+          }
 
-        // Convert false to null if removed
-        if (data.image_file_id === false) {
-          data.image_file_id = null;
-        }
+          // Convert false to null if removed
+          if (data.image_file_id === false) {
+            data.image_file_id = null;
+          }
 
-        if (
-          JSON.stringify(data.collections) ===
-          JSON.stringify(this.page.collections)
-        ) {
-          delete data.collections;
+          if (
+            JSON.stringify(data.collections) ===
+            JSON.stringify(this.page.collections)
+          ) {
+            delete data.collections;
+          }
         }
-      });
-      this.$router.push({
-        name: "pages-index",
-        query: { updated: true }
-      });
+      );
+
+      const updateRequestId = response.id;
+      let next = {
+        name: "pages-updated",
+        params: { page: this.page.id },
+      };
+
+      if (this.auth.isSuperAdmin) {
+        try {
+          const { data } = await http.get(
+            `/update-requests/${updateRequestId}`
+          );
+          if (data.approved_at) {
+            next.name = "pages-index";
+            next.query = { updated: this.page.id };
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      this.$router.push(next);
     },
-    onDelete() {
-      this.$router.push({
-        name: "pages-index"
-      });
-    }
   },
   created() {
     this.fetchPage();
-  }
+  },
 };
 </script>
 

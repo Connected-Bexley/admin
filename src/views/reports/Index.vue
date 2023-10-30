@@ -9,7 +9,7 @@
           <gov-heading size="xl">Reports</gov-heading>
 
           <gov-body
-            >Access information by recieving updates on data such as site
+            >Access information by receiving updates on data such as site
             usage.</gov-body
           >
 
@@ -25,19 +25,23 @@
 <script>
 export default {
   name: "ReportsPage",
-  data() {
-    return {
-      tabs: [
-        {
+  computed: {
+    tabs() {
+      const tabs = [];
+      if (this.auth.canView("reports")) {
+        tabs[0] = {
           heading: "View all",
-          to: { name: "reports-index" }
-        },
-        {
+          to: { name: "reports-index" },
+        };
+      }
+      if (this.auth.canAdd("report") || this.auth.canEdit("report")) {
+        tabs[1] = {
           heading: "Manage",
-          to: { name: "reports-edit" }
-        }
-      ]
-    };
-  }
+          to: { name: "reports-edit" },
+        };
+      }
+      return tabs;
+    },
+  },
 };
 </script>

@@ -49,9 +49,7 @@
 
             <ck-delete-button
               resource="event"
-              :endpoint="
-                `/collections/organisation-events/${this.collection.id}`
-              "
+              :endpoint="`/collections/organisation-events/${this.collection.id}`"
               @deleted="onDelete"
             />
           </gov-grid-column>
@@ -73,7 +71,7 @@ export default {
     return {
       loading: false,
       collection: null,
-      form: null
+      form: null,
     };
   },
   methods: {
@@ -92,8 +90,8 @@ export default {
         enabled: this.collection.enabled,
         sideboxes: this.collection.sideboxes,
         category_taxonomies: this.collection.category_taxonomies.map(
-          taxonomy => taxonomy.id
-        )
+          (taxonomy) => taxonomy.id
+        ),
       });
 
       this.loading = false;
@@ -106,10 +104,10 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "admin-index-collections-events" });
-    }
+    },
   },
   created() {
     this.fetchCollection();
-  }
+  },
 };
 </script>

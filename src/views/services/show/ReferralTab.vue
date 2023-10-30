@@ -24,8 +24,8 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     displayDisclaimer() {
@@ -36,7 +36,7 @@ export default {
         this.service.referral_method.charAt(0).toUpperCase() +
         this.service.referral_method.substr(1)
       );
-    }
-  }
+    },
+  },
 };
 </script>

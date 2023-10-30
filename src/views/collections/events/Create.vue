@@ -60,15 +60,15 @@ export default {
         order: 1,
         enabled: true,
         sideboxes: [],
-        category_taxonomies: []
-      })
+        category_taxonomies: [],
+      }),
     };
   },
   methods: {
     async onSubmit() {
       await this.form.post("/collections/organisation-events");
       this.$router.push({ name: "admin-index-collections-events" });
-    }
-  }
+    },
+  },
 };
 </script>

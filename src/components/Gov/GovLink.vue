@@ -24,16 +24,16 @@ export default {
   name: "GovLink",
   props: {
     to: {
-      required: false
+      required: false,
     },
     href: {
-      required: false
-    }
+      required: false,
+    },
   },
   methods: {
     onClick() {
       this.$emit("click");
-    }
-  }
+    },
+  },
 };
 </script>

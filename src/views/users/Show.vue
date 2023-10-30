@@ -13,7 +13,7 @@
 
           <ck-user-details :user="user" />
 
-          <template v-if="auth.isServiceAdmin()">
+          <template v-if="auth.canDelete('user')">
             <gov-body
               >Please be certain of the action before deleting a user</gov-body
             >
@@ -28,7 +28,7 @@
           </template>
         </gov-grid-column>
         <gov-grid-column
-          v-if="auth.isServiceAdmin()"
+          v-if="auth.canEdit('user')"
           width="one-third"
           class="text-right"
         >
@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       loading: false,
-      user: null
+      user: null,
     };
   },
   methods: {
@@ -59,8 +59,8 @@ export default {
       http
         .get(`/users/${this.$route.params.user}`, {
           params: {
-            include: "user-roles.organisation,user-roles.service"
-          }
+            include: "user-roles.organisation,user-roles.service",
+          },
         })
         .then(({ data }) => {
           this.user = data.data;
@@ -72,10 +72,10 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "users-index" });
-    }
+    },
   },
   created() {
     this.fetchUser();
-  }
+  },
 };
 </script>

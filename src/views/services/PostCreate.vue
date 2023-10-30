@@ -5,7 +5,7 @@
     <gov-back-link
       :to="{
         name: 'services-show',
-        params: { service: $route.params.service }
+        params: { service: $route.params.service },
       }"
     >
       Back to service
@@ -33,7 +33,7 @@
           --><gov-button
             :to="{
               name: 'service-locations-create',
-              params: { service: service.id }
+              params: { service: service.id },
             }"
             success
           >
@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       service: null,
-      loading: false
+      loading: false,
     };
   },
 
@@ -61,16 +61,16 @@ export default {
       this.loading = true;
 
       const {
-        data: { data: service }
+        data: { data: service },
       } = await http.get(`/services/${this.$route.params.service}`);
       this.service = service;
 
       this.loading = false;
-    }
+    },
   },
 
   created() {
     this.fetchService();
-  }
+  },
 };
 </script>

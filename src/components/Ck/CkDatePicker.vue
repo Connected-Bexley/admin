@@ -23,31 +23,31 @@ export default {
   props: {
     value: {
       type: String,
-      required: true
+      required: true,
     },
     label: {
       type: String,
-      required: true
+      required: true,
     },
     error: {
-      required: true
+      required: true,
     },
     id: {
       type: String,
-      required: true
+      required: true,
     },
     max: {
       type: String,
-      default: ""
+      default: "",
     },
     min: {
       type: String,
-      default: ""
+      default: "",
     },
     required: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
@@ -69,7 +69,7 @@ export default {
           "Wednesday",
           "Thursday",
           "Friday",
-          "Saturday"
+          "Saturday",
         ],
         monthNames: [
           "January",
@@ -83,7 +83,7 @@ export default {
           "September",
           "October",
           "November",
-          "December"
+          "December",
         ],
         monthNamesShort: [
           "Jan",
@@ -97,17 +97,17 @@ export default {
           "Sep",
           "Oct",
           "Nov",
-          "Dec"
-        ]
+          "Dec",
+        ],
       },
-      formatError: null
+      formatError: null,
     };
   },
 
   computed: {
     dateError() {
       return this.formatError ? this.formatError : this.error;
-    }
+    },
   },
 
   methods: {
@@ -141,8 +141,8 @@ export default {
       return `${String(dateObj.getDate()).padStart(2, "0")}/${String(
         dateObj.getMonth() + 1
       ).padStart(2, "0")}/${dateObj.getFullYear()}`;
-    }
-  }
+    },
+  },
 };
 </script>
 

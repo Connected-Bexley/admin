@@ -64,8 +64,8 @@ export default {
         homepage: false,
         sideboxes: [],
         category_taxonomies: [],
-        image_file_id: null
-      })
+        image_file_id: null,
+      }),
     };
   },
   methods: {
@@ -77,7 +77,7 @@ export default {
         }
       });
       this.$router.push({ name: "admin-index-collections-personas" });
-    }
-  }
+    },
+  },
 };
 </script>

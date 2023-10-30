@@ -132,8 +132,8 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
@@ -145,15 +145,15 @@ export default {
         2: "Below Average",
         3: "Average",
         4: "Above Average",
-        5: "Excellent"
-      }
+        5: "Excellent",
+      },
     };
   },
 
   computed: {
     imageUrls() {
-      return this.service.gallery_items.map(galleryItem => galleryItem.url);
-    }
+      return this.service.gallery_items.map((galleryItem) => galleryItem.url);
+    },
   },
 
   filters: {
@@ -166,14 +166,14 @@ export default {
 
     lastModifiedAt(date) {
       return moment(date).format("D/M/YYYY");
-    }
+    },
   },
 
   methods: {
     async onMarkAsStillUpToDate() {
       await this.refreshForm.put(`/services/${this.service.id}/refresh`);
       this.$router.go();
-    }
-  }
+    },
+  },
 };
 </script>

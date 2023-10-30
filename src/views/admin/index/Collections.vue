@@ -17,14 +17,14 @@ export default {
         { heading: "Categories", to: { name: "admin-index-collections" } },
         {
           heading: "Personas",
-          to: { name: "admin-index-collections-personas" }
+          to: { name: "admin-index-collections-personas" },
         },
         {
           heading: "Events",
-          to: { name: "admin-index-collections-events" }
-        }
-      ]
+          to: { name: "admin-index-collections-events" },
+        },
+      ],
     };
-  }
+  },
 };
 </script>

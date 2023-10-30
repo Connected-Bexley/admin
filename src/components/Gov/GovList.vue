@@ -18,13 +18,13 @@ export default {
     type: {
       type: String,
       required: false,
-      default: "unordered"
+      default: "unordered",
     },
     bullet: {
       required: false,
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 };
 </script>

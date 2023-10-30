@@ -41,31 +41,31 @@ export default {
   props: {
     serviceTags: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       tags: [],
       newTag: {
-        label: ""
+        label: "",
       },
-      newTagError: null
+      newTagError: null,
     };
   },
 
   computed: {
     serviceTagSlugs() {
-      return this.serviceTags.map(tag => tag.slug);
+      return this.serviceTags.map((tag) => tag.slug);
     },
     combinedTags() {
-      const tagSlugs = this.tags.map(tag => tag.slug);
+      const tagSlugs = this.tags.map((tag) => tag.slug);
       const newTags = this.serviceTags.filter(
-        tag => !tagSlugs.includes(tag.slug)
+        (tag) => !tagSlugs.includes(tag.slug)
       );
       return this.tags.concat(newTags);
-    }
+    },
   },
 
   methods: {
@@ -79,14 +79,14 @@ export default {
       let serviceTags = this.serviceTags.slice();
       if (update.enabled === false) {
         serviceTags = this.serviceTags.filter(
-          tag => tag.slug !== update.tag.slug
+          (tag) => tag.slug !== update.tag.slug
         );
       } else {
         // If this is a new tag, check if it exists
         if (
           !update.tag.id &&
           this.combinedTags.filter(
-            tag => tag.slug === this.slugify(update.tag.label)
+            (tag) => tag.slug === this.slugify(update.tag.label)
           ).length
         ) {
           this.newTagError = `Tag ${update.tag.label} already exists`;
@@ -95,17 +95,17 @@ export default {
         }
         serviceTags.push({
           slug: this.slugify(update.tag.label),
-          label: update.tag.label
+          label: update.tag.label,
         });
         this.newTag = { label: "" };
       }
       this.$emit("input", serviceTags);
-    }
+    },
   },
 
   created() {
     this.fetchTags();
-  }
+  },
 };
 </script>
 

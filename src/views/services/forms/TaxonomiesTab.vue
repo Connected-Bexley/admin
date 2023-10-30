@@ -43,19 +43,19 @@ export default {
   components: { CkTaxonomyInput },
   props: {
     errors: {
-      required: true
+      required: true,
     },
     isGlobalAdmin: {
-      required: true
+      required: true,
     },
     type: {
       required: true,
-      type: String
+      type: String,
     },
     category_taxonomies: {
       required: true,
-      type: Array
-    }
+      type: Array,
+    },
   },
   computed: {
     contactAdminTeamEmail() {
@@ -70,7 +70,7 @@ export default {
       return `mailto:${to}?subject=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(body)}`;
-    }
-  }
+    },
+  },
 };
 </script>
