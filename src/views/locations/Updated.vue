@@ -23,7 +23,7 @@
             <gov-button
               :to="{
                 name: 'locations-show',
-                params: { location: this.$route.params.location }
+                params: { location: this.$route.params.location },
               }"
               >Back to location</gov-button
             >
@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       loading: false,
-      location: null
+      location: null,
     };
   },
   methods: {
@@ -53,10 +53,10 @@ export default {
       );
       this.location = response.data.data;
       this.loading = false;
-    }
+    },
   },
   created() {
     this.fetchLocation();
-  }
+  },
 };
 </script>

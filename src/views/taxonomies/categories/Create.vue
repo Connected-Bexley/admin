@@ -50,15 +50,15 @@ export default {
       form: new Form({
         parent_id: null,
         name: "",
-        order: 1
-      })
+        order: 1,
+      }),
     };
   },
   methods: {
     async onSubmit() {
       await this.form.post("/taxonomies/categories");
       this.$router.push({ name: "admin-index-taxonomies" });
-    }
-  }
+    },
+  },
 };
 </script>

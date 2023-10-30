@@ -109,18 +109,18 @@ export default {
         phone: "",
         logo_file_id: null,
         social_medias: [],
-        category_taxonomies: []
+        category_taxonomies: [],
       }),
       tabs: [
         { id: "details", heading: "Details", active: true },
-        { id: "taxonomies", heading: "Taxonomies", active: false }
-      ]
+        { id: "taxonomies", heading: "Taxonomies", active: false },
+      ],
     };
   },
   watch: {
     ["form.name"](newName) {
       this.form.slug = this.slugify(newName);
-    }
+    },
   },
   methods: {
     async onSubmit() {
@@ -128,19 +128,19 @@ export default {
       const organisationId = response.data.id;
       this.$router.push({
         name: "organisations-show",
-        params: { organisation: organisationId }
+        params: { organisation: organisationId },
       });
     },
     onTabChange({ index }) {
-      this.tabs.forEach(tab => (tab.active = false));
+      this.tabs.forEach((tab) => (tab.active = false));
       const tabId = this.tabs[index].id;
-      this.tabs.find(tab => tab.id === tabId).active = true;
+      this.tabs.find((tab) => tab.id === tabId).active = true;
     },
     isTabActive(id) {
-      const tab = this.tabs.find(tab => tab.id === id);
+      const tab = this.tabs.find((tab) => tab.id === id);
 
       return tab === undefined ? false : tab.active;
-    }
-  }
+    },
+  },
 };
 </script>

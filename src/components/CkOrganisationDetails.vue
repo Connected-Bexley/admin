@@ -79,27 +79,29 @@ export default {
   name: "CkOrganisationDetails",
 
   components: {
-    CkTaxonomyList
+    CkTaxonomyList,
   },
 
   props: {
     organisation: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       loading: false,
-      taxonomies: []
+      taxonomies: [],
     };
   },
 
   computed: {
     organisationTaxonomyIds() {
-      return this.organisation.category_taxonomies.map(taxonomy => taxonomy.id);
-    }
+      return this.organisation.category_taxonomies.map(
+        (taxonomy) => taxonomy.id
+      );
+    },
   },
 
   methods: {
@@ -122,11 +124,11 @@ export default {
       const { data: taxonomies } = await http.get("/taxonomies/categories");
       this.taxonomies = taxonomies.data;
       this.loading = false;
-    }
+    },
   },
 
   created() {
     this.fetchTaxonomies();
-  }
+  },
 };
 </script>

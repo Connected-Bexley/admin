@@ -14,8 +14,8 @@
 import InformationCopy from "../components/InformationCopy";
 export default {
   components: {
-    InformationCopy
-  }
+    InformationCopy,
+  },
 };
 </script>
 

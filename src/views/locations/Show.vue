@@ -20,7 +20,7 @@
 
           <location-details :location="location" />
 
-          <template v-if="auth.isGlobalAdmin">
+          <template v-if="auth.canDelete('location')">
             <gov-body
               >Please be certain of the action before deleting a
               location</gov-body
@@ -36,7 +36,7 @@
           </template>
         </gov-grid-column>
         <gov-grid-column
-          v-if="auth.isServiceAdmin()"
+          v-if="auth.canEdit('location')"
           width="one-third"
           class="text-right"
         >
@@ -61,7 +61,7 @@ export default {
     return {
       loading: false,
       location: null,
-      updated: false
+      updated: false,
     };
   },
   methods: {
@@ -77,11 +77,11 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "locations-index" });
-    }
+    },
   },
   created() {
     this.updated = this.$route.query.updated || false;
     this.fetchLocation();
-  }
+  },
 };
 </script>

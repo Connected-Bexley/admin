@@ -3,15 +3,15 @@
     <ck-loader v-if="loading" />
     <template v-else>
       <vue-headful
-        :title="
-          `${appName} - Edit Service Location: ${serviceLocation.name || '-'}`
-        "
+        :title="`${appName} - Edit Service Location: ${
+          serviceLocation.name || '-'
+        }`"
       />
 
       <gov-back-link
         :to="{
           name: 'service-locations-show',
-          params: { serviceLocation: serviceLocation.id }
+          params: { serviceLocation: serviceLocation.id },
         }"
         >Back to service location</gov-back-link
       >
@@ -62,13 +62,13 @@ export default {
     return {
       form: null,
       serviceLocation: null,
-      loading: false
+      loading: false,
     };
   },
   computed: {
     updateButtonText() {
       return this.auth.isGlobalAdmin ? "Update" : "Request update";
-    }
+    },
   },
   methods: {
     async fetchServiceLocation() {
@@ -81,7 +81,7 @@ export default {
         name: this.serviceLocation.name || "",
         regular_opening_hours: this.serviceLocation.regular_opening_hours,
         holiday_opening_hours: this.serviceLocation.holiday_opening_hours,
-        image_file_id: null
+        image_file_id: null,
       });
       this.loading = false;
     },
@@ -117,7 +117,7 @@ export default {
       const updateRequestId = response.id;
       let next = {
         name: "service-locations-updated",
-        params: { serviceLocation: this.serviceLocation.id }
+        params: { serviceLocation: this.serviceLocation.id },
       };
 
       if (this.auth.isGlobalAdmin) {
@@ -134,10 +134,10 @@ export default {
         }
       }
       this.$router.push(next);
-    }
+    },
   },
   created() {
     this.fetchServiceLocation();
-  }
+  },
 };
 </script>

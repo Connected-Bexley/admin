@@ -18,7 +18,7 @@
               >
             </gov-grid-column>
             <gov-grid-column
-              v-if="auth.isOrganisationAdmin(event.organisation)"
+              v-if="auth.canEdit('event', event.organisation)"
               width="one-third"
               class="text-right"
             >
@@ -31,7 +31,7 @@
 
           <event-details :event="event" />
 
-          <template v-if="auth.isGlobalAdmin">
+          <template v-if="auth.canDelete('event')">
             <gov-section-break size="l" />
 
             <gov-body
@@ -59,14 +59,14 @@ export default {
   name: "OrganisationEventShow",
 
   components: {
-    EventDetails
+    EventDetails,
   },
 
   data() {
     return {
       loading: false,
       event: null,
-      updated: false
+      updated: false,
     };
   },
 
@@ -88,12 +88,12 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "events-index" });
-    }
+    },
   },
   created() {
     this.updated = this.$route.query.updated || false;
     this.fetchEvent();
-  }
+  },
 };
 </script>
 

@@ -44,42 +44,42 @@ export default {
   name: "CkSelectInput",
   props: {
     value: {
-      required: true
+      required: true,
     },
     label: {
       required: true,
-      type: String
+      type: String,
     },
     hint: {
       required: false,
-      type: String
+      type: String,
     },
     error: {
-      required: true
+      required: true,
     },
     options: {
       required: false,
-      type: Array
+      type: Array,
     },
     id: {
       required: true,
-      type: String
+      type: String,
     },
     width: {
       type: Number,
-      required: false
+      required: false,
     },
     hasIcons: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     disabled: {
       required: false,
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 };
 </script>
 

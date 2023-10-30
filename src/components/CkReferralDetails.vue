@@ -32,7 +32,7 @@
           <gov-link
             :to="{
               name: 'services-show',
-              params: { service: referral.service.id }
+              params: { service: referral.service.id },
             }"
           >
             {{ referral.service.name }}
@@ -48,7 +48,7 @@
             v-else
             :to="{
               name: 'organisations-show',
-              params: { organisation: organisation.id }
+              params: { organisation: organisation.id },
             }"
           >
             {{ organisation.name }}
@@ -132,13 +132,13 @@ export default {
   props: {
     referral: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       loadingOrganisation: false,
-      organisation: null
+      organisation: null,
     };
   },
   computed: {
@@ -155,7 +155,7 @@ export default {
     },
     consented() {
       return this.referral.referral_consented_at === null ? "No" : "Yes";
-    }
+    },
   },
   created() {
     this.fetchOrganisation();
@@ -174,10 +174,7 @@ export default {
 
       let businessDays = 0;
       for (var i = 0; i < duration; i++) {
-        const day = start
-          .clone()
-          .add(i, "days")
-          .isoWeekday();
+        const day = start.clone().add(i, "days").isoWeekday();
 
         if (day < 6) {
           businessDays += 1;
@@ -199,14 +196,14 @@ export default {
       this.loadingOrganisation = true;
 
       const {
-        data: { data: organisation }
+        data: { data: organisation },
       } = await http.get(
         `/organisations/${this.referral.service.organisation_id}`
       );
       this.organisation = organisation;
 
       this.loadingOrganisation = false;
-    }
+    },
   },
   filters: {
     status(status) {
@@ -222,7 +219,7 @@ export default {
         default:
           return "Invalid status";
       }
-    }
-  }
+    },
+  },
 };
 </script>

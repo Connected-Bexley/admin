@@ -59,15 +59,12 @@
                 </template>
               </ck-table-filters>
             </gov-grid-column>
-            <gov-grid-column
-              v-if="auth.isOrganisationAdmin()"
-              width="one-third"
-            >
+            <gov-grid-column v-if="auth.canAdd('service')" width="one-third">
               <gov-button @click="onAddService" type="submit" success expand
                 >Add service</gov-button
               >
               <gov-button
-                v-if="auth.isSuperAdmin"
+                v-if="auth.canImport('services')"
                 :to="{ name: 'services-import' }"
                 type="submit"
                 success
@@ -86,33 +83,33 @@
               {
                 heading: 'Service name',
                 sort: 'name',
-                render: service => service.name
+                render: (service) => service.name,
               },
               {
                 heading: 'Organisation',
                 sort: 'organisation_name',
-                render: service => service.organisation.name
+                render: (service) => service.organisation.name,
               },
               {
                 heading: 'Status',
-                render: service => displayStatus(service.status)
+                render: (service) => displayStatus(service.status),
               },
               {
                 heading: 'Referral method',
-                render: service =>
-                  displayReferralMethod(service.referral_method)
+                render: (service) =>
+                  displayReferralMethod(service.referral_method),
               },
               {
                 heading: 'Freshness',
                 sort: 'last_modified_at',
-                render: service => displayFreshness(service.last_modified_at)
-              }
+                render: (service) => displayFreshness(service.last_modified_at),
+              },
             ]"
             :view-route="
-              service => {
+              (service) => {
                 return {
                   name: 'services-show',
-                  params: { service: service.id }
+                  params: { service: service.id },
                 };
               }
             "
@@ -136,26 +133,26 @@ export default {
         name: "",
         organisation_name: "",
         status: "",
-        referral_method: ""
+        referral_method: "",
       },
       statuses: [
         { value: "", text: "All" },
         { value: "active", text: "Enabled" },
-        { value: "inactive", text: "Disabled" }
+        { value: "inactive", text: "Disabled" },
       ],
       referralMethods: [
         { value: "", text: "All" },
         { value: "internal", text: "Internal" },
         { value: "external", text: "External" },
-        { value: "none", text: "None" }
-      ]
+        { value: "none", text: "None" },
+      ],
     };
   },
   computed: {
     params() {
       const params = {
         include: "organisation",
-        "filter[has_permission]": true
+        "filter[has_permission]": true,
       };
 
       if (this.filters.name !== "") {
@@ -175,7 +172,7 @@ export default {
       }
 
       return params;
-    }
+    },
   },
   methods: {
     onSearch() {
@@ -214,8 +211,8 @@ export default {
     },
     displayReferralMethod(referralMethod) {
       return referralMethod.charAt(0).toUpperCase() + referralMethod.substr(1);
-    }
-  }
+    },
+  },
 };
 </script>
 

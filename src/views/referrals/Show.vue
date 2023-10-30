@@ -15,13 +15,13 @@
           </gov-grid-column>
         </gov-grid-row>
         <gov-section-break size="l" />
-        <gov-grid-row width="two-thirds">
+        <gov-grid-row v-if="auth.canUpdate('referral')" width="two-thirds">
           <gov-grid-column width="two-thirds">
             <gov-heading size="m">Update case</gov-heading>
 
             <gov-hint>
-              You can change the status of the referral to ‘Complete’,
-              ‘Incomplete’ or ‘In progress’ and add a comment.
+              You can change the status of the referral to 'Complete',
+              'Incomplete' or 'In progress' and add a comment.
             </gov-hint>
 
             <ck-select-input
@@ -95,7 +95,7 @@
             </template>
           </gov-grid-column>
         </gov-grid-row>
-        <template v-if="auth.isSuperAdmin">
+        <template v-if="auth.canDelete('referral')">
           <gov-section-break size="l" />
           <gov-grid-row width="two-thirds">
             <gov-grid-column width="two-thirds">
@@ -139,12 +139,12 @@ export default {
         { text: "New", value: "new" },
         { text: "In progress", value: "in_progress" },
         { text: "Completed", value: "completed" },
-        { text: "Incomplete", value: "incompleted" }
+        { text: "Incomplete", value: "incompleted" },
       ],
       form: new Form({
         status: null,
-        comments: ""
-      })
+        comments: "",
+      }),
     };
   },
   methods: {
@@ -154,8 +154,8 @@ export default {
       http
         .get(`/referrals/${this.$route.params.referral}`, {
           params: {
-            include: "service"
-          }
+            include: "service",
+          },
         })
         .then(({ data }) => {
           this.referral = data.data;
@@ -169,8 +169,8 @@ export default {
       const config = {
         params: {
           "filter[referral_id]": this.$route.params.referral,
-          include: "user"
-        }
+          include: "user",
+        },
       };
 
       http.get("/status-updates", config).then(({ data }) => {
@@ -198,7 +198,7 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "referrals-index" });
-    }
+    },
   },
   filters: {
     status(status) {
@@ -214,11 +214,11 @@ export default {
         default:
           return "Invalid status";
       }
-    }
+    },
   },
   created() {
     this.fetchReferral();
     this.fetchStatusUpdates();
-  }
+  },
 };
 </script>

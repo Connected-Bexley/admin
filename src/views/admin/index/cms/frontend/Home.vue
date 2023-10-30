@@ -63,24 +63,24 @@ export default {
   name: "CmsFrontendHome",
 
   components: {
-    CkBannerInput
+    CkBannerInput,
   },
 
   model: {
     prop: "frontend",
-    event: "input"
+    event: "input",
   },
 
   props: {
     frontend: {
       type: Object,
-      required: true
+      required: true,
     },
 
     errors: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   methods: {
@@ -90,7 +90,7 @@ export default {
         title: "",
         content: "",
         button_text: "",
-        button_url: ""
+        button_url: "",
       });
       this.frontend.home.banners = banners;
     },
@@ -104,7 +104,7 @@ export default {
 
       this.$emit("input", frontend);
       this.$emit("clear", `frontend.home.${field}`);
-    }
-  }
+    },
+  },
 };
 </script>

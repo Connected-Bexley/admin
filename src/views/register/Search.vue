@@ -42,22 +42,22 @@ import OrganisationSearch from "./forms/OrganisationSearch.vue";
 
 export default {
   components: {
-    OrganisationSearch
+    OrganisationSearch,
   },
   model: {
     prop: "form",
-    event: "update"
+    event: "update",
   },
   props: {
     form: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     organisationSelected() {
       return this.form.organisation.id !== "";
-    }
+    },
   },
   methods: {
     onSelected({ id }) {
@@ -66,8 +66,8 @@ export default {
     resetOrganisation() {
       this.form.organisation.id = "";
       this.$router.push({ name: "register-new-step2" });
-    }
-  }
+    },
+  },
 };
 </script>
 

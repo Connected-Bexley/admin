@@ -29,33 +29,33 @@ export default {
   name: "OfferingsInput",
   model: {
     prop: "offerings",
-    event: "input"
+    event: "input",
   },
   props: {
     offerings: {
       required: true,
-      type: Array
+      type: Array,
     },
     errors: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      offeringsIndex: 1
+      offeringsIndex: 1,
     };
   },
   methods: {
     cloneOfferings() {
-      return this.offerings.map(offering => ({ ...offering }));
+      return this.offerings.map((offering) => ({ ...offering }));
     },
     onAddOffering() {
       let offerings = this.cloneOfferings();
       offerings.push({
         offering: "",
         order: this.offerings.length + 1,
-        index: this.offeringsIndex
+        index: this.offeringsIndex,
       });
 
       this.offeringsIndex++;
@@ -82,7 +82,7 @@ export default {
       offerings[index].offering = value;
       this.$emit("input", offerings);
       this.$emit("clear", `offerings.${index}.offering`);
-    }
-  }
+    },
+  },
 };
 </script>

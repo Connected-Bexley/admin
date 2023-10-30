@@ -64,55 +64,55 @@ export default {
   name: "CkLocationInput",
 
   components: {
-    LocationForm
+    LocationForm,
   },
   props: {
     error: {
-      required: true
+      required: true,
     },
     location_id: {
-      required: false
+      required: false,
     },
     address_line_1: {
       required: false,
-      type: String
+      type: String,
     },
     address_line_2: {
       required: false,
-      type: String
+      type: String,
     },
     address_line_3: {
       required: false,
-      type: String
+      type: String,
     },
     city: {
       required: false,
-      type: String
+      type: String,
     },
     county: {
       required: false,
-      type: String
+      type: String,
     },
     postcode: {
       required: false,
-      type: String
+      type: String,
     },
     country: {
       required: false,
-      type: String
+      type: String,
     },
     has_induction_loop: {
       required: false,
-      type: Boolean
+      type: Boolean,
     },
     has_wheelchair_access: {
       required: false,
-      type: Boolean
+      type: Boolean,
     },
     has_accessible_toilet: {
       required: false,
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
 
   data() {
@@ -132,35 +132,35 @@ export default {
         has_wheelchair_access: false,
         has_induction_loop: false,
         has_accessible_toilet: false,
-        image_file_id: null
+        image_file_id: null,
       }),
       countries: [
         { text: "Please select", value: null, disabled: true },
-        ...countries
+        ...countries,
       ],
       locationTypes: [
         { value: "existing", label: "Existing" },
-        { value: "new", label: "New" }
-      ]
+        { value: "new", label: "New" },
+      ],
     };
   },
 
   computed: {
     selectLocations() {
-      const locations = this.locations.map(location => {
+      const locations = this.locations.map((location) => {
         return {
           text: `${location.address_line_1}, ${location.city}, ${location.postcode}`,
-          value: location.id
+          value: location.id,
         };
       });
       locations.unshift({
         text: "Please select",
         value: null,
-        disabled: true
+        disabled: true,
       });
 
       return locations;
-    }
+    },
   },
 
   methods: {
@@ -180,12 +180,12 @@ export default {
         this.locations.push(data);
         this.locationType = "existing";
       });
-    }
+    },
   },
 
   created() {
     this.fetchLocations();
-  }
+  },
 };
 </script>
 

@@ -21,7 +21,7 @@
               >
             </gov-grid-column>
             <gov-grid-column
-              v-if="auth.isServiceAdmin(service)"
+              v-if="auth.canEdit('service', service)"
               width="one-third"
               class="text-right"
             >
@@ -36,7 +36,7 @@
             <router-view :service="service" />
           </gov-tabs>
 
-          <template v-if="auth.isGlobalAdmin">
+          <template v-if="auth.canDelete('service')">
             <gov-body
               >Please be certain of the action before deleting a
               {{ service.type }}</gov-body
@@ -70,23 +70,23 @@ export default {
         { heading: "Details", to: { name: "services-show" } },
         {
           heading: "Additional info",
-          to: { name: "services-show-additional-info" }
+          to: { name: "services-show-additional-info" },
         },
         {
           heading: "Good to know",
-          to: { name: "services-show-useful-info" }
+          to: { name: "services-show-useful-info" },
         },
         {
           heading: "Contact info",
-          to: { name: "services-show-contact-info" }
+          to: { name: "services-show-contact-info" },
         },
         {
           heading: "Eligibility",
-          to: { name: "services-show-eligibility" }
+          to: { name: "services-show-eligibility" },
         },
         { heading: "Locations", to: { name: "services-show-locations" } },
-        { heading: "Referral", to: { name: "services-show-referral" } }
-      ]
+        { heading: "Referral", to: { name: "services-show-referral" } },
+      ],
     };
   },
   methods: {
@@ -103,7 +103,7 @@ export default {
       // Fetch the service locations.
       const serviceLocations = await this.fetchAll("/service-locations", {
         "filter[service_id]": this.$route.params.service,
-        include: "location"
+        include: "location",
       });
       this.service.service_locations = serviceLocations;
 
@@ -114,11 +114,11 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "services-index" });
-    }
+    },
   },
   created() {
     this.updated = this.$route.query.updated || false;
     this.fetchService();
-  }
+  },
 };
 </script>

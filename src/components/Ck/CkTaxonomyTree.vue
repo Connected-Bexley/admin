@@ -26,38 +26,38 @@ export default {
   name: "TaxonomyTree",
 
   components: {
-    CkNodeCheckboxes
+    CkNodeCheckboxes,
   },
 
   props: {
     taxonomies: {
       required: true,
-      type: Array
+      type: Array,
     },
     checked: {
       required: true,
-      type: Array
+      type: Array,
     },
     error: {
-      required: true
+      required: true,
     },
     filteredTaxonomyIds: {
       type: [Array, Boolean],
       default() {
         return [];
-      }
+      },
     },
     taxonomyCollections: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 };
 </script>
 

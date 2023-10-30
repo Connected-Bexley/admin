@@ -43,21 +43,21 @@ export default {
   props: {
     serviceEligibilityTypes: {
       required: true,
-      type: Object
+      type: Object,
     },
     type: {
       required: true,
-      type: String
+      type: String,
     },
     errors: {
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       loading: false,
-      eligibilityTypes: []
+      eligibilityTypes: [],
     };
   },
 
@@ -72,7 +72,7 @@ export default {
     },
     updateServiceEligibilityTaxonomies({ taxonomy, enabled }) {
       const updatedServiceEligibilityTypes = {
-        ...this.serviceEligibilityTypes
+        ...this.serviceEligibilityTypes,
       };
 
       if (enabled) {
@@ -95,18 +95,18 @@ export default {
     },
     updateServiceEligibilityCustom({ customTaxonomy, customValue }) {
       const updatedServiceEligibilityTypes = {
-        ...this.serviceEligibilityTypes
+        ...this.serviceEligibilityTypes,
       };
       updatedServiceEligibilityTypes.custom[customTaxonomy] = customValue;
       this.$emit(
         "update:serviceEligibilityTypes",
         updatedServiceEligibilityTypes
       );
-    }
+    },
   },
 
   created() {
     this.fetchServiceEligibilites();
-  }
+  },
 };
 </script>

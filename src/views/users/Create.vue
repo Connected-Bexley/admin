@@ -55,8 +55,8 @@ export default {
         email: "",
         phone: "",
         password: "",
-        roles: []
-      })
+        roles: [],
+      }),
     };
   },
   methods: {
@@ -65,7 +65,7 @@ export default {
         // Strip spaces from the phone number.
         data.phone = data.phone.replace(/\s/g, "");
 
-        data.roles.forEach(role => {
+        data.roles.forEach((role) => {
           switch (role.role) {
             // Delete the organisation and service IDs instead of sending null values.
             case "Super Admin":
@@ -83,9 +83,9 @@ export default {
 
       this.$router.push({
         name: "users-show",
-        params: { user: data.data.id }
+        params: { user: data.data.id },
       });
-    }
-  }
+    },
+  },
 };
 </script>

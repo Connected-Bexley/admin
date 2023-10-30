@@ -55,13 +55,13 @@ export default {
   name: "ListTaxonomyServiceEligibilitied",
 
   components: {
-    CkTaxonomyList
+    CkTaxonomyList,
   },
 
   data() {
     return {
       loading: false,
-      serviceEligibilities: []
+      serviceEligibilities: [],
     };
   },
 
@@ -77,21 +77,21 @@ export default {
     async onMoveUp(taxonomy) {
       taxonomy.order--;
       await http.put(`/taxonomies/service-eligibilities/${taxonomy.id}`, {
-        ...taxonomy
+        ...taxonomy,
       });
       this.fetchServiceEligibilities();
     },
     async onMoveDown(taxonomy) {
       taxonomy.order++;
       await http.put(`/taxonomies/service-eligibilities/${taxonomy.id}`, {
-        ...taxonomy
+        ...taxonomy,
       });
       this.fetchServiceEligibilities();
-    }
+    },
   },
   created() {
     this.fetchServiceEligibilities();
-  }
+  },
 };
 </script>
 

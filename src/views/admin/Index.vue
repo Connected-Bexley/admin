@@ -22,24 +22,50 @@
 <script>
 export default {
   name: "Admin",
-  data() {
-    return {
-      tabs: [
-        { heading: "Audit Logs", to: { name: "admin-index" } },
-        {
+  computed: {
+    tabs() {
+      const tabs = [];
+      if (this.auth.canView("audits")) {
+        tabs[0] = {
+          heading: "Audit Logs",
+          to: { name: "admin-index" },
+        };
+      }
+      if (this.auth.canView("notifications")) {
+        tabs[1] = {
           heading: "Notifications",
-          to: { name: "admin-index-notifications" }
-        },
-        { heading: "Feedback", to: { name: "admin-index-feedback" } },
-        { heading: "Taxonomies", to: { name: "admin-index-taxonomies" } },
-        { heading: "Collections", to: { name: "admin-index-collections" } },
-        {
+          to: { name: "admin-index-notifications" },
+        };
+      }
+      if (this.auth.canView("feedback")) {
+        tabs[2] = {
+          heading: "Feedback",
+          to: { name: "admin-index-feedback" },
+        };
+      }
+      if (this.auth.canView("taxonomies")) {
+        tabs[3] = {
+          heading: "Taxonomies",
+          to: { name: "admin-index-taxonomies" },
+        };
+      }
+      if (this.auth.canView("collections")) {
+        tabs[4] = {
+          heading: "Collections",
+          to: { name: "admin-index-collections" },
+        };
+      }
+      if (this.auth.canView("search engine")) {
+        tabs[5] = {
           heading: "Search engine",
-          to: { name: "admin-index-search-engine" }
-        },
-        { heading: "CMS", to: { name: "admin-index-cms" } }
-      ]
-    };
-  }
+          to: { name: "admin-index-search-engine" },
+        };
+      }
+      if (this.auth.canView("cms")) {
+        tabs[6] = { heading: "CMS", to: { name: "admin-index-cms" } };
+      }
+      return tabs;
+    },
+  },
 };
 </script>

@@ -24,19 +24,19 @@ import UsefulInfosInput from "@/views/services/inputs/UsefulInfosInput";
 
 export default {
   components: {
-    UsefulInfosInput
+    UsefulInfosInput,
   },
 
   props: {
     service: {
       type: Object,
-      required: true
+      required: true,
     },
 
     errors: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>

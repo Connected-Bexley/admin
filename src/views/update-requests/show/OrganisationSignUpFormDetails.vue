@@ -262,27 +262,27 @@ export default {
   props: {
     updateRequestId: {
       required: true,
-      type: String
+      type: String,
     },
 
     requestedAt: {
       required: true,
-      type: String
+      type: String,
     },
 
     user: {
       required: true,
-      type: Object
+      type: Object,
     },
 
     organisation: {
       required: true,
-      type: Object
+      type: Object,
     },
 
     service: {
-      type: Object
-    }
+      type: Object,
+    },
   },
 
   filters: {
@@ -303,7 +303,7 @@ export default {
         case "other":
           return "Other";
       }
-    }
-  }
+    },
+  },
 };
 </script>

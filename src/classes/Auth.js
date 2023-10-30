@@ -9,7 +9,7 @@ class Auth {
     this.appUri = process.env.VUE_APP_URI;
     this.appApiClientId = process.env.VUE_APP_API_CLIENT_ID;
     this.http = axios.create({
-      baseURL: this.appApiUri
+      baseURL: this.appApiUri,
     });
   }
 
@@ -31,7 +31,7 @@ class Auth {
     let e,
       a = /\+/g, // Regex for replacing addition symbol with a space
       r = /([^&;=]+)=?([^&;]*)/g,
-      d = function(s) {
+      d = function (s) {
         return decodeURIComponent(s.replace(a, " "));
       },
       q = query,
@@ -64,7 +64,7 @@ class Auth {
       "oauth",
       JSON.stringify({
         expires_at: expiresIn * 1000 + new Date().setHours(24, 0, 0, 0),
-        access_token: accessToken
+        access_token: accessToken,
       })
     );
 
@@ -80,8 +80,8 @@ class Auth {
       params: { include: "user-roles" },
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.accessToken}`
-      }
+        Authorization: `Bearer ${this.accessToken}`,
+      },
     });
 
     localStorage.setItem("user", JSON.stringify(data.data));
@@ -105,8 +105,8 @@ class Auth {
     await this.http.delete("/core/v1/users/user/sessions", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.accessToken}`
-      }
+        Authorization: `Bearer ${this.accessToken}`,
+      },
     });
   }
 
@@ -193,7 +193,7 @@ class Auth {
       { text: "Content admin", value: "Content Admin" },
       { text: "Organisation admin", value: "Organisation Admin" },
       { text: "Service admin", value: "Service Admin" },
-      { text: "Service worker", value: "Service Worker" }
+      { text: "Service worker", value: "Service Worker" },
     ];
   }
 
@@ -209,7 +209,7 @@ class Auth {
     }
 
     return (
-      this.user.roles.find(role => {
+      this.user.roles.find((role) => {
         if (role.role !== roleName) {
           return false;
         }
@@ -238,14 +238,21 @@ class Auth {
    * @returns {boolean}
    */
   get isGlobalAdmin() {
-    return this.hasRole("Global Admin") || this.isSuperAdmin;
+    return this.hasRole("Global Admin");
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  get isOnlyGlobalAdmin() {
+    return this.hasRole("Global Admin") && !this.isSuperAdmin;
   }
 
   /**
    * @returns {boolean}
    */
   get isContentAdmin() {
-    return this.hasRole("Content Admin") || this.isSuperAdmin;
+    return this.hasRole("Content Admin");
   }
 
   /**
@@ -259,29 +266,169 @@ class Auth {
    * @returns {boolean}
    */
   isOrganisationAdmin(organisation = null) {
-    return (
-      this.hasRole("Organisation Admin", null, organisation) ||
-      this.isGlobalAdmin
-    );
+    return this.hasRole("Organisation Admin", null, organisation);
   }
 
   /**
    * @returns {boolean}
    */
   isServiceAdmin(service = null) {
-    return (
-      this.hasRole("Service Admin", service) ||
-      this.isOrganisationAdmin(service !== null ? service.organisation : null)
-    );
+    return this.hasRole("Service Admin", service);
   }
 
   /**
    * @returns {boolean}
    */
   isServiceWorker(service = null) {
-    return (
-      this.hasRole("Service Worker", service) || this.isServiceAdmin(service)
-    );
+    return this.hasRole("Service Worker", service);
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  get isOnlyServiceWorker() {
+    return this.hasRole("Service Worker") && this.user.roles.length === 1;
+  }
+
+  /**
+   * Can the user view a content type
+   * @param {string} type
+   * @returns {boolean}
+   */
+  canView(type) {
+    if (this.isSuperAdmin) {
+      return true;
+    }
+    if (type === "events") {
+      return this.isOrganisationAdmin();
+    }
+    if (type === "services") {
+      return !this.isOnlyContentAdmin;
+    }
+    if (type === "organisations") {
+      return !this.isOnlyContentAdmin && !this.isOnlyServiceWorker;
+    }
+    if (type === "locations") {
+      return !this.isOnlyContentAdmin;
+    }
+    if (type === "referrals") {
+      return !this.isOnlyContentAdmin && !this.isOnlyGlobalAdmin;
+    }
+    if (type === "pages") {
+      return this.isContentAdmin;
+    }
+    if (type === "users") {
+      return (
+        !this.isOnlyContentAdmin &&
+        !this.isOnlyGlobalAdmin &&
+        !this.isOnlyServiceWorker
+      );
+    }
+  }
+
+  /**
+   * Can the user add a content type
+   * @param {string} type
+   * @returns {boolean}
+   */
+  canAdd(type) {
+    if (this.isSuperAdmin) {
+      return true;
+    }
+    if (type === "event") {
+      return this.isOrganisationAdmin();
+    }
+    if (type === "service") {
+      return this.isOrganisationAdmin();
+    }
+    if (type === "organisation") {
+      return this.isGlobalAdmin;
+    }
+    if (type === "location") {
+      return this.isServiceAdmin();
+    }
+    if (type === "page") {
+      return this.isContentAdmin;
+    }
+    if (type === "user") {
+      return (
+        !this.isOnlyContentAdmin &&
+        !this.isOnlyGlobalAdmin &&
+        !this.isOnlyServiceWorker
+      );
+    }
+    return false;
+  }
+
+  /**
+   * Can the user update a content type
+   * @param {string} type
+   * @returns {boolean}
+   */
+  canEdit(type, model = null) {
+    if (this.isSuperAdmin) {
+      return true;
+    }
+    if (type === "event") {
+      return this.isOrganisationAdmin(model);
+    }
+    if (type === "service") {
+      return this.isServiceAdmin(model);
+    }
+    if (type === "organisation") {
+      return this.isOrganisationAdmin(model);
+    }
+    if (type === "location") {
+      return this.isServiceAdmin(model);
+    }
+    if (type === "page") {
+      return this.isContentAdmin;
+    }
+    if (type === "referral") {
+      return this.isServiceWorker() && !this.isOnlyGlobalAdmin;
+    }
+    if (type === "user") {
+      return (
+        !this.isOnlyContentAdmin &&
+        !this.isOnlyGlobalAdmin &&
+        !this.isOnlyServiceWorker
+      );
+    }
+    return false;
+  }
+
+  /**
+   * Can the user bulk import a content type
+   * @param {string} type
+   * @returns {boolean}
+   */
+  canImport() {
+    if (this.isSuperAdmin) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Can the user delete a content type
+   * @param {string} type
+   * @returns {boolean}
+   */
+  canDelete(type) {
+    if (this.isSuperAdmin) {
+      return true;
+    }
+    if (type === "page") {
+      return this.isSuperAdmin;
+    }
+    if (type === "user") {
+      return (
+        !this.isOnlyContentAdmin &&
+        !this.isOnlyGlobalAdmin &&
+        !this.isOnlyServiceWorker
+      );
+    }
+    return false;
   }
 
   /**
@@ -290,10 +437,11 @@ class Auth {
    * @returns {string}
    */
   displayHighestRole(userRoles) {
-    const roleNames = this.roles.map(role => role.value);
+    const roleNames = this.roles.map((role) => role.value);
 
     const highestRole = roleNames.find(
-      roleName => userRoles.find(role => role.role === roleName) !== undefined
+      (roleName) =>
+        userRoles.find((role) => role.role === roleName) !== undefined
     );
 
     return highestRole || "None";
