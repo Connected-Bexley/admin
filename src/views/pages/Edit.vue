@@ -47,14 +47,14 @@ export default {
   name: "EditPage",
 
   components: {
-    PageForm,
+    PageForm
   },
 
   data() {
     return {
       loading: false,
       page: null,
-      form: null,
+      form: null
     };
   },
   computed: {
@@ -63,7 +63,7 @@ export default {
     },
     canDelete() {
       return this.auth.canDelete("page") && this.page.children.length === 0;
-    },
+    }
   },
   methods: {
     async fetchPage() {
@@ -80,7 +80,7 @@ export default {
         parent_id: this.page.parent ? this.page.parent.id : null,
         enabled: this.page.enabled,
         image_file_id: this.page.image ? this.page.image.id : null,
-        collections: this.page.collections,
+        collections: this.page.collections
       });
 
       this.loading = false;
@@ -134,7 +134,7 @@ export default {
       const updateRequestId = response.id;
       let next = {
         name: "pages-updated",
-        params: { page: this.page.id },
+        params: { page: this.page.id }
       };
 
       if (this.auth.isSuperAdmin) {
@@ -143,19 +143,20 @@ export default {
             `/update-requests/${updateRequestId}`
           );
           if (data.approved_at) {
-            next.name = "pages-index";
-            next.query = { updated: this.page.id };
+            next.name = "pages-show";
+            next.page = this.page.id;
+            next.query = { updated: true };
           }
         } catch (err) {
           console.log(err);
         }
       }
       this.$router.push(next);
-    },
+    }
   },
   created() {
     this.fetchPage();
-  },
+  }
 };
 </script>
 

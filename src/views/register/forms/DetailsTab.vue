@@ -41,7 +41,9 @@
           @input="$emit('input', { field: 'url', value: $event })"
           id="url"
           :label="`What is the web address of your ${service.type}?`"
-          :hint="`This must start with 'http://' or 'https://'. You can use your organisation's website address if the ${service.type} doesn't have its own.`"
+          :hint="
+            `This must start with 'http://' or 'https://'. You can use your organisation's website address if the ${service.type} doesn't have its own.`
+          "
           type="url"
           :error="errors.get('service.url')"
         />
@@ -57,13 +59,13 @@ export default {
   props: {
     service: {
       type: Object,
-      required: true,
+      required: true
     },
 
     errors: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
@@ -72,9 +74,9 @@ export default {
         { text: "It is a Service", value: "service" },
         { text: "It is an Activity", value: "activity" },
         { text: "It is a Club", value: "club" },
-        { text: "It is a Group", value: "group" },
-      ],
+        { text: "It is a Group", value: "group" }
+      ]
     };
-  },
+  }
 };
 </script>

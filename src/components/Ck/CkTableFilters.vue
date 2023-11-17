@@ -31,14 +31,14 @@ export default {
     hideExtra: {
       required: false,
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   data() {
     return {
-      showAll: false,
+      showAll: false
     };
-  },
+  }
 };
 </script>

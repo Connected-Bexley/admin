@@ -32,21 +32,21 @@ export default {
   props: {
     imageUrls: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
     return {
-      currentPage: 0,
+      currentPage: 0
     };
   },
 
   computed: {
     count() {
       return this.imageUrls.length;
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -57,7 +57,7 @@ export default {
     return {
       loading: false,
       user: null,
-      form: null,
+      form: null
     };
   },
   methods: {
@@ -65,7 +65,7 @@ export default {
       this.loading = true;
 
       const response = await http.get(`/users/${this.$route.params.user}`, {
-        params: { include: "user-roles" },
+        params: { include: "user-roles" }
       });
       this.user = response.data.data;
       this.form = new Form({
@@ -74,24 +74,24 @@ export default {
         email: this.user.email,
         phone: this.user.phone,
         password: "",
-        roles: this.user.roles,
+        roles: this.user.roles
       });
 
       // Filter down the roles.
-      if (this.form.roles.find((role) => role.role === "Super Admin")) {
+      if (this.form.roles.find(role => role.role === "Super Admin")) {
         // If the user is a super admin.
         this.form.roles = this.form.roles.filter(
-          (role) => role.role === "Super Admin"
+          role => role.role === "Super Admin"
         );
-      } else if (this.form.roles.find((role) => role.role === "Global Admin")) {
+      } else if (this.form.roles.find(role => role.role === "Global Admin")) {
         // Else if, the user is a global admin.
         this.form.roles = this.form.roles.filter(
-          (role) => role.role === "Global Admin"
+          role => role.role === "Global Admin"
         );
       } else {
         // Else, fetch the services for each role and embed them.
         let serviceIds = [];
-        this.form.roles.forEach((role) => {
+        this.form.roles.forEach(role => {
           if (role.hasOwnProperty("service_id")) {
             serviceIds.push(role.service_id);
           }
@@ -101,10 +101,10 @@ export default {
           { "filter[id]": serviceIds.join(",") },
           "POST"
         );
-        this.form.roles.forEach((role) => {
+        this.form.roles.forEach(role => {
           if (role.hasOwnProperty("service_id")) {
             const service = services.find(
-              (service) => service.id === role.service_id
+              service => service.id === role.service_id
             );
             role.organisation_id = service.organisation_id;
           }
@@ -112,12 +112,12 @@ export default {
 
         // Filter down the roles for organisation admins.
         const organisationIds = [];
-        this.form.roles.forEach((role) => {
+        this.form.roles.forEach(role => {
           if (role.role === "Organisation Admin") {
             organisationIds.push(role.organisation_id);
           }
         });
-        this.form.roles = this.form.roles.filter((role) => {
+        this.form.roles = this.form.roles.filter(role => {
           return (
             role.role === "Organisation Admin" ||
             !organisationIds.includes(role.organisation_id)
@@ -126,12 +126,12 @@ export default {
 
         // Filter down the roles for service admins.
         const serviceAdminIds = [];
-        this.form.roles.forEach((role) => {
+        this.form.roles.forEach(role => {
           if (role.role === "Service Admin") {
             serviceAdminIds.push(role.service_id);
           }
         });
-        this.form.roles = this.form.roles.filter((role) => {
+        this.form.roles = this.form.roles.filter(role => {
           return (
             role.role === "Service Admin" ||
             !serviceAdminIds.includes(role.service_id)
@@ -150,7 +150,7 @@ export default {
           delete data.password;
         }
 
-        data.roles.forEach((role) => {
+        data.roles.forEach(role => {
           switch (role.role) {
             // Delete the organisation and service IDs instead of sending null values.
             case "Super Admin":
@@ -167,12 +167,12 @@ export default {
       });
       this.$router.push({
         name: "users-show",
-        params: { user: this.user.id },
+        params: { user: this.user.id }
       });
-    },
+    }
   },
   created() {
     this.fetchUser();
-  },
+  }
 };
 </script>

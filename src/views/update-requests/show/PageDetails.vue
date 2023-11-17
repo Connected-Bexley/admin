@@ -6,7 +6,7 @@
       <gov-link
         :to="{
           name: 'pages-edit',
-          params: { page: original.id },
+          params: { page: original.id }
         }"
         v-text="original.title"
       />.
@@ -68,8 +68,8 @@
             <div
               v-if="
                 original.hasOwnProperty('content') &&
-                typeof original.content === 'object' &&
-                original.content.constructor === Object
+                  typeof original.content === 'object' &&
+                  original.content.constructor === Object
               "
             >
               <page-content :content="original.content" />
@@ -80,8 +80,8 @@
             <div
               v-if="
                 page.hasOwnProperty('content') &&
-                typeof page.content === 'object' &&
-                page.content.constructor === Object
+                  typeof page.content === 'object' &&
+                  page.content.constructor === Object
               "
             >
               <page-content :content="page.content" />
@@ -130,7 +130,7 @@
               bullet
               v-if="
                 original.hasOwnProperty('collection_categories') &&
-                Array.isArray(original.collection_categories)
+                  Array.isArray(original.collection_categories)
               "
             >
               <li
@@ -168,30 +168,30 @@ export default {
   name: "PageDetails",
 
   components: {
-    PageContent,
+    PageContent
   },
 
   props: {
     updateRequestId: {
       required: true,
-      type: String,
+      type: String
     },
 
     requestedAt: {
       required: true,
-      type: String,
+      type: String
     },
 
     page: {
       required: true,
-      type: Object,
-    },
+      type: Object
+    }
   },
   data() {
     return {
       loading: false,
       original: null,
-      collections: [],
+      collections: []
     };
   },
   methods: {
@@ -199,7 +199,7 @@ export default {
       if (this.page.id !== null) {
         this.loading = true;
         const {
-          data: { data: original },
+          data: { data: original }
         } = await http.get(`/pages/${this.page.id}`);
         this.original = original;
         this.loading = false;
@@ -210,18 +210,18 @@ export default {
 
     async fetchCollections() {
       const {
-        data: { data: collections },
+        data: { data: collections }
       } = await http.get("/collections/categories/all");
       this.collections = collections;
     },
     findCollection(collectionId) {
       return this.collections.find(
-        (collection) => collection.id === collectionId
+        collection => collection.id === collectionId
       );
     },
     collectionName(collection) {
       return collection ? collection.name : "";
-    },
+    }
   },
 
   filters: {
@@ -231,13 +231,13 @@ export default {
 
     originalExists(field) {
       return field || "";
-    },
+    }
   },
 
   created() {
     this.fetchOriginal();
     this.fetchCollections();
-  },
+  }
 };
 </script>
 

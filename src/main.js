@@ -20,8 +20,8 @@ import MarkdownConverter from "@/classes/MarkdownConverter";
 import * as VueGoogleMaps from "vue2-google-maps";
 Vue.use(VueGoogleMaps, {
   load: {
-    key: process.env.VUE_APP_GOOGLE_API_KEY,
-  },
+    key: process.env.VUE_APP_GOOGLE_API_KEY
+  }
 });
 
 // Import Duet Date Picker
@@ -46,7 +46,7 @@ if (process.env.VUE_APP_BUGSNAG_API_KEY) {
       delete user.roles;
 
       report.user = user;
-    },
+    }
   });
 
   bugsnagClient.use(bugsnagVue(Vue));
@@ -143,7 +143,7 @@ Vue.mixin({
   data() {
     return {
       auth: Auth,
-      moment,
+      moment
     };
   },
   computed: {
@@ -184,6 +184,11 @@ Vue.mixin({
         ? process.env.VUE_APP_SERVICE_TAGS === "true"
         : false;
     },
+    appHelpSectionActive() {
+      return process.env.hasOwnProperty("VUE_APP_HELP_SECTION")
+        ? process.env.VUE_APP_HELP_SECTION === "true"
+        : false;
+    }
   },
   methods: {
     apiUrl(path) {
@@ -237,7 +242,7 @@ Vue.mixin({
       } while (!allFetched);
 
       return resources;
-    },
+    }
   },
   filters: {
     ucfirst(string) {
@@ -248,12 +253,12 @@ Vue.mixin({
         service: "services",
         activity: "activities",
         club: "clubs",
-        group: "groups",
+        group: "groups"
       };
 
       return plurals[string];
-    },
-  },
+    }
+  }
 });
 
 Vue.config.productionTip = false;
@@ -266,5 +271,5 @@ defineCustomElements(window);
 
 new Vue({
   router,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");

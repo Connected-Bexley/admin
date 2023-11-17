@@ -99,7 +99,7 @@ export default {
   name: "ShowPage",
 
   components: {
-    PageContent,
+    PageContent
   },
 
   data() {
@@ -109,8 +109,8 @@ export default {
       updated: false,
       pageTypes: {
         information: "Information page",
-        landing: "Landing page",
-      },
+        landing: "Landing page"
+      }
     };
   },
 
@@ -125,14 +125,15 @@ export default {
     },
     onDelete() {
       this.$router.push({
-        name: "pages-index",
+        name: "pages-index"
       });
-    },
+    }
   },
 
   created() {
+    this.updated = this.$route.query.updated || false;
     this.fetchPage();
-  },
+  }
 };
 </script>
 

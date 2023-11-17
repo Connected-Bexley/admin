@@ -51,7 +51,9 @@
                     <gov-checkboxes>
                       <gov-checkbox
                         v-for="status in filters.status"
-                        :key="`Referrals::Index::Filters::Status::${status.text}`"
+                        :key="
+                          `Referrals::Index::Filters::Status::${status.text}`
+                        "
                         v-model="status.enabled"
                         :id="`filter[status][${status.value}]`"
                         :name="`filter[status][${status.value}]`"
@@ -73,38 +75,38 @@
               {
                 heading: 'Reference no.',
                 sort: 'reference',
-                render: (referral) => referral.reference,
+                render: referral => referral.reference
               },
               {
                 heading: 'Service',
                 sort: 'service_name',
-                render: (referral) => referral.service.name,
+                render: referral => referral.service.name
               },
               {
                 heading: 'Referred by',
-                render: (referral) => referral.referee_name || '-',
+                render: referral => referral.referee_name || '-'
               },
               {
                 heading: 'Status',
-                render: (referral) => $options.filters.status(referral.status),
+                render: referral => $options.filters.status(referral.status)
               },
               {
                 heading: 'Date submitted',
                 sort: 'created_at',
-                render: (referral) => {
+                render: referral => {
                   return `
                     ${formatDateTime(referral.created_at)}
                     <br>
                     ${statusLastUpdated(referral)} days remaining
                   `;
-                },
-              },
+                }
+              }
             ]"
             :view-route="
-              (referral) => {
+              referral => {
                 return {
                   name: 'referrals-confirmation',
-                  params: { referral: referral.id },
+                  params: { referral: referral.id }
                 };
               }
             "
@@ -132,15 +134,15 @@ export default {
           { value: "new", text: "New", enabled: true },
           { value: "in_progress", text: "In progress", enabled: true },
           { value: "completed", text: "Completed", enabled: true },
-          { value: "incompleted", text: "Incomplete", enabled: true },
-        ],
-      },
+          { value: "incompleted", text: "Incomplete", enabled: true }
+        ]
+      }
     };
   },
   computed: {
     params() {
       const params = {
-        include: "service.organisation",
+        include: "service.organisation"
       };
 
       if (this.filters.reference !== "") {
@@ -156,8 +158,8 @@ export default {
       }
 
       const status = this.filters.status
-        .filter((status) => status.enabled)
-        .map((status) => status.value)
+        .filter(status => status.enabled)
+        .map(status => status.value)
         .join(",");
 
       if (status !== "") {
@@ -165,7 +167,7 @@ export default {
       }
 
       return params;
-    },
+    }
   },
   methods: {
     onSearch() {
@@ -179,7 +181,10 @@ export default {
 
       let businessDays = 0;
       for (var i = 0; i < duration; i++) {
-        const day = start.clone().add(i, "days").isoWeekday();
+        const day = start
+          .clone()
+          .add(i, "days")
+          .isoWeekday();
 
         if (day < 6) {
           businessDays += 1;
@@ -196,7 +201,7 @@ export default {
       const workingDays = this.diffInBusinessDays(referral.created_at);
 
       return workingDays >= 10 ? "Due" : 10 - workingDays;
-    },
+    }
   },
   filters: {
     status(status) {
@@ -212,7 +217,7 @@ export default {
         default:
           return "Invalid status";
       }
-    },
-  },
+    }
+  }
 };
 </script>

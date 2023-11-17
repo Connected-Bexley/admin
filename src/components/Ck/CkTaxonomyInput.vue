@@ -43,34 +43,34 @@ export default {
   name: "TaxonomyInput",
 
   components: {
-    CkTaxonomyTree,
+    CkTaxonomyTree
   },
 
   props: {
     value: {
       required: true,
-      type: Array,
+      type: Array
     },
     error: {
-      required: true,
+      required: true
     },
     root: {
       required: true,
       type: String,
-      validator: function (value) {
+      validator: function(value) {
         return ["categories", "organisations"].indexOf(value) !== -1;
-      },
+      }
     },
     disabled: {
       required: false,
       type: Boolean,
-      default: false,
+      default: false
     },
     hierarchy: {
       required: false,
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   data() {
     return {
@@ -80,8 +80,8 @@ export default {
       loading: false,
       enabledTaxonomies: [],
       filters: {
-        name: "",
-      },
+        name: ""
+      }
     };
   },
   computed: {
@@ -104,9 +104,9 @@ export default {
         );
         return [...new Set(filteredTaxonomyIds)];
       } else {
-        return this.flattenedTaxonomies.map((taxonomy) => taxonomy.id);
+        return this.flattenedTaxonomies.map(taxonomy => taxonomy.id);
       }
-    },
+    }
   },
   methods: {
     async fetchTaxonomies() {
@@ -126,7 +126,7 @@ export default {
         taxonomies = this.taxonomies;
       }
 
-      taxonomies.forEach((taxonomy) => {
+      taxonomies.forEach(taxonomy => {
         this.flattenedTaxonomies.push(taxonomy);
 
         if (taxonomy.children.length > 0) {
@@ -135,8 +135,8 @@ export default {
       });
     },
     setTaxonomyCollections(collections) {
-      collections.forEach((collection) => {
-        collection.category_taxonomies.forEach((taxonomy) => {
+      collections.forEach(collection => {
+        collection.category_taxonomies.forEach(taxonomy => {
           this.taxonomyCollections[taxonomy.id] =
             this.taxonomyCollections[taxonomy.id] || [];
           this.taxonomyCollections[taxonomy.id].push(collection.name);
@@ -168,22 +168,22 @@ export default {
       let ids = [taxonomy.id];
       if (taxonomy.parent_id) {
         const parent = this.flattenedTaxonomies.find(
-          (tax) => tax.id === taxonomy.parent_id
+          tax => tax.id === taxonomy.parent_id
         );
         ids = ids.concat(this.getTaxonomyAndAncestorsIds(parent));
       }
       return ids;
     },
     filteredTaxonomies(taxonomies) {
-      return taxonomies.filter((taxonomy) =>
+      return taxonomies.filter(taxonomy =>
         this.filteredTaxonomyIds.includes(taxonomy.id)
       );
-    },
+    }
   },
   created() {
     this.fetchTaxonomies();
     this.enabledTaxonomies = this.value;
-  },
+  }
 };
 </script>
 

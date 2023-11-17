@@ -40,14 +40,14 @@ export default {
   name: "CreatePage",
 
   components: {
-    PageForm,
+    PageForm
   },
 
   props: {
     type: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
@@ -61,7 +61,7 @@ export default {
         page_type: this.type,
         image_file_id: null,
         collections: [],
-        enabled: false,
+        enabled: false
       }),
 
       contentTypes: {
@@ -73,9 +73,9 @@ export default {
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
+                value: ""
+              }
+            ]
           },
           about: {
             order: 2,
@@ -84,9 +84,9 @@ export default {
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
+                value: ""
+              }
+            ]
           },
           info_pages: {
             order: 3,
@@ -96,9 +96,9 @@ export default {
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
+                value: ""
+              }
+            ]
           },
           collections: {
             order: 4,
@@ -108,25 +108,26 @@ export default {
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
-          },
+                value: ""
+              }
+            ]
+          }
         },
         information: {
           introduction: {
             order: 1,
             label: "Page content",
-            hint: "This is the largest content of the page. Use formatting to improve readability and impact.",
+            hint:
+              "This is the largest content of the page. Use formatting to improve readability and impact.",
             content: [
               {
                 type: "copy",
-                value: "",
-              },
-            ],
-          },
-        },
-      },
+                value: ""
+              }
+            ]
+          }
+        }
+      }
     };
   },
 
@@ -138,23 +139,23 @@ export default {
       if (this.auth.isSuperAdmin && pageId) {
         this.$router.push({
           name: "pages-show",
-          params: { page: pageId },
+          params: { page: pageId }
         });
       } else if (!this.form.$errors.any()) {
         this.$router.push({
-          name: "pages-updated",
+          name: "pages-updated"
         });
       }
     },
     onUpdateTitle(title) {
       this.form.title = title;
       this.form.slug = this.slugify(title);
-    },
+    }
   },
 
   created() {
     this.form.content = this.contentTypes[this.form.page_type];
-  },
+  }
 };
 </script>
 

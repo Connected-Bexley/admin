@@ -43,11 +43,11 @@ export default {
   props: {
     callToAction: {
       type: Object,
-      required: true,
+      required: true
     },
     error: {
-      required: true,
-    },
+      required: true
+    }
   },
 
   methods: {
@@ -56,8 +56,8 @@ export default {
       callToAction[field] = value;
       this.$emit("input", callToAction);
       this.$emit("clear", "callToAction");
-    },
-  },
+    }
+  }
 };
 </script>
 

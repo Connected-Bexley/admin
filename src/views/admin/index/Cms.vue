@@ -45,47 +45,47 @@ export default {
       tabs: [
         {
           heading: "Global",
-          to: { name: "admin-index-cms" },
+          to: { name: "admin-index-cms" }
         },
         {
           heading: "Home",
-          to: { name: "admin-index-cms-frontend-home" },
+          to: { name: "admin-index-cms-frontend-home" }
         },
         {
           heading: "Terms and Conditions",
-          to: { name: "admin-index-cms-frontend-terms-and-conditions" },
+          to: { name: "admin-index-cms-frontend-terms-and-conditions" }
         },
         {
           heading: "Privacy Policy",
-          to: { name: "admin-index-cms-frontend-privacy-policy" },
+          to: { name: "admin-index-cms-frontend-privacy-policy" }
         },
         {
           heading: "Accessibility Statement",
-          to: { name: "admin-index-cms-frontend-accessibility-statement" },
+          to: { name: "admin-index-cms-frontend-accessibility-statement" }
         },
         {
           heading: "About",
-          to: { name: "admin-index-cms-frontend-about" },
+          to: { name: "admin-index-cms-frontend-about" }
         },
         {
           heading: "Contact",
-          to: { name: "admin-index-cms-frontend-contact" },
+          to: { name: "admin-index-cms-frontend-contact" }
         },
         {
           heading: "Get Involved",
-          to: { name: "admin-index-cms-frontend-get-involved" },
+          to: { name: "admin-index-cms-frontend-get-involved" }
         },
         {
           heading: "Favourites",
-          to: { name: "admin-index-cms-frontend-favourites" },
+          to: { name: "admin-index-cms-frontend-favourites" }
         },
         {
           heading: "Banner",
-          to: { name: "admin-index-cms-frontend-banner" },
-        },
+          to: { name: "admin-index-cms-frontend-banner" }
+        }
       ],
       settings: null,
-      loading: false,
+      loading: false
     };
   },
 
@@ -98,7 +98,7 @@ export default {
       this.loading = true;
 
       const {
-        data: { data: settings },
+        data: { data: settings }
       } = await http.get("/settings");
 
       settings.cms.frontend.banner.enabled =
@@ -131,7 +131,7 @@ export default {
         delete data.cms.frontend.banner.enabled;
 
         data.cms.frontend.home.banners = data.cms.frontend.home.banners.filter(
-          (banner) => {
+          banner => {
             return !(
               (banner.title == "") &
               (banner.content == "") &
@@ -142,7 +142,7 @@ export default {
         );
       });
       this.$router.push({ name: "admin-index-cms-updated" });
-    },
-  },
+    }
+  }
 };
 </script>

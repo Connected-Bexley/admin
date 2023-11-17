@@ -95,48 +95,48 @@ export default {
   components: {
     CkImageInput,
     CkPageContent,
-    CkCollectionInput,
+    CkCollectionInput
   },
 
   props: {
     errors: {
       type: Object,
-      required: true,
+      required: true
     },
     parent_id: {
-      required: true,
+      required: true
     },
     title: {
       type: String,
-      required: true,
+      required: true
     },
     slug: {
       type: String,
-      required: true,
+      required: true
     },
     excerpt: {
       type: String,
-      default: "",
+      default: ""
     },
     content: {
       type: Object,
-      required: true,
+      required: true
     },
     enabled: {
       type: Boolean,
-      required: true,
+      required: true
     },
     page_type: {
       type: String,
-      default: "information",
+      default: "information"
     },
     page: {
       type: Object,
-      default: null,
+      default: null
     },
     image_file_id: {
-      default: null,
-    },
+      default: null
+    }
   },
 
   data() {
@@ -145,12 +145,12 @@ export default {
       pages: [],
       enabledOptions: [
         { label: "Enabled", value: true },
-        { label: "Disabled", value: false },
+        { label: "Disabled", value: false }
       ],
       pageTypes: {
         information: "Information page",
-        landing: "Landing page",
-      },
+        landing: "Landing page"
+      }
     };
   },
 
@@ -159,10 +159,10 @@ export default {
       return [
         { text: "No parent (top level)", value: null },
         ...this.parsePages(
-          this.pages.filter((page) => {
+          this.pages.filter(page => {
             return !page.parent;
           })
-        ),
+        )
       ];
     },
     imageFileSuffix() {
@@ -170,7 +170,7 @@ export default {
         ? {
             "image/jpeg": "jpg",
             "image/png": "png",
-            "image/svg+xml": "svg",
+            "image/svg+xml": "svg"
           }[this.page.image.mime_type]
         : null;
     },
@@ -184,10 +184,10 @@ export default {
     contentErrors() {
       let errors = {};
       Object.keys(this.errors)
-        .filter((key) => {
+        .filter(key => {
           return key.startsWith("content_");
         })
-        .forEach((errorKey) => {
+        .forEach(errorKey => {
           errors[errorKey] = this.errors[errorKey];
         });
       return errors;
@@ -195,12 +195,12 @@ export default {
     pageCollectionIds() {
       return this.page
         ? this.page.collection_categories
-            .map((collection) => collection.id)
+            .map(collection => collection.id)
             .concat(
-              this.page.collection_personas.map((collection) => collection.id)
+              this.page.collection_personas.map(collection => collection.id)
             )
         : [];
-    },
+    }
   },
 
   methods: {
@@ -218,12 +218,12 @@ export default {
     },
     parsePages(pages, parsed = [], depth = 0) {
       pages
-        .filter((page) => !this.page || page.id !== this.page.id)
-        .forEach((page) => {
+        .filter(page => !this.page || page.id !== this.page.id)
+        .forEach(page => {
           const text = "-".repeat(depth) + " " + page.title;
           parsed.push({ text, value: page.id });
           const children = this.pages.filter(
-            (child) => child.parent && child.parent.id === page.id
+            child => child.parent && child.parent.id === page.id
           );
           if (children.length > 0 && depth < 4) {
             parsed = this.parsePages(children, parsed, depth + 1);
@@ -231,12 +231,12 @@ export default {
         });
 
       return parsed;
-    },
+    }
   },
 
   created() {
     this.fetchPages();
-  },
+  }
 };
 </script>
 

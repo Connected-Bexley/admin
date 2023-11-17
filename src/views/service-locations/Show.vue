@@ -9,7 +9,7 @@
       <gov-back-link
         :to="{
           name: 'services-show-locations',
-          params: { service: serviceLocation.service_id },
+          params: { service: serviceLocation.service_id }
         }"
         >Back to service</gov-back-link
       >
@@ -48,7 +48,7 @@
             <gov-button
               :to="{
                 name: 'service-locations-edit',
-                params: { serviceLocation: serviceLocation.id },
+                params: { serviceLocation: serviceLocation.id }
               }"
             >
               Edit service location
@@ -71,7 +71,7 @@ export default {
     return {
       loading: false,
       serviceLocation: null,
-      updated: false,
+      updated: false
     };
   },
   methods: {
@@ -87,13 +87,13 @@ export default {
     onDelete() {
       this.$router.push({
         name: "services-show",
-        params: { service: this.serviceLocation.service_id },
+        params: { service: this.serviceLocation.service_id }
       });
-    },
+    }
   },
   created() {
     this.updated = this.$route.query.updated || false;
     this.fetchServiceLocation();
-  },
+  }
 };
 </script>

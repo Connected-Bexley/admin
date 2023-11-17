@@ -59,12 +59,12 @@ import CkImageInput from "./CkImageInput";
 
 export default {
   components: {
-    CkImageInput,
+    CkImageInput
   },
 
   model: {
     prop: "banner",
-    event: "update",
+    event: "update"
   },
 
   props: {
@@ -75,20 +75,20 @@ export default {
           title: "",
           content: "",
           button_text: "",
-          button_url: "",
+          button_url: ""
         };
-      },
+      }
     },
     errors: {
       type: Object,
       default() {
         return {};
-      },
+      }
     },
     showImageInput: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   methods: {
@@ -99,8 +99,8 @@ export default {
 
       this.$emit("update", banner);
       this.$emit("clear", `banner.${field}`);
-    },
-  },
+    }
+  }
 };
 </script>
 

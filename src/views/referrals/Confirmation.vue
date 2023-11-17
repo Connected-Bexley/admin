@@ -26,9 +26,9 @@ export default {
     onContinue() {
       this.$router.push({
         name: "referrals-show",
-        params: { referral: this.$route.params.referral },
+        params: { referral: this.$route.params.referral }
       });
-    },
-  },
+    }
+  }
 };
 </script>

@@ -35,8 +35,8 @@
           <service-details
             v-else-if="
               updateRequest.updateable_type === 'services' ||
-              updateRequest.updateable_type ===
-                'new_service_created_by_org_admin'
+                updateRequest.updateable_type ===
+                  'new_service_created_by_org_admin'
             "
             :update-request-id="updateRequest.id"
             :requested-at="updateRequest.created_at"
@@ -60,8 +60,8 @@
           <organisation-event-details
             v-else-if="
               updateRequest.updateable_type === 'organisation_events' ||
-              updateRequest.updateable_type ===
-                'new_organisation_event_created_by_org_admin'
+                updateRequest.updateable_type ===
+                  'new_organisation_event_created_by_org_admin'
             "
             :update-request-id="updateRequest.id"
             :requested-at="updateRequest.created_at"
@@ -71,7 +71,7 @@
           <page-details
             v-else-if="
               updateRequest.updateable_type === 'pages' ||
-              updateRequest.updateable_type === 'new_page'
+                updateRequest.updateable_type === 'new_page'
             "
             :update-request-id="updateRequest.id"
             :requested-at="updateRequest.created_at"
@@ -140,14 +140,14 @@ export default {
     OrganisationSignUpFormDetails,
     PageDetails,
     ServiceDetails,
-    ServiceLocationDetails,
+    ServiceLocationDetails
   },
   data() {
     return {
       loading: false,
       updateRequest: null,
       approve: null,
-      submitting: false,
+      submitting: false
     };
   },
   methods: {
@@ -179,7 +179,7 @@ export default {
           this.updateRequest.data.organisation_id ||
           this.updateRequest.data.organisation.id;
         const {
-          data: { data: organisation },
+          data: { data: organisation }
         } = await http.get(`/organisations/${organisationId}`);
         this.updateRequest.data.organisation = organisation;
       }
@@ -197,36 +197,36 @@ export default {
             case "services":
               this.$router.push({
                 name: "services-show",
-                params: { service: this.updateRequest.updateable_id },
+                params: { service: this.updateRequest.updateable_id }
               });
               break;
             case "organisation_events":
               this.$router.push({
                 name: "events-show",
-                params: { event: this.updateRequest.updateable_id },
+                params: { event: this.updateRequest.updateable_id }
               });
               break;
             case "pages":
               this.$router.push({
-                name: "pages-index",
+                name: "pages-index"
               });
               break;
             case "organisations":
               this.$router.push({
                 name: "organisations-show",
-                params: { organisation: this.updateRequest.updateable_id },
+                params: { organisation: this.updateRequest.updateable_id }
               });
               break;
             case "locations":
               this.$router.push({
                 name: "locations-show",
-                params: { location: this.updateRequest.updateable_id },
+                params: { location: this.updateRequest.updateable_id }
               });
               break;
             case "service_locations":
               this.$router.push({
                 name: "service-locations-show",
-                params: { serviceLocation: this.updateRequest.updateable_id },
+                params: { serviceLocation: this.updateRequest.updateable_id }
               });
               break;
             default:
@@ -240,10 +240,10 @@ export default {
       } catch (error) {
         this.submitting = false;
       }
-    },
+    }
   },
   created() {
     this.fetchUpdateRequests();
-  },
+  }
 };
 </script>

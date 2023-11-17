@@ -24,7 +24,7 @@
           <gov-link
             :to="{
               name: 'service-locations-show',
-              params: { serviceLocation: serviceLocation.id },
+              params: { serviceLocation: serviceLocation.id }
             }"
             >View</gov-link
           >
@@ -45,8 +45,8 @@ export default {
   props: {
     serviceLocations: {
       type: Array,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>
