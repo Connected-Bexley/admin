@@ -60,15 +60,15 @@ export default {
         enabled: true,
         homepage: false,
         sideboxes: [],
-        category_taxonomies: [],
-      }),
+        category_taxonomies: []
+      })
     };
   },
   methods: {
     async onSubmit() {
       await this.form.post("/collections/categories");
       this.$router.push({ name: "admin-index-collections" });
-    },
-  },
+    }
+  }
 };
 </script>

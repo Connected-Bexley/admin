@@ -31,17 +31,17 @@ export default {
       if (this.auth.canView("reports")) {
         tabs[0] = {
           heading: "View all",
-          to: { name: "reports-index" },
+          to: { name: "reports-index" }
         };
       }
       if (this.auth.canAdd("report") || this.auth.canEdit("report")) {
         tabs[1] = {
           heading: "Manage",
-          to: { name: "reports-edit" },
+          to: { name: "reports-edit" }
         };
       }
       return tabs;
-    },
-  },
+    }
+  }
 };
 </script>

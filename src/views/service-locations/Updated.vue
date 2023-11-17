@@ -3,13 +3,15 @@
     <ck-loader v-if="loading" />
     <template v-else>
       <vue-headful
-        :title="`${appName} - Service Location Updated: ${serviceLocation.name}`"
+        :title="
+          `${appName} - Service Location Updated: ${serviceLocation.name}`
+        "
       />
 
       <gov-back-link
         :to="{
           name: 'service-locations-show',
-          params: { serviceLocation: serviceLocation.id },
+          params: { serviceLocation: serviceLocation.id }
         }"
         >Back to service location</gov-back-link
       >
@@ -26,7 +28,7 @@
             <gov-button
               :to="{
                 name: 'service-locations-show',
-                params: { serviceLocation: this.$route.params.serviceLocation },
+                params: { serviceLocation: this.$route.params.serviceLocation }
               }"
               >Back to service location</gov-button
             >
@@ -45,7 +47,7 @@ export default {
   data() {
     return {
       loading: false,
-      serviceLocation: null,
+      serviceLocation: null
     };
   },
   methods: {
@@ -56,10 +58,10 @@ export default {
       );
       this.serviceLocation = response.data.data;
       this.loading = false;
-    },
+    }
   },
   created() {
     this.fetchServiceLocation();
-  },
+  }
 };
 </script>

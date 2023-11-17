@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       loading: false,
-      collections: [],
+      collections: []
     };
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
 
       await http.put(`/collections/organisation-events/${collection.id}`, {
         ...this.parseCollectionForUpdate(collection),
-        order: collection.order - 1,
+        order: collection.order - 1
       });
 
       this.fetchCollections();
@@ -85,7 +85,7 @@ export default {
 
       await http.put(`/collections/organisation-events/${collection.id}`, {
         ...this.parseCollectionForUpdate(collection),
-        order: collection.order + 1,
+        order: collection.order + 1
       });
 
       this.fetchCollections();
@@ -99,13 +99,13 @@ export default {
         enabled: collection.enabled,
         sideboxes: collection.sideboxes,
         category_taxonomies: collection.category_taxonomies.map(
-          (taxonomy) => taxonomy.id
-        ),
+          taxonomy => taxonomy.id
+        )
       };
-    },
+    }
   },
   created() {
     this.fetchCollections();
-  },
+  }
 };
 </script>

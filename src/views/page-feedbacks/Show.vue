@@ -7,10 +7,12 @@
       <ck-loader v-if="loading" />
       <gov-grid-row v-else>
         <vue-headful
-          :title="`${appName} - Page Feedback: ${pageFeedback.feedback.substr(
-            0,
-            10
-          )}...`"
+          :title="
+            `${appName} - Page Feedback: ${pageFeedback.feedback.substr(
+              0,
+              10
+            )}...`
+          "
         />
 
         <gov-grid-column width="two-thirds">
@@ -33,7 +35,7 @@ export default {
   data() {
     return {
       loading: false,
-      pageFeedback: null,
+      pageFeedback: null
     };
   },
   methods: {
@@ -44,10 +46,10 @@ export default {
       );
       this.pageFeedback = data.data;
       this.loading = false;
-    },
+    }
   },
   created() {
     this.fetchPageFeedback();
-  },
+  }
 };
 </script>

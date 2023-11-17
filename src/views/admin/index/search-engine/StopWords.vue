@@ -43,7 +43,7 @@ export default {
       loading: false,
       stopWords: [],
       currentPage: 1,
-      lastPage: 1,
+      lastPage: 1
     };
   },
 
@@ -60,7 +60,7 @@ export default {
     onExportCsv() {
       let csvContent = "data:text/csv;charset=utf-8,";
 
-      this.stopWords.forEach((stopWord) => {
+      this.stopWords.forEach(stopWord => {
         csvContent += stopWord + "\r\n";
       });
 
@@ -70,11 +70,11 @@ export default {
       link.setAttribute("download", "stop-words.csv");
       document.body.appendChild(link);
       link.click();
-    },
+    }
   },
 
   created() {
     this.fetchStopWords();
-  },
+  }
 };
 </script>

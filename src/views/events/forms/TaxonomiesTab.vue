@@ -43,15 +43,15 @@ export default {
   components: { CkTaxonomyInput },
   props: {
     errors: {
-      required: true,
+      required: true
     },
     isGlobalAdmin: {
-      required: true,
+      required: true
     },
     category_taxonomies: {
       required: true,
-      type: Array,
-    },
-  },
+      type: Array
+    }
+  }
 };
 </script>

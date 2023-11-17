@@ -100,7 +100,7 @@ import {
   ListItem,
   Bold,
   Italic,
-  Link,
+  Link
 } from "tiptap-extensions";
 
 export default {
@@ -108,20 +108,20 @@ export default {
 
   components: {
     EditorMenuBar,
-    EditorContent,
+    EditorContent
   },
 
   props: {
     value: {
       type: String,
       required: false,
-      default: "",
+      default: ""
     },
 
     large: {
       type: Boolean,
       required: false,
-      default: false,
+      default: false
     },
 
     extensions: {
@@ -136,15 +136,15 @@ export default {
           new ListItem(),
           new Bold(),
           new Italic(),
-          new Link(),
+          new Link()
         ];
-      },
-    },
+      }
+    }
   },
 
   data() {
     return {
-      editor: null,
+      editor: null
     };
   },
 
@@ -154,7 +154,7 @@ export default {
       content: this.toHtml(this.value),
       onUpdate: ({ getHTML }) => {
         this.onEdit(getHTML());
-      },
+      }
     });
   },
 
@@ -168,7 +168,7 @@ export default {
 
     promptUrl() {
       return window.prompt("Please enter a URL");
-    },
+    }
   },
 
   mounted() {
@@ -180,7 +180,7 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy();
-  },
+  }
 };
 </script>
 

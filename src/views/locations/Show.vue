@@ -61,7 +61,7 @@ export default {
     return {
       loading: false,
       location: null,
-      updated: false,
+      updated: false
     };
   },
   methods: {
@@ -77,11 +77,11 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "locations-index" });
-    },
+    }
   },
   created() {
     this.updated = this.$route.query.updated || false;
     this.fetchLocation();
-  },
+  }
 };
 </script>

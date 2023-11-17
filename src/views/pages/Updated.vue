@@ -31,14 +31,14 @@
               v-if="page"
               :to="{
                 name: 'pages-show',
-                params: { page: page.id },
+                params: { page: page.id }
               }"
               >Back to page</gov-button
             >
             <gov-button
               v-else
               :to="{
-                name: 'pages-index',
+                name: 'pages-index'
               }"
               >Back to pages</gov-button
             >
@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       loading: false,
-      page: null,
+      page: null
     };
   },
   methods: {
@@ -67,13 +67,13 @@ export default {
       const response = await http.get(`/pages/${this.$route.params.page}`);
       this.page = response.data.data;
       this.loading = false;
-    },
+    }
   },
   created() {
     if (this.$route.params.page) {
       this.fetchPage();
     }
-  },
+  }
 };
 </script>
 

@@ -8,7 +8,7 @@
       v-if="auth.isGlobalAdmin"
       :to="{
         name: editCollectionRoute,
-        params: { collection: collection.id },
+        params: { collection: collection.id }
       }"
     >
       Edit
@@ -30,17 +30,17 @@ export default {
   props: {
     collections: {
       type: Array,
-      required: true,
+      required: true
     },
     collection: {
       type: Object,
-      required: true,
+      required: true
     },
     editCollectionRoute: {
       type: String,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>
 

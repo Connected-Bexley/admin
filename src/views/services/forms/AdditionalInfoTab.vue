@@ -68,7 +68,9 @@
             "
             id="fees_text"
             label="How much does it cost? (if applicable)"
-            :hint="`Please indicate the basic cost of the ${type}. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`"
+            :hint="
+              `Please indicate the basic cost of the ${type}. If there are multiple price points, please provide an indicative range (eg. &quot;5-10 per session&quot;).`
+            "
             type="text"
             :error="errors.get('fees_text')"
             :maxlength="75"
@@ -181,7 +183,9 @@
           "
           id="contact_name"
           label="Contact name"
-          :hint="`Provide the contact name (First name & Surname) for this ${type}, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`"
+          :hint="
+            `Provide the contact name (First name & Surname) for this ${type}, or a generic entry if this isn’t applicable e.g. ‘Enquiries’, or ‘Helpdesk’.`
+          "
           type="text"
           :error="errors.get('contact_name')"
         />
@@ -234,42 +238,42 @@ export default {
   name: "AdditionalInfoTab",
   props: {
     errors: {
-      required: true,
+      required: true
     },
     type: {
-      required: true,
+      required: true
     },
     wait_time: {
-      required: true,
+      required: true
     },
     is_free: {
-      required: true,
+      required: true
     },
     fees_text: {
-      required: true,
+      required: true
     },
     fees_url: {
-      required: true,
+      required: true
     },
     testimonial: {
-      required: true,
+      required: true
     },
     video_embed: {
-      required: true,
+      required: true
     },
     contact_name: {
-      required: true,
+      required: true
     },
     contact_phone: {
-      required: true,
+      required: true
     },
     contact_email: {
-      required: true,
+      required: true
     },
     cqc_location_id: {
       type: String,
-      default: null,
-    },
+      default: null
+    }
   },
   computed: {
     waitTimeOptions() {
@@ -279,7 +283,7 @@ export default {
         { text: "Two weeks", value: "two_weeks" },
         { text: "Three weeks", value: "three_weeks" },
         { text: "One month", value: "month" },
-        { text: "Longer than a month", value: "longer" },
+        { text: "Longer than a month", value: "longer" }
       ];
     },
     isFreeOptions() {
@@ -287,8 +291,8 @@ export default {
         { value: true, label: `Yes - The ${this.type} is free` },
         {
           value: false,
-          label: `No - there are elements of this ${this.type} that must be paid for`,
-        },
+          label: `No - there are elements of this ${this.type} that must be paid for`
+        }
       ];
     },
     videoEmbedHelpHref() {
@@ -299,7 +303,7 @@ export default {
       return `mailto:${to}?subject=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(body)}`;
-    },
+    }
   },
   watch: {
     is_free(newIsFree) {
@@ -307,7 +311,7 @@ export default {
         this.$emit("update:fees_text", "");
         this.$emit("update:fees_url", "");
       }
-    },
-  },
+    }
+  }
 };
 </script>

@@ -1,4 +1,4 @@
-# Connected Kingston - Backend
+# Connected Bexley - Backend
 
 This is a [Vue.js](https://vuejs.org/) SPA (Single Page App) using [Vue Router](https://router.vuejs.org) for the routing. Therefore, a good knowledge of both Vue.js and Vue Router is expected when working on this project.
 

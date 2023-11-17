@@ -15,8 +15,10 @@
             <gov-link :href="`mailto:${contactEmail}`">
               {{ contactEmail }}
             </gov-link>
-            or view our
-            <gov-link :to="{ name: 'help-index' }">help videos</gov-link>
+            <span v-if="appHelpSectionActive">
+              or view our
+              <gov-link :to="{ name: 'help-index' }">help videos</gov-link>
+            </span>
           </gov-body>
         </gov-grid-column>
       </gov-grid-row>
@@ -126,8 +128,8 @@ export default {
 
   data() {
     return {
-      auth: Auth,
+      auth: Auth
     };
-  },
+  }
 };
 </script>

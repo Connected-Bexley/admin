@@ -42,26 +42,26 @@ export default {
   props: {
     nodes: {
       required: true,
-      type: Array,
+      type: Array
     },
     checked: {
       required: true,
-      type: Array,
+      type: Array
     },
     filteredNodeIds: {
       type: [Array, Boolean],
       default() {
         return [];
-      },
+      }
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     nested: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   methods: {
@@ -76,13 +76,13 @@ export default {
     onChildUpdate({ node, enabled }) {
       this.onUpdate({ node, enabled });
       if (node.parent_id) {
-        const parent = this.nodes.find((n) => n.id === node.parent_id);
+        const parent = this.nodes.find(n => n.id === node.parent_id);
         if (parent) {
           this.onUpdate({ node: parent, enabled });
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -42,26 +42,26 @@ export default {
   name: "CkDateInput",
   props: {
     value: {
-      required: true,
+      required: true
     },
     error: {
-      required: true,
+      required: true
     },
     id: {
       type: String,
-      required: true,
+      required: true
     },
     label: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       year: "",
       month: "",
       day: "",
-      validDate: true,
+      validDate: true
     };
   },
   methods: {
@@ -97,7 +97,7 @@ export default {
       this.year = date.year().toString();
       this.month = (date.month() + 1).toString();
       this.day = date.date().toString();
-    },
+    }
   },
 
   watch: {
@@ -109,13 +109,13 @@ export default {
       if (newValue !== "") {
         this.parseDate(newValue);
       }
-    },
+    }
   },
 
   created() {
     if (this.value) {
       this.parseDate(this.value);
     }
-  },
+  }
 };
 </script>

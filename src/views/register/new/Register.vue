@@ -27,7 +27,7 @@ import Form from "@/classes/Form";
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: `${this.appApiUri}/core/v1`,
+  baseURL: `${this.appApiUri}/core/v1`
 });
 http.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -42,7 +42,7 @@ export default {
             last_name: "",
             email: "",
             phone: "",
-            password: "",
+            password: ""
           },
           organisation: {
             name: "",
@@ -50,7 +50,7 @@ export default {
             description: "",
             url: "",
             email: "",
-            phone: "",
+            phone: ""
           },
           service: {
             name: "",
@@ -76,16 +76,16 @@ export default {
               housing: "",
               income: "",
               language: "",
-              other: "",
+              other: ""
             },
             useful_infos: [],
             offerings: [],
-            social_medias: [],
-          },
+            social_medias: []
+          }
         },
         {},
         http
-      ),
+      )
     };
   },
 
@@ -103,7 +103,7 @@ export default {
         this.form.service.fees_text = "";
         this.form.service.fees_url = "";
       }
-    },
+    }
   },
 
   methods: {
@@ -120,7 +120,7 @@ export default {
       } catch (exception) {
         //
       }
-    },
-  },
+    }
+  }
 };
 </script>

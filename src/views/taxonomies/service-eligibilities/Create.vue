@@ -51,17 +51,17 @@ export default {
       form: new Form({
         parent_id: null,
         name: "",
-        order: 1,
-      }),
+        order: 1
+      })
     };
   },
   methods: {
     async onSubmit() {
       await this.form.post("/taxonomies/service-eligibilities");
       this.$router.push({
-        name: "admin-index-taxonomies-service-eligibilities",
+        name: "admin-index-taxonomies-service-eligibilities"
       });
-    },
-  },
+    }
+  }
 };
 </script>

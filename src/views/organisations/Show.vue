@@ -43,7 +43,7 @@
           <gov-button
             :to="{
               name: 'organisations-edit',
-              params: { organisation: organisation.id },
+              params: { organisation: organisation.id }
             }"
           >
             Edit organisation
@@ -63,7 +63,7 @@ export default {
     return {
       loading: false,
       updated: false,
-      organisation: null,
+      organisation: null
     };
   },
   methods: {
@@ -78,11 +78,11 @@ export default {
     },
     onDelete() {
       this.$router.push({ name: "organisations-index" });
-    },
+    }
   },
   created() {
     this.updated = this.$route.query.updated || false;
     this.fetchOrganisation();
-  },
+  }
 };
 </script>

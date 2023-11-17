@@ -36,29 +36,29 @@ export default {
   name: "CollectionInput",
 
   components: {
-    CkNodeCheckboxes,
+    CkNodeCheckboxes
   },
 
   props: {
     value: {
       required: true,
-      type: Array,
+      type: Array
     },
     error: {
-      required: true,
+      required: true
     },
     disabled: {
       required: false,
       type: Boolean,
-      default: false,
+      default: false
     },
     root: {
       required: true,
       type: String,
-      validator: function (value) {
+      validator: function(value) {
         return ["categories", "organisations"].indexOf(value) !== -1;
-      },
-    },
+      }
+    }
   },
 
   data() {
@@ -67,8 +67,8 @@ export default {
       enabledCollections: [],
       loading: false,
       filters: {
-        name: "",
-      },
+        name: ""
+      }
     };
   },
 
@@ -92,7 +92,7 @@ export default {
       } else {
         return this.collections;
       }
-    },
+    }
   },
 
   methods: {
@@ -125,13 +125,13 @@ export default {
         const index = this.enabledCollections.indexOf(collection.id);
         this.enabledCollections.splice(index, 1);
       }
-    },
+    }
   },
 
   created() {
     this.fetchCollections();
     this.enabledCollections = this.value;
-  },
+  }
 };
 </script>
 

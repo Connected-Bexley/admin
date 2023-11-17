@@ -42,8 +42,8 @@ export default {
   props: {
     content: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
 
   computed: {
@@ -55,9 +55,9 @@ export default {
           }
           return page1[1].order < page2[1].order ? -1 : 1;
         })
-        .map((contentItem) => contentItem[1]);
-    },
-  },
+        .map(contentItem => contentItem[1]);
+    }
+  }
 };
 </script>
 

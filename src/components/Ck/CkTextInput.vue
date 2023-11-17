@@ -30,37 +30,37 @@ export default {
   props: {
     value: {
       required: true,
-      type: String,
+      type: String
     },
     label: {
       required: true,
-      type: String,
+      type: String
     },
     hint: {
       required: false,
-      type: String,
+      type: String
     },
     error: {
-      required: true,
+      required: true
     },
     type: {
       required: false,
       type: String,
-      default: "text",
+      default: "text"
     },
     id: {
       required: true,
-      type: String,
+      type: String
     },
     maxlength: {
       required: false,
-      type: Number,
+      type: Number
     },
     disabled: {
       required: false,
       type: Boolean,
-      default: false,
-    },
-  },
+      default: false
+    }
+  }
 };
 </script>

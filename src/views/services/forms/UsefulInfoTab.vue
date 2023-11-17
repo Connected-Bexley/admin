@@ -27,16 +27,16 @@ export default {
   props: {
     errors: {
       required: true,
-      type: Object,
+      type: Object
     },
     type: {
       required: true,
-      type: String,
+      type: String
     },
     useful_infos: {
       type: Array,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>
