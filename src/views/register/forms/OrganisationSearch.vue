@@ -37,7 +37,7 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: `${this.appApiUri}/core/v1`
+  baseURL: `${process.env.VUE_APP_API_URI}/core/v1`
 });
 http.defaults.headers.post["Content-Type"] = "application/json";
 
