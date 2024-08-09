@@ -13,14 +13,48 @@
             <gov-grid-column width="two-thirds">
               <ck-table-filters @search="onSearch">
                 <gov-form-group>
-                  <gov-label for="filter[organisation]">Organisation</gov-label>
+                  <gov-label for="filter[title]">Event title</gov-label>
                   <gov-input
-                    v-model="filters.organisation"
-                    id="filter[organisation]"
-                    name="filter[organisation]"
+                    v-model="filters.title"
+                    id="filter[title]"
+                    name="filter[title]"
                     type="search"
                   />
                 </gov-form-group>
+
+                <template slot="extra-filters">
+                  <gov-form-group>
+                    <ck-select-input
+                      v-model="filters.organisation_id"
+                      id="filter[organisation_id]"
+                      name="filter[organisation_id]"
+                      label="Organisation"
+                      :options="organisations"
+                      :error="null"
+                    />
+
+                    <ck-date-picker
+                      id="filter[start_date]"
+                      :value="filters.start_date"
+                      :max="filters.end_date"
+                      :error="null"
+                      @input="filters.start_date = $event"
+                      label="Starts after"
+                    />
+
+                    <ck-date-picker
+                      id="filter[end_date]"
+                      :value="filters.end_date"
+                      :min="earliestEndDate"
+                      :error="null"
+                      @input="filters.end_date = $event"
+                      label="Ends before"
+                    />
+                  </gov-form-group>
+                  <gov-button @click="resetFilters" type="button"
+                    >Reset filters</gov-button
+                  >
+                </template>
               </ck-table-filters>
             </gov-grid-column>
             <gov-grid-column v-if="auth.canAdd('event')" width="one-third">
@@ -51,14 +85,9 @@
                 render: event => endDateTimeStr(event)
               },
               {
-                heading: 'Summary',
-                sort: 'intro',
-                render: event => event.intro
-              },
-              {
-                heading: 'Free',
-                sort: 'is_free',
-                render: event => (event.is_free ? 'Yes' : 'No')
+                heading: 'Organisation',
+                sort: 'organisation_id',
+                render: event => event.organisation.name
               }
             ]"
             :view-route="
@@ -77,20 +106,32 @@
 </template>
 
 <script>
+import CkDatePicker from "@/components/Ck/CkDatePicker";
 import CkResourceListingTable from "@/components/Ck/CkResourceListingTable.vue";
 import CkTableFilters from "@/components/Ck/CkTableFilters.vue";
 
 export default {
   name: "OrganisationEventIndex",
 
-  components: { CkResourceListingTable, CkTableFilters },
+  components: {
+    CkDatePicker,
+    CkResourceListingTable,
+    CkTableFilters
+  },
+
   data() {
     return {
       filters: {
-        organisation: ""
-      }
+        title: "",
+        organisation_id: "",
+        start_date: "",
+        end_date: ""
+      },
+      organisations: [{ text: "Please select", value: null }],
+      loading: false
     };
   },
+
   computed: {
     params() {
       let params = {
@@ -98,14 +139,55 @@ export default {
         "filter[has_permission]": true
       };
 
-      if (this.filters.organisation !== "") {
-        params["filter[organisation]"] = this.filters.organisation;
+      if (this.filters.title !== "") {
+        params["filter[title]"] = this.filters.title;
+      }
+
+      if (this.filters.organisation_id !== "") {
+        params["filter[organisation_id]"] = this.filters.organisation_id;
+      }
+
+      if (this.filters.start_date !== "") {
+        params["filter[starts_after]"] = this.filters.start_date;
+      }
+
+      if (this.filters.end_date !== "") {
+        params["filter[ends_before]"] = this.filters.end_date;
       }
 
       return params;
+    },
+
+    todayAsDate() {
+      return this.dateToDateString(new Date());
+    },
+    earliestEndDate() {
+      if (!this.filters.start_date) {
+        return this.todayAsDate;
+      }
+      const startDate = new Date(this.filters.start_date);
+      const today = new Date();
+      today.setHours(0);
+      today.setMinutes(0);
+      today.setSeconds(0);
+      return today < startDate
+        ? this.dateToDateString(startDate)
+        : this.dateToDateString(today);
     }
   },
+
   methods: {
+    async fetchOrganisations() {
+      this.loading = true;
+      let fetchedOrganisations = await this.fetchAll("/organisations", {
+        "filter[has_permission]": true
+      });
+      fetchedOrganisations = fetchedOrganisations.map(organisation => {
+        return { text: organisation.name, value: organisation.id };
+      });
+      this.organisations = [...this.organisations, ...fetchedOrganisations];
+      this.loading = false;
+    },
     onSearch() {
       this.$refs.eventsTable.currentPage = 1;
       this.$refs.eventsTable.fetchResources();
@@ -115,22 +197,39 @@ export default {
     },
     startDateTimeStr(event) {
       const startDate = new Date(`${event.start_date} ${event.start_time}`);
-      console.debug("Start Date:", startDate);
-      return `${String(startDate.getDate()).padStart(2, "0")}/${String(
-        startDate.getMonth() + 1
-      ).padStart(2, "0")}/${startDate.getFullYear()} ${String(
-        startDate.getHours()
-      ).padStart(2, "0")}:${String(startDate.getMinutes()).padStart(2, "0")}`;
+      return this.dateToDisplayString(startDate);
     },
     endDateTimeStr(event) {
       const endDate = new Date(`${event.end_date} ${event.end_time}`);
-      console.debug("End Date:", endDate);
-      return `${String(endDate.getDate()).padStart(2, "0")}/${String(
-        endDate.getMonth() + 1
-      ).padStart(2, "0")}/${endDate.getFullYear()} ${String(
-        endDate.getHours()
-      ).padStart(2, "0")}:${String(endDate.getMinutes()).padStart(2, "0")}`;
+      return this.dateToDisplayString(endDate);
+    },
+    dateToDateString(dateObj) {
+      return `${dateObj.getFullYear()}-${String(
+        dateObj.getMonth() + 1
+      ).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}`;
+    },
+    dateToDisplayString(dateObj) {
+      return `${String(dateObj.getDate()).padStart(2, "0")}/${String(
+        dateObj.getMonth() + 1
+      ).padStart(2, "0")}/${dateObj.getFullYear()} ${String(
+        dateObj.getHours()
+      ).padStart(2, "0")}:${String(dateObj.getMinutes()).padStart(2, "0")}`;
+    },
+    resetFilters() {
+      this.filters = {
+        title: "",
+        organisation_id: "",
+        start_date: "",
+        end_date: ""
+      };
+      this.$nextTick(function() {
+        this.onSearch();
+      });
     }
+  },
+
+  created() {
+    this.fetchOrganisations();
   }
 };
 </script>

@@ -29,14 +29,20 @@
             :homepage.sync="form.homepage"
             :sideboxes.sync="form.sideboxes"
             :category_taxonomies.sync="form.category_taxonomies"
-            @update:image_file_id="form.image_file_id = $event"
+            :image_file_id.sync="form.image_file_id"
             @clear="form.$errors.clear($event)"
+            @image-changed="imageChanged = $event"
           />
 
           <gov-button v-if="form.$submitting" disabled type="submit"
             >Creating...</gov-button
           >
-          <gov-button v-else @click="onSubmit" type="submit">
+          <gov-button
+            v-else
+            @click="onSubmit"
+            :disabled="imageChanged"
+            type="submit"
+          >
             Create
           </gov-button>
           <ck-submit-error v-if="form.$errors.any()" />
@@ -55,6 +61,7 @@ export default {
   components: { CollectionForm },
   data() {
     return {
+      imageChanged: false,
       form: new Form({
         name: "",
         intro: "",

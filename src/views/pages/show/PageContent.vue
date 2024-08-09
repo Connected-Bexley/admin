@@ -28,6 +28,17 @@
               <gov-button>{{ contentItem.buttonText }}</gov-button>
               <gov-hint>Link to: {{ contentItem.url }}</gov-hint>
             </div>
+            <div v-if="contentItem.type === 'video'">
+              <gov-heading v-if="contentItem.title" size="s" tag="h3">{{
+                contentItem.title
+              }}</gov-heading>
+              <ck-video-iframe
+                height="315"
+                width="560"
+                :src="contentItem.url"
+                :title="contentItem.title"
+              />
+            </div>
           </div>
         </gov-table-cell>
       </gov-table-row>
@@ -36,6 +47,8 @@
 </template>
 
 <script>
+import CkVideoIframe from "@/components/Ck/CkVideoIframe";
+
 export default {
   name: "PageContent",
 
@@ -44,6 +57,10 @@ export default {
       type: Object,
       required: true
     }
+  },
+
+  components: {
+    CkVideoIframe
   },
 
   computed: {

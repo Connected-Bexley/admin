@@ -1,5 +1,5 @@
 <template>
-  <div class="ck-character-bar-container">
+  <div class="ck-character-bar-container" :title="`${count} / ${maxLength}`">
     <div
       class="ck-character-bar"
       :style="{ backgroundColor: barColour, width: barWidthStyle }"
@@ -54,7 +54,7 @@ export default {
   @extend .govuk-body;
 
   margin: 0;
-  color: $govuk-secondary-text-colour;
+  background-color: $govuk-border-colour;
 }
 .ck-character-bar {
   padding-top: 0.5rem;

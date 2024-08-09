@@ -35,6 +35,7 @@
                 :errors="form.$errors"
                 :id="event.id"
                 :title.sync="form.title"
+                :slug.sync="form.slug"
                 :start_date.sync="form.start_date"
                 :end_date.sync="form.end_date"
                 :start_time.sync="form.start_time"
@@ -57,6 +58,7 @@
                 :location_id.sync="form.location_id"
                 :image_file_id.sync="form.image_file_id"
                 @clear="form.$errors.clear($event)"
+                @image-changed="imageChanged = $event"
               />
               <taxonomies-tab
                 v-if="isTabActive('taxonomies')"
@@ -79,9 +81,13 @@
             <gov-button v-if="form.$submitting" disabled type="submit"
               >Requesting...</gov-button
             >
-            <gov-button v-else @click="onSubmit" type="submit">{{
-              updateButtonText
-            }}</gov-button>
+            <gov-button
+              v-else
+              @click="onSubmit"
+              :disabled="imageChanged"
+              type="submit"
+              >{{ updateButtonText }}</gov-button
+            >
             <ck-submit-error v-if="form.$errors.any()" />
           </gov-grid-column>
         </gov-grid-row>
@@ -109,7 +115,8 @@ export default {
       ],
       loading: false,
       event: null,
-      form: null
+      form: null,
+      imageChanged: false
     };
   },
 
@@ -142,6 +149,7 @@ export default {
       this.event = response.data.data;
       this.form = new Form({
         title: this.event.title,
+        slug: this.event.slug,
         start_date: this.event.start_date,
         end_date: this.event.end_date,
         start_time: this.event.start_time,
@@ -162,7 +170,7 @@ export default {
         is_virtual: this.event.is_virtual,
         homepage: this.event.homepage || false,
         location_id: this.event.location_id,
-        image_file_id: null,
+        image_file_id: this.event.image ? this.event.image.id : null,
         category_taxonomies: this.event.category_taxonomies.map(
           taxonomy => taxonomy.id
         )
@@ -178,6 +186,9 @@ export default {
           // Remove any unchanged values.
           if (data.title === this.event.title) {
             delete data.title;
+          }
+          if (data.slug === this.event.slug) {
+            delete data.slug;
           }
           if (data.start_date === this.event.start_date) {
             delete data.start_date;
@@ -248,7 +259,10 @@ export default {
             delete data.homepage;
           }
           // Remove the logo from the request if null, or delete if false.
-          if (data.image_file_id === null) {
+          if (
+            data.image_file_id === null ||
+            data.image_file_id === this.event.image.id
+          ) {
             delete data.image_file_id;
           } else if (data.image_file_id === false) {
             data.image_file_id = null;

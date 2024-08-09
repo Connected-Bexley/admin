@@ -53,7 +53,12 @@
             }}</gov-link>
           </span>
         </div>
-        <div class="govuk-footer__meta-item"></div>
+        <div class="govuk-footer__meta-item">
+          Powered by
+          <a class="govuk-footer__link" href="https://ayup.agency/"
+            >Ayup Connect</a
+          >
+        </div>
       </div>
     </div>
   </footer>

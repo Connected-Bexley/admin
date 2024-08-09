@@ -19,7 +19,7 @@
                 :key="`video-${j}`"
                 width="one-half"
               >
-                <video-iframe
+                <ck-video-iframe
                   :height="video.height"
                   :width="video.width"
                   :src="video.src"
@@ -36,13 +36,13 @@
 </template>
 
 <script>
-import VideoIframe from "./components/VideoIframe";
+import CkVideoIframe from "@/components/Ck/CkVideoIframe";
 
 export default {
   name: "Help",
 
   components: {
-    VideoIframe
+    CkVideoIframe
   },
 
   data() {

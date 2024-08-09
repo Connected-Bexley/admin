@@ -55,7 +55,9 @@
               <details-tab
                 v-show="isTabActive('details')"
                 :errors="form.$errors"
-                :title.sync="form.title"
+                @update:title="onUpdateTitle"
+                :title="form.title"
+                :slug.sync="form.slug"
                 :start_date.sync="form.start_date"
                 :end_date.sync="form.end_date"
                 :start_time.sync="form.start_time"
@@ -80,6 +82,7 @@
                 :location_id.sync="form.location_id"
                 :image_file_id.sync="form.image_file_id"
                 @clear="form.$errors.clear($event)"
+                @image-changed="imageChanged = $event"
               />
               <taxonomies-tab
                 v-if="isTabActive('taxonomies')"
@@ -97,7 +100,11 @@
             <gov-button v-if="form.$submitting" disabled type="submit"
               >Creating...</gov-button
             >
-            <gov-button v-else @click="onSubmit" type="submit"
+            <gov-button
+              v-else
+              @click="onSubmit"
+              :disabled="imageChanged"
+              type="submit"
               >Create</gov-button
             >
             <ck-submit-error v-if="form.$errors.any()" />
@@ -122,6 +129,7 @@ export default {
     return {
       form: new Form({
         title: "",
+        slug: "",
         start_date: "",
         end_date: "",
         start_time: "",
@@ -155,7 +163,8 @@ export default {
       organisations: [{ text: "Please select", value: null }],
       updateRequestCreated: false,
       updateRequestMessage: null,
-      loading: false
+      loading: false,
+      imageChanged: false
     };
   },
 
@@ -211,6 +220,10 @@ export default {
       const tab = this.allowedTabs.find(tab => tab.id === id);
 
       return tab === undefined ? false : tab.active;
+    },
+    onUpdateTitle(title) {
+      this.form.title = title;
+      this.form.slug = this.slugify(title);
     }
   },
 

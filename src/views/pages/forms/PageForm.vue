@@ -38,7 +38,6 @@
     </ck-text-input>
 
     <ck-text-input
-      v-if="page_type === 'information'"
       :value="excerpt || ''"
       @input="onInput('excerpt', $event)"
       id="excerpt"
@@ -51,14 +50,16 @@
       :content="content"
       id="content"
       @update="onInput('content', $event)"
+      @clear="$emit('clear', $event)"
       :errors="errors"
     />
 
     <ck-image-input
       @input="onInput('image_file_id', $event.file_id)"
+      @image-changed="$emit('image-changed', $event)"
       id="image"
       label="Page Image"
-      :existing-url="existingImageUrl"
+      :file-id="image_file_id"
     />
 
     <ck-collection-input
@@ -164,22 +165,6 @@ export default {
           })
         )
       ];
-    },
-    imageFileSuffix() {
-      return this.page.image
-        ? {
-            "image/jpeg": "jpg",
-            "image/png": "png",
-            "image/svg+xml": "svg"
-          }[this.page.image.mime_type]
-        : null;
-    },
-    existingImageUrl() {
-      return this.page && this.page.image
-        ? this.apiUrl(
-            `/pages/${this.page.id}/image.${this.imageFileSuffix}?v=${this.now}`
-          )
-        : undefined;
     },
     contentErrors() {
       let errors = {};

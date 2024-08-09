@@ -48,6 +48,14 @@
           <gov-table-cell>{{ page.slug }}</gov-table-cell>
         </gov-table-row>
 
+        <gov-table-row v-if="page.hasOwnProperty('excerpt')">
+          <gov-table-header top scope="row">Excerpt</gov-table-header>
+          <gov-table-cell v-if="original">{{
+            original.excerpt | originalExists
+          }}</gov-table-cell>
+          <gov-table-cell>{{ page.excerpt }}</gov-table-cell>
+        </gov-table-row>
+
         <gov-table-row v-if="page.hasOwnProperty('enabled')">
           <gov-table-header top scope="row">Status</gov-table-header>
           <gov-table-cell v-if="original">{{
@@ -93,23 +101,10 @@
         <gov-table-row v-if="page.hasOwnProperty('image_file_id')">
           <gov-table-header top scope="row">Image</gov-table-header>
           <gov-table-cell v-if="original">
-            <img
-              :src="apiUrl(`/pages/${page.id}/image.png?v=${requestedAt}`)"
-              alt="Page image"
-              class="ck-logo"
-            />
+            <ck-image v-if="original.image" :file-id="original.image.id" />
           </gov-table-cell>
           <gov-table-cell>
-            <img
-              v-if="page.id"
-              :src="
-                apiUrl(
-                  `/pages/${page.id}/image.png?update_request_id=${updateRequestId}`
-                )
-              "
-              alt="Page image"
-              class="ck-logo"
-            />
+            <ck-image v-if="page.image_file_id" :file-id="page.image_file_id" />
             <img
               v-else
               :src="
@@ -161,13 +156,14 @@
 
 <script>
 import http from "@/http";
-
+import CkImage from "@/components/Ck/CkImage";
 import PageContent from "@/views/pages/show/PageContent.vue";
 
 export default {
   name: "PageDetails",
 
   components: {
+    CkImage,
     PageContent
   },
 

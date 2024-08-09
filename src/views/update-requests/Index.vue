@@ -10,7 +10,7 @@
 
           <gov-grid-row>
             <gov-grid-column width="two-thirds">
-              <ck-table-filters @search="onSearch" hide-extra>
+              <ck-table-filters @search="onSearch">
                 <gov-form-group>
                   <gov-label for="filter[entry]">Entry</gov-label>
                   <gov-input
@@ -20,6 +20,18 @@
                     type="search"
                   />
                 </gov-form-group>
+
+                <template slot="extra-filters">
+                  <gov-form-group>
+                    <gov-label for="filter[updateable_type]">Type</gov-label>
+                    <gov-select
+                      v-model="filters.updateableType"
+                      id="filter[updateable_type]"
+                      name="filter[updateable_type]"
+                      :options="updateableTypes"
+                    />
+                  </gov-form-group>
+                </template>
               </ck-table-filters>
             </gov-grid-column>
           </gov-grid-row>
@@ -79,8 +91,36 @@ export default {
   data() {
     return {
       filters: {
-        entry: ""
-      }
+        entry: "",
+        updateableType: ""
+      },
+      updateableTypes: [
+        { value: "", text: "All" },
+        {
+          value: "new_organisation_event_created_by_org_admin",
+          text: "New Event"
+        },
+        { value: "organisation_events", text: "Event update" },
+        { value: "locations", text: "Location" },
+        {
+          value: "new_organisation_created_by_global_admin",
+          text: "New Organisation"
+        },
+        { value: "organisations", text: "Organisation update" },
+        {
+          value: "organisation_sign_up_form",
+          text: "Organisation sign up form"
+        },
+        { value: "new_page", text: "New Page" },
+        { value: "pages", text: "Page update" },
+        { value: "referrals", text: "Referral" },
+        {
+          value: "new_service_created_by_global_admin",
+          text: "New Service"
+        },
+        { value: "services", text: "Service update" },
+        { value: "service_locations", text: "Service location" }
+      ]
     };
   },
   computed: {
@@ -93,6 +133,10 @@ export default {
         params["filter[entry]"] = this.filters.entry;
       }
 
+      if (this.filters.updateableType !== "") {
+        params["filter[type]"] = this.filters.updateableType;
+      }
+
       return params;
     }
   },
@@ -102,30 +146,13 @@ export default {
       this.$refs.updateRequestsTable.fetchResources();
     },
     displayType(type) {
-      switch (type) {
-        case "services":
-          return "Service";
-        case "organisations":
-          return "Organisation";
-        case "locations":
-          return "Location";
-        case "service_locations":
-          return "Service location";
-        case "organisation_sign_up_form":
-          return "Organisation sign up form";
-        case "new_service_created_by_org_admin":
-          return "New Service";
-        case "organisation_events":
-          return "Event";
-        case "new_organisation_event_created_by_org_admin":
-          return "New Event";
-        case "pages":
-          return "Page";
-        case "new_page":
-          return "New Page";
-        default:
-          return "Invalid type";
+      if (type === "new_service_created_by_org_admin") {
+        type = "new_service_created_by_global_admin";
       }
+      const displayType = this.updateableTypes.find(
+        updateableType => updateableType.value === type
+      );
+      return displayType ? displayType.text : "Invalid type";
     }
   }
 };

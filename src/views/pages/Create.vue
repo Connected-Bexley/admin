@@ -18,6 +18,7 @@
         :collections.sync="form.collections"
         :enabled.sync="form.enabled"
         @clear="form.$errors.clear($event)"
+        @image-changed="imageChanged = $event"
       />
     </gov-main-wrapper>
 
@@ -26,7 +27,13 @@
     <gov-button v-if="form.$submitting" disabled type="submit"
       >Creating...</gov-button
     >
-    <gov-button v-else @click="onSubmit" type="submit">Create</gov-button>
+    <gov-button
+      v-else
+      :disabled="form.$errors.any() || imageChanged"
+      @click="onSubmit"
+      type="submit"
+      >Create</gov-button
+    >
 
     <ck-submit-error v-if="form.$errors.any()" />
   </gov-width-container>
@@ -127,7 +134,8 @@ export default {
             ]
           }
         }
-      }
+      },
+      imageChanged: false
     };
   },
 

@@ -84,6 +84,34 @@ class Auth {
       }
     });
 
+    /**
+     * Populate the user.roles array by filling in missing organisation IDs for service roles
+     */
+    let serviceIds = [];
+    data.data.roles.forEach(role => {
+      if (role.hasOwnProperty("service_id")) {
+        serviceIds.push(role.service_id);
+      }
+    });
+    let services = await this.http.post(
+      "/core/v1/services/index",
+      { "filter[id]": serviceIds.join(",") },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.accessToken}`
+        }
+      }
+    );
+    data.data.roles.forEach(role => {
+      if (role.hasOwnProperty("service_id")) {
+        const service = services.data.data.find(
+          service => service.id === role.service_id
+        );
+        role.organisation_id = service ? service.organisation_id : null;
+      }
+    });
+
     localStorage.setItem("user", JSON.stringify(data.data));
   }
 
@@ -203,7 +231,7 @@ class Auth {
    * @param {object} organisation
    * @returns {boolean}
    */
-  hasRole(roleName, service = null, organisation = null) {
+  hasRole(roleName, serviceId = null, organisationId = null) {
     if (this.user === null) {
       return false;
     }
@@ -214,11 +242,14 @@ class Auth {
           return false;
         }
 
-        if (service !== null && role.service_id !== service.id) {
+        if (serviceId !== null && role.service_id !== serviceId) {
           return false;
         }
 
-        if (organisation !== null && role.organisation_id !== organisation.id) {
+        if (
+          organisationId !== null &&
+          role.organisation_id !== organisationId
+        ) {
           return false;
         }
 
@@ -265,22 +296,22 @@ class Auth {
   /**
    * @returns {boolean}
    */
-  isOrganisationAdmin(organisation = null) {
-    return this.hasRole("Organisation Admin", null, organisation);
+  isOrganisationAdmin(organisationId = null) {
+    return this.hasRole("Organisation Admin", null, organisationId);
   }
 
   /**
    * @returns {boolean}
    */
-  isServiceAdmin(service = null) {
-    return this.hasRole("Service Admin", service);
+  isServiceAdmin(serviceId = null) {
+    return this.hasRole("Service Admin", serviceId);
   }
 
   /**
    * @returns {boolean}
    */
-  isServiceWorker(service = null) {
-    return this.hasRole("Service Worker", service);
+  isServiceWorker(serviceId = null) {
+    return this.hasRole("Service Worker", serviceId);
   }
 
   /**
@@ -365,27 +396,27 @@ class Auth {
    * @param {string} type
    * @returns {boolean}
    */
-  canEdit(type, model = null) {
+  canEdit(type, modelId = null) {
     if (this.isSuperAdmin) {
       return true;
     }
     if (type === "event") {
-      return this.isOrganisationAdmin(model);
+      return this.isOrganisationAdmin(modelId);
     }
     if (type === "service") {
-      return this.isServiceAdmin(model);
+      return this.isServiceAdmin(modelId);
     }
     if (type === "organisation") {
-      return this.isOrganisationAdmin(model);
+      return this.isOrganisationAdmin(modelId);
     }
     if (type === "location") {
-      return this.isServiceAdmin(model);
+      return this.isServiceAdmin(modelId);
     }
     if (type === "page") {
       return this.isContentAdmin;
     }
     if (type === "referral") {
-      return this.isServiceWorker(model) && !this.isOnlyGlobalAdmin;
+      return this.isServiceWorker(modelId) && !this.isOnlyGlobalAdmin;
     }
     if (type === "user") {
       return (

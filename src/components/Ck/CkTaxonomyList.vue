@@ -30,6 +30,8 @@
         :filteredTaxonomyIds="filteredTaxonomyIds"
         :taxonomyCollections="taxonomyCollections"
         :checkbox="false"
+        :edit="edit"
+        :bullet="bullet"
         @moveUp="$emit('move-up', $event)"
         @moveDown="$emit('move-down', $event)"
       />

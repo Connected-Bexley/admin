@@ -89,18 +89,15 @@
         <gov-table-row v-if="serviceLocation.hasOwnProperty('image_file_id')">
           <gov-table-header top scope="row">Image</gov-table-header>
           <gov-table-cell>
-            <img
-              :src="
-                apiUrl(
-                  `/service-locations/${serviceLocation.id}/image.png?v=${requestedAt}`
-                )
-              "
-              alt="Service location image"
-              class="ck-logo"
-            />
+            <ck-image v-if="original.image" :file-id="original.image.id" />
           </gov-table-cell>
           <gov-table-cell>
+            <ck-image
+              v-if="serviceLocation.image_file_id"
+              :file-id="serviceLocation.image_file_id"
+            />
             <img
+              v-else
               :src="
                 apiUrl(
                   `/service-locations/${serviceLocation.id}/image.png?update_request_id=${updateRequestId}`
@@ -119,9 +116,11 @@
 <script>
 import moment from "moment";
 import http from "@/http";
+import CkImage from "@/components/Ck/CkImage";
 
 export default {
   name: "ServiceLocationDetails",
+  components: { CkImage },
   props: {
     updateRequestId: {
       required: true,

@@ -2,7 +2,7 @@
   <gov-table>
     <template slot="header">
       <gov-table-row>
-        <gov-table-header scope="col">Loation Name</gov-table-header>
+        <gov-table-header scope="col">Location Name</gov-table-header>
         <gov-table-header scope="col">Address Line 1</gov-table-header>
         <gov-table-header scope="col">City</gov-table-header>
         <gov-table-header scope="col">Postcode</gov-table-header>

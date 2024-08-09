@@ -24,14 +24,9 @@
       <gov-table-row>
         <gov-table-header top scope="row">Logo</gov-table-header>
         <gov-table-cell>
-          <img
-            :src="
-              apiUrl(
-                `/organisations/${organisation.id}/logo.png?v=${organisation.updated_at}`
-              )
-            "
-            alt="Organisation logo"
-            class="ck-logo"
+          <ck-image
+            v-if="organisation.image"
+            :file-id="organisation.image.id"
           />
         </gov-table-cell>
       </gov-table-row>
@@ -73,13 +68,15 @@
 
 <script>
 import http from "@/http";
+import CkImage from "@/components/Ck/CkImage.vue";
 import CkTaxonomyList from "@/components/Ck/CkTaxonomyList.vue";
 
 export default {
   name: "CkOrganisationDetails",
 
   components: {
-    CkTaxonomyList
+    CkTaxonomyList,
+    CkImage
   },
 
   props: {
@@ -106,11 +103,15 @@ export default {
     humanReadableSocialMedia(type) {
       switch (type) {
         case "twitter":
-          return "Twitter";
+          return "Twitter / X";
         case "facebook":
           return "Facebook";
         case "instagram":
           return "Instagram";
+        case "snapchat":
+          return "Snapchat";
+        case "tiktok":
+          return "TikTok";
         case "youtube":
           return "YouTube";
         case "other":

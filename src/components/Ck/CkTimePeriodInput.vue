@@ -51,7 +51,7 @@ export default {
     };
   },
   created() {
-    for (let hour = 0; hour < 24; hour += 0.5) {
+    for (let hour = 0; hour < 24; hour += 0.25) {
       const text =
         ("0" + (Math.floor(hour) % 24)).slice(-2) +
         ":" +

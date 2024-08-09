@@ -24,14 +24,10 @@
 
     <ck-image-input
       @input="onInput('image_file_id', $event.file_id)"
+      @image-changed="$emit('image-changed', $event)"
       id="image"
       label="Event collection image"
-      accept="image/x-svg"
-      :existing-url="
-        id
-          ? apiUrl(`/collections/organisation-events/${id}/image.svg?v=${now}`)
-          : undefined
-      "
+      :file-id="image_file_id"
     >
       <template slot="after-error-message">
         <gov-error-message
@@ -72,7 +68,7 @@
       @input="$emit('update:category_taxonomies', $event)"
       :error="errors.get('category_taxonomies')"
       @clear="$emit('clear', 'category_taxonomies')"
-      :hierarchy="false"
+      :showCollections="false"
     />
   </div>
 </template>
@@ -116,6 +112,9 @@ export default {
       required: true
     },
     category_taxonomies: {
+      required: true
+    },
+    image_file_id: {
       required: true
     }
   },

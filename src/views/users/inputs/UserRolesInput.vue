@@ -249,6 +249,16 @@ export default {
           text: organisation.name
         };
       });
+      if (!this.auth.isSuperAdmin && !this.auth.isGlobalAdmin) {
+        organisations = organisations.filter(organisation => {
+          return this.auth.user.roles.find(
+            role =>
+              role.organisation_id === organisation.value &&
+              role.role !== "Service Worker"
+          );
+        });
+      }
+
       this.organisations = [...this.organisations, ...organisations];
 
       this.loadingOrganisations = false;
@@ -271,19 +281,40 @@ export default {
         };
       }
 
+      // Fetch all services for the organisations
       let services = await this.fetchAll(
         "/services/index",
         { "filter[organisation_id]": organisationIds.join(",") },
         "POST"
       );
 
+      // Combine the local cache with the remote objects
       for (let organisationId of organisationIds) {
-        this.services[organisationId].items = [
+        let orgServices = [
           ...this.services[organisationId].items,
           ...services
-            .filter(service => service.organisation_id === organisationId)
+            .filter(
+              service =>
+                service.organisation_id === organisationId &&
+                !this.services[organisationId].items.find(
+                  orgService => orgService.value === service.id
+                )
+            )
             .map(service => ({ value: service.id, text: service.name }))
         ];
+
+        // Remove any services the auth user is not an admin for
+        if (
+          !this.auth.isSuperAdmin &&
+          !this.auth.isGlobalAdmin &&
+          !this.auth.isOrganisationAdmin(organisationId)
+        ) {
+          orgServices = orgServices.filter(service =>
+            this.auth.isServiceAdmin(service.value)
+          );
+        }
+
+        this.services[organisationId].items = orgServices;
 
         this.services[organisationId].loading = false;
       }

@@ -25,7 +25,7 @@
 
             <service-location-details :service-location="serviceLocation" />
 
-            <template v-if="auth.isServiceAdmin(serviceLocation.service)">
+            <template v-if="auth.isServiceAdmin(serviceLocation.service_id)">
               <gov-body
                 >Please be certain of the action before deleting a service
                 location</gov-body
@@ -41,7 +41,7 @@
             </template>
           </gov-grid-column>
           <gov-grid-column
-            v-if="auth.isServiceAdmin(serviceLocation.service)"
+            v-if="auth.isServiceAdmin(serviceLocation.service_id)"
             width="one-third"
             class="text-right"
           >

@@ -47,18 +47,22 @@
       :error="errors.get('user.phone')"
     />
 
-    <ck-text-input
+    <ck-password
       v-model="form.user.password"
       id="password"
       label="Password"
-      type="password"
       :error="errors.get('user.password')"
     />
   </div>
 </template>
 
 <script>
+import CkPassword from "@/components/Ck/CkPassword.vue";
 export default {
+  components: {
+    CkPassword
+  },
+
   props: {
     form: {
       type: Object,

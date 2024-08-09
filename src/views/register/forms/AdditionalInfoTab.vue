@@ -176,7 +176,7 @@
             <gov-hint for="contact_phone">
               Please use the following formatting:
               <br />
-              020 8XXX XXXX for landline or 07XXX XXXXXX for mobile.
+              0208XXXXXXX for landline or 07XXXXXXXXX for mobile.
             </gov-hint>
           </template>
         </ck-text-input>

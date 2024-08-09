@@ -81,7 +81,9 @@ export default {
         name: this.serviceLocation.name || "",
         regular_opening_hours: this.serviceLocation.regular_opening_hours,
         holiday_opening_hours: this.serviceLocation.holiday_opening_hours,
-        image_file_id: null
+        image_file_id: this.serviceLocation.image
+          ? this.serviceLocation.image.id
+          : null
       });
       this.loading = false;
     },

@@ -19,7 +19,7 @@
         :id="`useful_infos.${index}.description`"
         label="Description"
         hint="Provide detail to the title above. For example, if you picked ‘Parking’ you might say “There is no parking available on site, however there is pay and display opposite”."
-        :maxlength="150"
+        :maxlength="1000"
         :error="errors.get(`useful_infos.${index}.description`)"
         :extensions="extensions"
       />
@@ -132,7 +132,10 @@ export default {
             usefulInfos.find(
               usefulInfo => usefulInfo.title === usefulInfoTitleOption.value
             ) !== undefined;
-          const newOption = { ...usefulInfoTitleOption, disabled: hasBeenUsed };
+          const newOption = {
+            ...usefulInfoTitleOption,
+            disabled: hasBeenUsed
+          };
           this.$set(this.usefulInfoTitleOptions, index, newOption);
         });
       },

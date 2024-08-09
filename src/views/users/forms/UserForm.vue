@@ -36,12 +36,11 @@
       :error="errors.get('phone')"
     />
 
-    <ck-text-input
+    <ck-password
       :value="password"
       @input="onInput('password', $event)"
       id="password"
       label="Password"
-      type="password"
       :error="errors.get('password')"
     />
 
@@ -79,10 +78,14 @@
 
 <script>
 import UserRolesInput from "@/views/users/inputs/UserRolesInput";
+import CkPassword from "@/components/Ck/CkPassword.vue";
 
 export default {
   name: "UserForm",
-  components: { UserRolesInput },
+  components: {
+    UserRolesInput,
+    CkPassword
+  },
   props: {
     errors: {
       required: true,

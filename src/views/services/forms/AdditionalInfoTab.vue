@@ -164,12 +164,13 @@
 
     <gov-section-break size="m" visible />
 
-    <gov-heading size="l">Contact details</gov-heading>
+    <gov-heading size="l">Public contact details</gov-heading>
     <gov-grid-row>
       <gov-grid-column width="one-half">
         <gov-body>
-          Please provide your {{ type }}’s public-facing contact details. These
-          will be displayed on your {{ type }}’s page on the {{ appName }}
+          Please provide your {{ type }}’s
+          <strong>public-facing</strong> contact details. These will be
+          displayed on your {{ type }}’s page on the {{ appName }}
           website.
         </gov-body>
 
@@ -197,19 +198,19 @@
             $emit('clear', 'contact_phone');
           "
           id="contact_phone"
-          label="Contact phone number"
+          label="Phone number"
           type="tel"
           :error="errors.get('contact_phone')"
         >
           <template slot="hint">
             <gov-hint for="contact_phone">
-              Please provide a public facing phone number for people to contact
-              you on.
+              Please provide a <strong>public facing</strong> phone number for
+              people to contact you on.
             </gov-hint>
             <gov-hint for="contact_phone">
               Please use the following formatting:
               <br />
-              020 8XXX XXXX for landline or 07XXX XXXXXX for mobile.
+              0208XXXXXXX for landline or 07XXXXXXXXX for mobile.
             </gov-hint>
           </template>
         </ck-text-input>
@@ -221,10 +222,33 @@
             $emit('clear', 'contact_email');
           "
           id="contact_email"
-          :label="`Public ${type} email address`"
-          :hint="`Please provide the contact email address for the ${type}.`"
+          :label="`Email address`"
+          :hint="
+            `Please provide the <strong>public facing</strong> contact email address for the ${type}.`
+          "
           type="email"
           :error="errors.get('contact_email')"
+        />
+
+        <gov-section-break size="l" />
+
+        <gov-heading size="m">Social media links</gov-heading>
+
+        <gov-body>
+          If you have any social media accounts for your {{ type }}, please
+          select the appropriate platform from the dropdown and add the relevant
+          URL.
+        </gov-body>
+        <gov-body>
+          If you don’t have accounts for the specific {{ type }}, please add the
+          accounts of the overall organisation.
+        </gov-body>
+
+        <ck-social-medias-input
+          :social-medias="social_medias"
+          @input="$emit('update:social_medias', $event)"
+          @clear="$emit('clear', $event)"
+          :errors="errors"
         />
       </gov-grid-column>
     </gov-grid-row>
@@ -234,8 +258,11 @@
 </template>
 
 <script>
+import CkSocialMediasInput from "@/components/Ck/CkSocialMediasInput";
+
 export default {
   name: "AdditionalInfoTab",
+  components: { CkSocialMediasInput },
   props: {
     errors: {
       required: true
@@ -268,6 +295,9 @@ export default {
       required: true
     },
     contact_email: {
+      required: true
+    },
+    social_medias: {
       required: true
     },
     cqc_location_id: {
