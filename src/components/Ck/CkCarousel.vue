@@ -1,12 +1,11 @@
 <template>
   <div class="ck-carousel">
-    <img
-      class="ck-carousel__image"
-      v-for="(imageUrl, index) in imageUrls"
-      :key="imageUrl"
+    <ck-image
+      img-class="ck-carousel__image ck-logo"
+      v-for="(imageId, index) in imageIds"
+      :key="`gallery_image_${imageId}`"
       v-show="currentPage === index"
-      :src="imageUrl"
-      alt="Image"
+      :file-id="imageId"
     />
 
     <gov-button
@@ -26,11 +25,12 @@
 </template>
 
 <script>
+import CkImage from "@/components/Ck/CkImage.vue";
 export default {
   name: "CkCarousel",
-
+  components: { CkImage },
   props: {
-    imageUrls: {
+    imageIds: {
       type: Array,
       required: true
     }
@@ -44,7 +44,7 @@ export default {
 
   computed: {
     count() {
-      return this.imageUrls.length;
+      return this.imageIds.length;
     }
   }
 };

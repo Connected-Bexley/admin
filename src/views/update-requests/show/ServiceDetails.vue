@@ -490,23 +490,12 @@
         <gov-table-row v-if="service.hasOwnProperty('logo_file_id')">
           <gov-table-header top scope="row">Logo</gov-table-header>
           <gov-table-cell v-if="original">
-            <img
-              :src="apiUrl(`/services/${service.id}/logo.png?v=${requestedAt}`)"
-              alt="Service logo"
-              class="ck-logo"
-            />
+            <ck-image v-if="original.image" :file-id="original.image.id" />
           </gov-table-cell>
           <gov-table-cell>
-            <img
-              v-if="service.id"
-              :src="
-                logoDataUri ||
-                  apiUrl(
-                    `/services/${service.id}/logo.png?update_request_id=${updateRequestId}`
-                  )
-              "
-              alt="Service logo"
-              class="ck-logo"
+            <ck-image
+              v-if="service.logo_file_id"
+              :file-id="service.logo_file_id"
             />
             <img
               v-else
@@ -516,7 +505,7 @@
                     `/services/new/logo.png?update_request_id=${updateRequestId}`
                   )
               "
-              alt="Service logo"
+              :alt="logoAlt"
               class="ck-logo"
             />
           </gov-table-cell>
@@ -528,16 +517,24 @@
             <ck-carousel
               v-if="
                 original.hasOwnProperty('gallery_items') &&
-                  Array.isArray(original.gallery_items)
+                  Array.isArray(original.gallery_items) &&
+                  original.gallery_items.length
               "
-              :image-urls="imageUrls(original)"
+              :image-ids="
+                original.gallery_items.map(galleryItem => galleryItem.file_id)
+              "
             />
             <gov-body v-else>-</gov-body>
           </gov-table-cell>
           <gov-table-cell :style="original ? 'width: 25%;' : 'width: 50%;'">
             <ck-carousel
-              v-if="Array.isArray(service.gallery_items)"
-              :image-urls="serviceGalleryItems"
+              v-if="
+                Array.isArray(service.gallery_items) &&
+                  service.gallery_items.length
+              "
+              :image-ids="
+                service.gallery_items.map(galleryItem => galleryItem.file_id)
+              "
             />
             <gov-body v-else>-</gov-body>
           </gov-table-cell>
@@ -551,6 +548,7 @@
 import http from "@/http";
 import moment from "moment";
 import CkCarousel from "@/components/Ck/CkCarousel";
+import CkImage from "@/components/Ck/CkImage";
 import CkTaxonomyTree from "@/components/Ck/CkTaxonomyTree";
 
 export default {
@@ -577,13 +575,18 @@ export default {
       type: String
     },
 
+    logoAlt: {
+      required: false,
+      type: String
+    },
+
     galleryItemsDataUris: {
       required: false,
       type: Array
     }
   },
 
-  components: { CkCarousel, CkTaxonomyTree },
+  components: { CkCarousel, CkImage, CkTaxonomyTree },
 
   data() {
     return {
@@ -784,11 +787,15 @@ export default {
     socialMediaType(type) {
       switch (type) {
         case "twitter":
-          return "Twitter";
+          return "Twitter / X";
         case "facebook":
           return "Facebook";
         case "instagram":
           return "Instagram";
+        case "snapchat":
+          return "Snapchat";
+        case "tiktok":
+          return "TikTok";
         case "youtube":
           return "YouTube";
         case "other":

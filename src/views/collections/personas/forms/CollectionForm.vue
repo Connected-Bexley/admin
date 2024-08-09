@@ -37,15 +37,19 @@
 
     <ck-image-input
       @input="onInput('image_file_id', $event.file_id)"
+      @image-changed="$emit('image-changed', $event)"
       id="image"
       label="Persona image"
-      accept="image/x-png"
-      :existing-url="
-        id
-          ? apiUrl(`/collections/personas/${id}/image.png?v=${now}`)
-          : undefined
-      "
-    />
+      :file-id="image_file_id"
+    >
+      <template slot="after-error-message">
+        <gov-error-message
+          v-if="errors.get('image_file_id')"
+          v-text="errors.get('image_file_id')"
+          for="image"
+        />
+      </template>
+    </ck-image-input>
 
     <collection-homepage-input
       :value="homepage"
@@ -85,7 +89,7 @@
       @input="$emit('update:category_taxonomies', $event)"
       :error="errors.get('category_taxonomies')"
       @clear="$emit('clear', 'category_taxonomies')"
-      :hierarchy="false"
+      :showCollections="false"
     />
   </div>
 </template>
@@ -134,6 +138,9 @@ export default {
       required: true
     },
     category_taxonomies: {
+      required: true
+    },
+    image_file_id: {
       required: true
     },
     id: {

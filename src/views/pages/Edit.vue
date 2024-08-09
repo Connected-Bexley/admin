@@ -21,6 +21,7 @@
           :collections.sync="form.collections"
           :enabled.sync="form.enabled"
           @clear="form.$errors.clear($event)"
+          @image-changed="imageChanged = $event"
         />
 
         <gov-section-break size="l" />
@@ -28,9 +29,13 @@
         <gov-button v-if="form.$submitting" disabled type="submit"
           >Updating...</gov-button
         >
-        <gov-button v-else @click="onSubmit" type="submit">{{
-          updateButtonText
-        }}</gov-button>
+        <gov-button
+          v-else
+          @click="onSubmit"
+          :disabled="imageChanged"
+          type="submit"
+          >{{ updateButtonText }}</gov-button
+        >
 
         <ck-submit-error v-if="form.$errors.any()" />
       </gov-main-wrapper>
@@ -54,7 +59,8 @@ export default {
     return {
       loading: false,
       page: null,
-      form: null
+      form: null,
+      imageChanged: false
     };
   },
   computed: {
@@ -113,7 +119,10 @@ export default {
           }
 
           // Remove the image from the request if unchanged.
-          if (this.page.image && data.image_file_id === this.page.image.id) {
+          if (
+            (this.page.image && data.image_file_id === this.page.image.id) ||
+            (this.page.image === null && data.image_file_id === null)
+          ) {
             delete data.image_file_id;
           }
 

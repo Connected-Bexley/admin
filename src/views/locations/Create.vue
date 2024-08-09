@@ -27,14 +27,21 @@
             :has_induction_loop.sync="form.has_induction_loop"
             :has_wheelchair_access.sync="form.has_wheelchair_access"
             :has_accessible_toilet.sync="form.has_accessible_toilet"
-            @update:image_file_id="form.image_file_id = $event"
+            :image_file_id.sync="form.image_file_id"
             @clear="form.$errors.clear($event)"
+            @image-changed="imageChanged = $event"
           />
 
           <gov-button v-if="form.$submitting" disabled type="submit"
             >Creating...</gov-button
           >
-          <gov-button v-else @click="onSubmit" type="submit">Create</gov-button>
+          <gov-button
+            v-else
+            @click="onSubmit"
+            :disabled="imageChanged"
+            type="submit"
+            >Create</gov-button
+          >
           <ck-submit-error v-if="form.$errors.any()" />
         </gov-grid-column>
       </gov-grid-row>
@@ -51,6 +58,7 @@ export default {
   components: { LocationForm },
   data() {
     return {
+      imageChanged: false,
       form: new Form({
         address_line_1: "",
         address_line_2: "",

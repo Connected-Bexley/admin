@@ -51,15 +51,7 @@
       <gov-table-row>
         <gov-table-header top scope="row">Image</gov-table-header>
         <gov-table-cell>
-          <img
-            :src="
-              apiUrl(
-                `/locations/${location.id}/image.png?v=${location.created_at}`
-              )
-            "
-            alt="Location image"
-            class="ck-logo"
-          />
+          <ck-image v-if="location.image" :file-id="location.image.id" />
         </gov-table-cell>
       </gov-table-row>
       <gov-table-row>
@@ -84,8 +76,10 @@
 </template>
 
 <script>
+import CkImage from "@/components/Ck/CkImage";
 export default {
   name: "LocationDetails",
+  components: { CkImage },
   props: {
     location: {
       required: true,

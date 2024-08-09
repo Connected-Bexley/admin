@@ -78,7 +78,7 @@
               v-text="formatRegularOpeningHour(regularOpeningHour)"
             />
             <li v-if="serviceLocation.regular_opening_hours.length === 0">
-              No regular opening hours have been specifeid for this service
+              No regular opening hours have been specified for this service
             </li>
           </gov-list>
         </gov-table-cell>
@@ -97,7 +97,7 @@
               v-text="formatHolidayOpeningHour(holidayOpeningHour)"
             />
             <li v-if="serviceLocation.holiday_opening_hours.length === 0">
-              No holiday opening hours have been specifeid for this service
+              No holiday opening hours have been specified for this service
             </li>
           </gov-list>
         </gov-table-cell>

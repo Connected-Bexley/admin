@@ -33,11 +33,21 @@
           @input="onChangeCalltoAction(sectionId, index, $event)"
           :error="errors.get(`content.${sectionId}.content.${index}`)"
         />
+        <ck-video-embed
+          v-else-if="content.type === 'video'"
+          :video="content"
+          :id="`${sectionId}-video-${index}`"
+          @input="onChangeVideo(sectionId, index, $event)"
+          :error="errors.get(`content.${sectionId}.content.${index}`)"
+        />
         <gov-button type="button" @click="addCopy(sectionId, index)"
           >Add Copy here</gov-button
         >&nbsp;
         <gov-button type="button" @click="addCallToAction(sectionId, index)"
           >Add Call to action here</gov-button
+        >&nbsp;
+        <gov-button type="button" @click="addVideo(sectionId, index)"
+          >Add Video here</gov-button
         >&nbsp;
         <span v-if="index > 0">
           <gov-button
@@ -63,12 +73,14 @@
 
 <script>
 import CkCallToAction from "./Ck/CkCallToAction";
+import CkVideoEmbed from "./Ck/CkVideoEmbed.vue";
 
 export default {
   name: "PageContent",
 
   components: {
-    CkCallToAction
+    CkCallToAction,
+    CkVideoEmbed
   },
 
   props: {
@@ -122,7 +134,7 @@ export default {
       content[section]["content"][index].value = value;
 
       this.$emit("update", content);
-      this.$emit("clear", `content_${section}_content`);
+      this.$emit("clear", `content_${section}_content_${index}`);
     },
     onChangeCalltoAction(section, index, cta) {
       const content = Object.assign({}, this.content);
@@ -130,7 +142,15 @@ export default {
       content[section]["content"][index] = cta;
 
       this.$emit("update", content);
-      this.$emit("clear", `content_${section}_content`);
+      this.$emit("clear", `content_${section}_content_${index}`);
+    },
+    onChangeVideo(section, index, video) {
+      const content = Object.assign({}, this.content);
+
+      content[section]["content"][index] = video;
+
+      this.$emit("update", content);
+      this.$emit("clear", `content_${section}_content_${index}`);
     },
     addCopy(section, index) {
       const content = Object.assign({}, this.content);
@@ -152,6 +172,18 @@ export default {
         description: "",
         url: "",
         buttonText: ""
+      });
+
+      this.$emit("update", content);
+      this.$emit("clear", `content_${section}_content`);
+    },
+    addVideo(section, index) {
+      const content = Object.assign({}, this.content);
+
+      content[section]["content"].splice(index + 1, 0, {
+        type: "video",
+        title: "",
+        url: ""
       });
 
       this.$emit("update", content);

@@ -47,7 +47,7 @@
           "
           :error="errors.get('service.description')"
           large
-          :maxlength="3000"
+          :maxlength="10000"
         />
 
         <slot />

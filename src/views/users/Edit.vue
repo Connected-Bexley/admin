@@ -86,7 +86,7 @@ export default {
       } else if (this.form.roles.find(role => role.role === "Global Admin")) {
         // Else if, the user is a global admin.
         this.form.roles = this.form.roles.filter(
-          role => role.role === "Global Admin"
+          role => role.role === "Global Admin" || role.role === "Content Admin"
         );
       } else {
         // Else, fetch the services for each role and embed them.

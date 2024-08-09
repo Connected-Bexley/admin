@@ -66,7 +66,7 @@ export default {
       type: Boolean,
       default: false
     },
-    hierarchy: {
+    showCollections: {
       required: false,
       type: Boolean,
       default: true
@@ -113,11 +113,14 @@ export default {
       this.loading = true;
       const { data: taxonomies } = await http.get(`/taxonomies/${this.root}`);
       this.taxonomies = taxonomies.data;
-      const { data: collections } = await http.get(
-        `/collections/${this.root}/all`
-      );
       this.setFlattenedTaxonomies();
-      this.setTaxonomyCollections(collections.data);
+
+      if (this.showCollections) {
+        const { data: collections } = await http.get(
+          `/collections/${this.root}/all`
+        );
+        this.setTaxonomyCollections(collections.data);
+      }
       this.loading = false;
     },
     setFlattenedTaxonomies(taxonomies = null) {

@@ -103,12 +103,10 @@
             $emit('update:logo_file_id', $event.file_id);
             $emit('update:logo', $event.image);
           "
+          @image-changed="$emit('image-changed', $event)"
           id="logo"
           :label="`Upload your ${type} logo`"
-          accept="image/x-png"
-          :existing-url="
-            id ? apiUrl(`/services/${id}/logo.png?v=${now}`) : undefined
-          "
+          :file-id="logo_file_id"
         >
           <template slot="hint">
             <gov-hint for="logo">
@@ -233,6 +231,9 @@ export default {
       required: true
     },
     ends_at: {
+      required: true
+    },
+    logo_file_id: {
       required: true
     },
     gallery_items: {

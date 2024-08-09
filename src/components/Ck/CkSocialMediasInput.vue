@@ -56,17 +56,21 @@ export default {
     return {
       socialMediaTypeOptions: [
         { text: "Please select", value: null, disabled: true },
-        { text: "Twitter", value: "twitter" },
+        { text: "Twitter / X", value: "twitter" },
         { text: "Facebook", value: "facebook" },
         { text: "Instagram", value: "instagram" },
+        { text: "TikTok", value: "tiktok" },
         { text: "YouTube", value: "youtube" },
+        { text: "SnapChat", value: "snapchat" },
         { text: "Other", value: "other" }
       ],
       exampleSocialMediaUrls: {
-        twitter: "https://twitter.com/example",
+        twitter: "https://twitter.com/example or https://x.com/example",
         facebook: "https://www.facebook.com/example",
         instagram: "https://www.instagram.com/example",
+        tiktok: "https://tiktok.com/@example",
         youtube: "https://www.youtube.com/channel/example-channelId",
+        snapchat: "https://www.snapchat.com/add/example",
         other: "the public link from your social media account"
       },
       socialMediasIndex: 1
@@ -98,11 +102,13 @@ export default {
       let socialMedias = this.cloneSocialMedias();
       socialMedias[index].type = value;
       this.$emit("input", socialMedias);
+      this.$emit("clear", `social_medias.${index}.type`);
     },
     onUrlInput({ index, value }) {
       let socialMedias = this.cloneSocialMedias();
       socialMedias[index].url = value;
       this.$emit("input", socialMedias);
+      this.$emit("clear", `social_medias.${index}.url`);
     },
     linkHint(type) {
       return `Copy the link from your browser, e.g. ${

@@ -5,7 +5,7 @@
     </gov-label>
 
     <slot name="hint">
-      <gov-hint v-if="hint" :for="id" v-text="hint" />
+      <gov-hint v-if="hint" :for="id" v-html="hint" />
     </slot>
 
     <gov-input

@@ -19,6 +19,21 @@
           >
           <gov-table-cell>{{ service.contact_email }}</gov-table-cell>
         </gov-table-row>
+        <gov-table-row>
+          <gov-table-header scope="row" top>Social links</gov-table-header>
+          <gov-table-cell break>
+            <gov-list>
+              <li
+                v-for="(socialMedia, index) in service.social_medias"
+                :key="index"
+              >
+                ({{ humanReadableSocialMedia(socialMedia.type) }})
+                {{ socialMedia.url }}
+              </li>
+              <li v-if="service.social_medias.length === 0">-</li>
+            </gov-list>
+          </gov-table-cell>
+        </gov-table-row>
       </template>
     </gov-table>
   </div>
@@ -31,6 +46,26 @@ export default {
     service: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    humanReadableSocialMedia(type) {
+      switch (type) {
+        case "twitter":
+          return "Twitter / X";
+        case "facebook":
+          return "Facebook";
+        case "instagram":
+          return "Instagram";
+        case "snapchat":
+          return "Snapchat";
+        case "tiktok":
+          return "TikTok";
+        case "youtube":
+          return "YouTube";
+        case "other":
+          return "Other";
+      }
     }
   }
 };

@@ -238,6 +238,11 @@ let router = new Router({
           path: "referral",
           name: "services-show-referral",
           component: () => import("@/views/services/show/ReferralTab")
+        },
+        {
+          path: "taxonomies",
+          name: "services-show-taxonomies",
+          component: () => import("@/views/services/show/TaxonomiesTab")
         }
       ]
     },

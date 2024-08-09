@@ -2,16 +2,13 @@
   <div>
     <gov-inset-text
       v-for="(galleryItem, index) in galleryItems"
-      :key="galleryItem.$index"
+      :key="`Ck::GalleryItem::${galleryItem.file_id}`"
     >
       <ck-image-input
         @input="onGalleryItemInput($event, index)"
-        :id="`Ck::GalleryItem::${galleryItem.$index}`"
+        :id="`Ck::GalleryItemImage::${galleryItem.file_id}`"
         label="Upload an item to the gallery"
-        accept="image/x-png"
-        :existing-url="
-          galleryItem.hasOwnProperty('url') ? galleryItem.url : undefined
-        "
+        :file-id="galleryItem.file_id"
       />
 
       <gov-error-message
@@ -25,10 +22,8 @@
             `gallery_items.${index}.file_id`
           ])
         "
-        :for="galleryItem.$index"
+        :for="`Ck::GalleryItem::${galleryItem.file_id}`"
       />
-
-      <gov-button @click="onDeleteGalleryItem(index)" error>Delete</gov-button>
     </gov-inset-text>
 
     <div>
@@ -78,8 +73,14 @@ export default {
 
     onGalleryItemInput(event, index) {
       const galleryItems = this.clone();
-      galleryItems[index].file_id = event.file_id;
-      galleryItems[index].image = event.image;
+      if (event.file_id === null) {
+        galleryItems.splice(index, 1);
+      } else {
+        galleryItems[index].file_id = event.file_id;
+        galleryItems[index].image = event.image;
+      }
+      this.$emit("clear", `gallery_items.${index}`);
+      this.$emit("clear", `gallery_items.${index}.file_id`);
       this.$emit("input", galleryItems);
     },
 
@@ -93,14 +94,6 @@ export default {
       this.$emit("input", galleryItems);
 
       this.index++;
-    },
-
-    onDeleteGalleryItem(deleteIndex) {
-      let galleryItems = this.clone();
-      this.$delete(galleryItems, deleteIndex);
-      this.$emit("input", galleryItems);
-      this.$emit("clear", `gallery_items.${deleteIndex}`);
-      this.$emit("clear", `gallery_items.${deleteIndex}.file_id`);
     }
   }
 };

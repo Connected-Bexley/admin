@@ -7,7 +7,7 @@
         >
       </gov-grid-column>
       <gov-grid-column
-        v-if="auth.isServiceAdmin(service)"
+        v-if="auth.isServiceAdmin(service.id)"
         width="one-third text-right"
       >
         <gov-button

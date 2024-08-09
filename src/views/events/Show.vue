@@ -18,7 +18,7 @@
               >
             </gov-grid-column>
             <gov-grid-column
-              v-if="auth.canEdit('event', event.organisation)"
+              v-if="auth.canEdit('event', event.organisation.id)"
               width="one-third"
               class="text-right"
             >

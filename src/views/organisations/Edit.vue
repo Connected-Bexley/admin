@@ -52,8 +52,9 @@
                   :email.sync="form.email"
                   :phone.sync="form.phone"
                   :social_medias.sync="form.social_medias"
-                  @update:logo_file_id="form.logo_file_id = $event"
+                  :logo_file_id.sync="form.logo_file_id"
                   @clear="form.$errors.clear($event)"
+                  @image-changed="imageChanged = $event"
                 />
               </organisation-tab>
 
@@ -99,9 +100,13 @@
             <gov-button v-if="form.$submitting" disabled type="submit"
               >Requesting...</gov-button
             >
-            <gov-button v-else @click="onSubmit" type="submit">{{
-              updateButtonText
-            }}</gov-button>
+            <gov-button
+              v-else
+              @click="onSubmit"
+              :disabled="imageChanged"
+              type="submit"
+              >{{ updateButtonText }}</gov-button
+            >
             <ck-submit-error v-if="form.$errors.any()" />
           </gov-grid-column>
         </gov-grid-row>
@@ -128,7 +133,8 @@ export default {
       tabs: [
         { id: "details", heading: "Details", active: true },
         { id: "taxonomies", heading: "Taxonomies", active: false }
-      ]
+      ],
+      imageChanged: false
     };
   },
   computed: {
@@ -151,7 +157,7 @@ export default {
         url: this.organisation.url,
         email: this.organisation.email || "",
         phone: this.organisation.phone || "",
-        logo_file_id: null,
+        logo_file_id: this.organisation.image ? this.organisation.image.id : "",
         social_medias: this.organisation.social_medias,
         category_taxonomies: this.organisation.category_taxonomies.map(
           taxonomy => taxonomy.id
@@ -214,7 +220,7 @@ export default {
         params: { organisation: this.organisation.id }
       };
 
-      if (this.auth.isGlobalAdmin) {
+      if (this.auth.isSuperAdmin) {
         try {
           const { data } = await http.get(
             `/update-requests/${updateRequestId}`

@@ -37,24 +37,25 @@
               >
                 <details-tab
                   v-show="isTabActive('details')"
-                  @clear="
-                    form.$errors.clear($event);
-                    errors = {};
-                  "
                   :errors="form.$errors"
                   :organisation_id.sync="form.organisation_id"
                   :name.sync="form.name"
                   :slug.sync="form.slug"
                   :type.sync="form.type"
                   :url.sync="form.url"
-                  @update:logo_file_id="form.logo_file_id = $event"
-                  @update:logo="form.logo = $event"
+                  :logo_file_id.sync="form.logo_file_id"
                   :status.sync="form.status"
                   :score.sync="form.score"
                   :ends_at.sync="form.ends_at"
                   :gallery_items.sync="form.gallery_items"
                   :tags.sync="form.tags"
                   :id="service.id"
+                  @clear="
+                    form.$errors.clear($event);
+                    errors = {};
+                  "
+                  @update:logo="form.logo = $event"
+                  @image-changed="imageChanged = $event"
                 >
                   <gov-button @click="onNext" start>Next</gov-button>
                 </details-tab>
@@ -76,6 +77,7 @@
                   :contact_name.sync="form.contact_name"
                   :contact_phone.sync="form.contact_phone"
                   :contact_email.sync="form.contact_email"
+                  :social_medias.sync="form.social_medias"
                   :cqc_location_id.sync="form.cqc_location_id"
                 >
                   <gov-button @click="onNext" start>Next</gov-button>
@@ -193,6 +195,7 @@
                 requested-at="PREVIEW"
                 :service="updateRequest.data"
                 :logo-data-uri="form.logo"
+                :logo-alt="form.logo_alt"
                 :gallery-items-data-uris="
                   form.gallery_items
                     .filter(
@@ -216,9 +219,13 @@
               <gov-button v-if="form.$submitting" disabled type="submit"
                 >Requesting...</gov-button
               >
-              <gov-button v-else @click="onSubmit" type="submit">{{
-                updateButtonText
-              }}</gov-button>
+              <gov-button
+                v-else
+                @click="onSubmit"
+                :disabled="imageChanged"
+                type="submit"
+                >{{ updateButtonText }}</gov-button
+              >
             </gov-grid-column>
           </gov-grid-row>
         </gov-main-wrapper>
@@ -266,7 +273,8 @@ export default {
       errors: {},
       service: null,
       loading: false,
-      updateRequest: null
+      updateRequest: null,
+      imageChanged: false
     };
   },
   computed: {
@@ -323,6 +331,7 @@ export default {
         ends_at: (this.service.ends_at || "").substring(0, 10),
         useful_infos: this.service.useful_infos,
         offerings: this.service.offerings,
+        social_medias: this.service.social_medias,
         gallery_items: this.service.gallery_items.map(galleryItem => ({
           file_id: galleryItem.file_id,
           image: null,
@@ -335,7 +344,7 @@ export default {
         eligibility_types: JSON.parse(
           JSON.stringify(this.service.eligibility_types)
         ),
-        logo_file_id: null,
+        logo_file_id: this.service.image ? this.service.image.id : null,
         logo: null
       });
 
@@ -369,7 +378,10 @@ export default {
           if (data.status === this.service.status) {
             delete data.status;
           }
-          if (data.score === this.service.score) {
+          if (
+            data.score === this.service.score ||
+            (!data.score && !this.service.score)
+          ) {
             delete data.score;
           }
           if (data.intro === this.service.intro) {
@@ -451,6 +463,12 @@ export default {
             delete data.offerings;
           }
           if (
+            JSON.stringify(data.social_medias) ===
+            JSON.stringify(this.service.social_medias)
+          ) {
+            delete data.social_medias;
+          }
+          if (
             JSON.stringify(data.category_taxonomies) ===
             JSON.stringify(
               this.service.category_taxonomies.map(taxonomy => taxonomy.id)
@@ -472,7 +490,11 @@ export default {
           }
 
           // Remove the logo from the request if null, or delete if false.
-          if (data.logo_file_id === null) {
+          if (
+            (this.service.image &&
+              this.service.image.id === data.logo_file_id) ||
+            (this.service.image === null && data.logo_file_id === null)
+          ) {
             delete data.logo_file_id;
           } else if (data.logo_file_id === false) {
             data.logo_file_id = null;
@@ -508,7 +530,7 @@ export default {
         params: { service: this.service.id }
       };
 
-      if (this.auth.isGlobalAdmin) {
+      if (this.auth.isSuperAdmin) {
         try {
           const { data } = await http.get(
             `/update-requests/${updateRequestId}`

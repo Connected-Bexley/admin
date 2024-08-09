@@ -34,14 +34,19 @@
               :homepage.sync="form.homepage"
               :sideboxes.sync="form.sideboxes"
               :category_taxonomies.sync="form.category_taxonomies"
-              @update:image_file_id="form.image_file_id = $event"
+              :image_file_id.sync="form.image_file_id"
               @clear="form.$errors.clear($event)"
+              @image-changed="imageChanged = $event"
             />
 
             <gov-button v-if="form.$submitting" disabled type="submit"
               >Updating...</gov-button
             >
-            <gov-button v-else @click="onSubmit" type="submit"
+            <gov-button
+              v-else
+              @click="onSubmit"
+              :disabled="imageChanged"
+              type="submit"
               >Update</gov-button
             >
             <ck-submit-error v-if="form.$errors.any()" />
@@ -72,7 +77,8 @@ export default {
     return {
       loading: false,
       collection: null,
-      form: null
+      form: null,
+      imageChanged: false
     };
   },
   methods: {
@@ -94,7 +100,7 @@ export default {
         category_taxonomies: this.collection.category_taxonomies.map(
           taxonomy => taxonomy.id
         ),
-        image_file_id: null
+        image_file_id: this.collection.image ? this.collection.image.id : null
       });
 
       this.loading = false;

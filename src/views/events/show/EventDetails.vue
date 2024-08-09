@@ -88,15 +88,7 @@
         <gov-table-row>
           <gov-table-header top scope="row">Image</gov-table-header>
           <gov-table-cell>
-            <img
-              :src="
-                apiUrl(
-                  `/organisation-events/${event.id}/image.png?v=${event.created_at}`
-                )
-              "
-              alt="Event image"
-              class="ck-logo"
-            />
+            <ck-image v-if="event.image" :file-id="event.image.id" />
           </gov-table-cell>
         </gov-table-row>
         <gov-table-row>
@@ -118,12 +110,14 @@
 </template>
 
 <script>
+import CkImage from "@/components/Ck/CkImage.vue";
 import LocationDetails from "@/views/locations/show/LocationDetails";
 
 export default {
   name: "OrganisationEventDetails",
 
   components: {
+    CkImage,
     LocationDetails
   },
 

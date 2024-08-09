@@ -21,7 +21,7 @@
               >
             </gov-grid-column>
             <gov-grid-column
-              v-if="auth.canEdit('service', service)"
+              v-if="auth.canEdit('service', service.id)"
               width="one-third"
               class="text-right"
             >
@@ -84,11 +84,22 @@ export default {
           heading: "Eligibility",
           to: { name: "services-show-eligibility" }
         },
-        { heading: "Locations", to: { name: "services-show-locations" } },
-        { heading: "Referral", to: { name: "services-show-referral" } }
+        {
+          heading: "Locations",
+          to: { name: "services-show-locations" }
+        },
+        {
+          heading: "Referral",
+          to: { name: "services-show-referral" }
+        },
+        {
+          heading: "Taxonomies",
+          to: { name: "services-show-taxonomies" }
+        }
       ]
     };
   },
+
   methods: {
     async fetchService() {
       this.loading = true;

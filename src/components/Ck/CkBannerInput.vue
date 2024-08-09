@@ -24,7 +24,6 @@
       id="logo"
       label="Add a logo"
       hint="Click 'Choose file' below to upload a logo to be displayed on the banner"
-      accept="image/x-png"
       :existing-url="
         banner.has_image
           ? apiUrl(`/settings/banner-image.png?v=${now}`)

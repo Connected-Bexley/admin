@@ -293,11 +293,15 @@ export default {
     socialMediaType(type) {
       switch (type) {
         case "twitter":
-          return "Twitter";
+          return "Twitter / X";
         case "facebook":
           return "Facebook";
         case "instagram":
           return "Instagram";
+        case "snapchat":
+          return "Snapchat";
+        case "tiktok":
+          return "TikTok";
         case "youtube":
           return "YouTube";
         case "other":

@@ -260,26 +260,12 @@
         <gov-table-row v-if="event.hasOwnProperty('image_file_id')">
           <gov-table-header top scope="row">Image</gov-table-header>
           <gov-table-cell v-if="original">
-            <img
-              :src="
-                apiUrl(
-                  `/organisation-events/${event.id}/image.png?v=${requestedAt}`
-                )
-              "
-              alt="Event image"
-              class="ck-logo"
-            />
+            <ck-image v-if="original.image" :file-id="original.image.id" />
           </gov-table-cell>
           <gov-table-cell>
-            <img
-              v-if="event.id"
-              :src="
-                apiUrl(
-                  `/organisation-events/${event.id}/image.png?update_request_id=${updateRequestId}`
-                )
-              "
-              alt="Event image"
-              class="ck-logo"
+            <ck-image
+              v-if="event.image_file_id"
+              :file-id="event.image_file_id"
             />
             <img
               v-else
@@ -301,6 +287,7 @@
 <script>
 import http from "@/http";
 import CkCarousel from "@/components/Ck/CkCarousel";
+import CkImage from "@/components/Ck/CkImage";
 import CkTaxonomyTree from "@/components/Ck/CkTaxonomyTree";
 import LocationDetails from "@/views/locations/show/LocationDetails";
 
@@ -324,7 +311,7 @@ export default {
     }
   },
 
-  components: { CkCarousel, CkTaxonomyTree, LocationDetails },
+  components: { CkCarousel, CkImage, CkTaxonomyTree, LocationDetails },
 
   data() {
     return {

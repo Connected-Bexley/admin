@@ -2,24 +2,26 @@
   <iframe
     :width="computedWidth"
     :height="computedHeight"
-    :src="src"
+    :src="videoSrc"
     :title="title"
     frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
+    @load="computeSize"
   ></iframe>
 </template>
 
 <script>
 export default {
+  name: "CkVideoIframe",
   props: {
     width: {
-      type: Number,
-      required: true
+      type: [String, Number],
+      default: 560
     },
     height: {
-      type: Number,
-      required: true
+      type: [String, Number],
+      default: 315
     },
     src: {
       type: String,
@@ -41,6 +43,15 @@ export default {
   computed: {
     aspectRatio() {
       return this.height / this.width;
+    },
+    videoSrc() {
+      const src = String(this.src);
+      if (src.startsWith("https://www.youtube.com")) {
+        return src.replace("watch?v=", "embed/");
+      } else if (src.startsWith("https://vimeo.com")) {
+        return src.replace("vimeo.com", "player.vimeo.com/video");
+      }
+      return this.src;
     }
   },
   methods: {
@@ -56,11 +67,14 @@ export default {
       const bottomPad = parseInt(style.paddingBottom) || 0;
       this.computedHeight =
         this.computedWidth * this.aspectRatio - topPad - bottomPad;
+    },
+    computeSize() {
+      this.computeWidth();
+      this.computeHeight();
     }
   },
   mounted() {
-    this.computeWidth();
-    this.computeHeight();
+    this.computeSize();
   }
 };
 </script>

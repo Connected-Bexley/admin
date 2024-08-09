@@ -30,13 +30,13 @@
 
             <ck-delete-button
               resource="organisation"
-              :endpoint="`/organisations/${this.organisation.id}`"
+              :endpoint="`/organisations/${organisation.id}`"
               @deleted="onDelete"
             />
           </template>
         </gov-grid-column>
         <gov-grid-column
-          v-if="auth.canEdit('organisation', organisation)"
+          v-if="auth.canEdit('organisation', organisation.id)"
           width="one-third"
           class="text-right"
         >
